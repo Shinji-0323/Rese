@@ -3,6 +3,7 @@ version: '3.8'
 services:
   nginx:
     image: nginx:1.21.1
+    platform: linux/amd64
     ports:
       - "80:80"
     volumes:
