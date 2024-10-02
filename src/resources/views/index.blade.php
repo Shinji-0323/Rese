@@ -91,8 +91,8 @@
                 <div class="shop__item">
                     <span class="shop__title">{{ $shop->name }}</span>
                     <div class="shop__tag">
-                        <p class="shop__tag-info">#{{ $shop->region->name }}</p>
-                        <p class="shop__tag-info">#{{ $shop->genre->name }}</p>
+                        <p class="shop__tag-info">#{{ $shop->region }}</p>
+                        <p class="shop__tag-info">#{{ $shop->genre }}</p>
                     </div>
                     <div class="shop__button">
                         <a href="/detail/{{ $shop->id }}?from=index" class="shop__button-detail">詳しくみる</a>

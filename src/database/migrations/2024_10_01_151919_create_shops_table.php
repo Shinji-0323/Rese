@@ -20,8 +20,8 @@ class CreateShopsTable extends Migration
             $table->string('genre');
             $table->text('description')->nullable();
             $table->text('image_url')->nullable();
-            $table->unsignedTinyInteger('operation_pattern');
-            $table->unsignedTinyInteger('seat_num');
+            $table->unsignedTinyInteger('operation_pattern')->nullable();
+            $table->unsignedTinyInteger('seat_num')->nullable();
             $table->timestamps();
         });
     }
