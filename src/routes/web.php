@@ -1,6 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ReserveController;
+use App\Http\Controllers\MyPageController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
