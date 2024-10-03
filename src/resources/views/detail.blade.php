@@ -8,75 +8,28 @@
     <div class="detail__wrap">
         <div class="detail__header">
             <div class="header__title">
-                <a href="{{ $backRoute }}" class="header__back"><</a>
+                <a href="/" class="header__back"><</a>
                 <span class="header__shop-name">{{ $shop->name }}</span>
-            </div>
-            <div class="header__review">
-                <span class="rating__star" data-rate="{{ number_format($avgRating, 1) }}"></span>
-                <span class="rating__number">{{ number_format($avgRating, 1) }}</span>
-                <span class="favorite__count">{{ $countFavorites }} 人</span>
             </div>
         </div>
         <div class="detail__image">
             <img src="{{ $shop->image_url }}" alt="イメージ画像" class="detail__image-img">
         </div>
         <div class="detail__tag">
-            <p class="detail__tag-info">#{{ $shop->area->name }}</p>
-            <p class="detail__tag-info">#{{ $shop->genre->name }}</p>
+            <p class="detail__tag-info">#{{ $shop->region }}</p>
+            <p class="detail__tag-info">#{{ $shop->genre }}</p>
         </div>
         <div class="detail__outline">
-            <p class="detail__outline-text">{{ $shop->outline }}</p>
+            <p class="detail__outline-text">{{ $shop->description }}</p>
         </div>
-
-        @if (Auth::check())
-            @unless ($user->hasRole('admin|writer'))
-                @if (!$review)
-                    <a href="/review/{{ $shop->id }}" class="review__link">口コミを投稿する</a>
-                @endif
-            @endunless
-        @endif
-
-        <a href="/review/shop/{{ $shop->id }}" class="all-review__button">全ての口コミ情報</a>
-
-        @if ($review)
-            <div class="my-review__content">
-                <div class="review-button__unit">
-                    <a href="/review/{{ $shop->id }}" class="my-review__edit">口コミを編集</a>
-                    <form action="/review/delete/{{ $review->id }}" method="post" class="my-review__form">
-                        @csrf
-                        <button type="submit" class="my-review__delete-button"
-                            onclick="return confirm('本当に口コミを削除しますか？')">口コミを削除</button>
-                    </form>
-                </div>
-                @if ($review->rating == 1)
-                    <p class="my-review__text">非常に不満です</p>
-                @elseif ($review->rating == 2)
-                    <p class="my-review__text">少し不満です</p>
-                @elseif ($review->rating == 3)
-                    <p class="my-review__text">普通です</p>
-                @elseif ($review->rating == 4)
-                    <p class="my-review__text">大変満足です</p>
-                @elseif ($review->rating == 5)
-                    <p class="my-review__text">非常に満足です</p>
-                @endif
-
-                <span class="rating__star rating__star--small" data-rate="{{ number_format($review->rating, 1) }}"></span>
-                <span class="rating__number">{{ number_format($review->rating, 1) }}</span>
-                <p class="review__comment">{{ $review->comment }}</p>
-                @if ($review->image_url)
-                    <div class="my-review__image-area">
-                        <a href="{{ $review->image_url }}">
-                            <img src="{{ $review->image_url }}" alt="" class="my-review__image">
-                        </a>
-                    </div>
-                @endif
-            </div>
-        @endif
     </div>
 
-    <form action="{{ request()->is('*edit*') ? route('reservation.update', $reservation) : route('reservation', $shop) }}"
-        method="post" class="reservation__wrap">
+    <form class="reservation__wrap" action="{{ isset($reservation) ? url('/reserve/' . $reservation->id . '/edit') : url('/reserve') }}"
+        method="post">
         @csrf
+        @if(isset($reservation))
+            @method('PUT')
+        @endif
         <div class="reservation__content">
             <p class="reservation__title">{{ request()->is('*edit*') ? '予約変更' : '予約' }}
             </p>
@@ -97,7 +50,7 @@
                 <select name="time" class="form__item">
                     <option value="" {{ request()->is('*edit*') && isset($reservation->time) ? '' : 'selected' }}
                         disabled>-- 時間を選択してください --</option>
-                    @foreach (['20:00', '20:30', '21:00', '21:30', '22:00'] as $time)
+                    @foreach (['11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30'] as $time)
                         <option value="{{ $time }}"
                             {{ request()->is('*edit*') && $time == date('H:i', strtotime($reservation->time)) ? 'selected' : '' }}>
                             {{ $time }}
@@ -112,7 +65,7 @@
                 <select name="number" class="form__item">
                     <option value="" {{ request()->is('*edit*') && isset($reservation->time) ? '' : 'selected' }}
                         disabled>--人数を選択してください --</option>
-                    @foreach (range(1, 5) as $number)
+                    @foreach (range(1, 10) as $number)
                         <option value="{{ $number }}"
                             {{ request()->is('*edit*') && $number == $reservation->number ? 'selected' : '' }}>
                             {{ $number }}人

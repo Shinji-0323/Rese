@@ -35,4 +35,16 @@ class ShopController extends Controller
 
         return view('index', compact('shops', 'regions', 'genres', 'favorites'));
     }
+
+    public function detail(Request $request)
+    {
+        /* $user = Auth::user();
+        $userId = Auth::id(); */
+        $shop = Shop::find($request->shop_id);
+        $from = $request->input('from');
+
+        $countFavorites = Favorite::where('shop_id', $shop->id)->count();
+
+        return view('detail', compact(/* 'user', */ 'shop', 'countFavorites'));
+    }
 }
