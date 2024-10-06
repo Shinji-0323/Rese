@@ -2,6 +2,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <script src="https://kit.fontawesome.com/706e1a4697.js" crossorigin="anonymous"></script>
 @endsection
 
 @section('header')
@@ -102,20 +103,20 @@
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="shop__button-favorite-btn" title="お気に入り削除">
-                                        <img class="favorite__btn-image" src="{{ asset('images/heart_color.svg') }}">
+                                        <i class="fa-sharp-duotone fa-solid fa-heart fa-2x"></i>
                                     </button>
                                 </form>
                             @else
                                 <form class="shop__button-favorite form" action="{{ route('favorite', $shop) }}" method="post">
                                     @csrf
                                     <button type="submit" class="shop__button-favorite-btn" title="お気に入り追加">
-                                        <img class="favorite__btn-image" src="{{ asset('images/heart.svg') }}">
+                                        <i class="fa-sharp fa-solid fa-heart fa-2x"></i>
                                     </button>
                                 </form>
                             @endif
                         @else
                             <button type="button" onclick="location.href='/login'" class="shop__button-favorite-btn">
-                                <img class="favorite__btn-image" src="{{ asset('images/heart.svg') }}">
+                                <i class="fa-sharp-duotone fa-solid fa-heart fa-2x"></i>
                             </button>
                         @endif
                     </div>
@@ -128,5 +129,4 @@
         @endfor
 
     </div>
-    <!--<script src="{{ asset('js/search_index.js') }}"></script>-->
 @endsection
