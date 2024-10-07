@@ -99,7 +99,7 @@
                         <a href="/detail/{{ $shop->id }}?from=index" class="shop__button-detail">詳しくみる</a>
                         @if (Auth::check())
                             @if (in_array($shop->id, $favorites))
-                                <form class="shop__button-favorite form" action="{{ route('unfavorite', $shop) }}" method="post">
+                                <form class="shop__button-favorite form" action="/favorite" method="post">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="shop__button-favorite-btn" title="お気に入り削除">
@@ -107,7 +107,7 @@
                                     </button>
                                 </form>
                             @else
-                                <form class="shop__button-favorite form" action="{{ route('favorite', $shop) }}" method="post">
+                                <form class="shop__button-favorite form" action="/favorite" method="post">
                                     @csrf
                                     <button type="submit" class="shop__button-favorite-btn" title="お気に入り追加">
                                         <i class="fa-sharp fa-solid fa-heart fa-2x"></i>

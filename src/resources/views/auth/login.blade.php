@@ -2,6 +2,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <script src="https://kit.fontawesome.com/706e1a4697.js" crossorigin="anonymous"></script>
 @endsection
 
 @section('content')
@@ -12,7 +13,7 @@
         <form class="form__item" action="/login" method="post">
             @csrf
             <div class="form__item-mail">
-                <input type="email" class="form__input-item" name="email" placeholder="Email" value="{{ old('email') }}">
+                <i class="fa-sharp fa-solid fa-envelope fa-2x"> <input type="email" class="form__input-item" name="email" placeholder="Email" value="{{ old('email') }}"></i>
             </div>
             <div class="error__item">
                 @error('email')
@@ -20,7 +21,7 @@
                 @enderror
             </div>
             <div class="form__item-key">
-                <input type="password" class="form__input-item" name="password" placeholder="Password">
+                <i class="fa-solid fa-lock fa-2x"> <input type="password" class="form__input-item" name="password" placeholder="Password"></i>
             </div>
             <div class="error__item">
                 @error('password')

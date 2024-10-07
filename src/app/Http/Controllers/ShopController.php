@@ -7,6 +7,8 @@ use App\Models\Favorite;
 use App\Models\Admin;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 
 class ShopController extends Controller
 {
