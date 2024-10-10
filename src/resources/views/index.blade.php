@@ -36,52 +36,6 @@
             </div>
         </div>
     </form>
-
-    <div class="header__right--hidden">
-        <div class="search__icon">
-            <input id="drawer__input-search" class="drawer__hidden-search" type="checkbox">
-            <label for="drawer__input-search" class="drawer__open-search"><span></span></label>
-            <div class="overlay"></div>
-            <div class="search__content">
-                <form action="/" method="get" class="search__form">
-                    <div class="search__select">
-                        <label class="select-box__label">
-                            <select name="region" class="select-box__item">
-                                <option value="">All area</option>
-                                @foreach ($regions as $region)
-                                    <option class="select-box__option" value="{{ $region }}"
-                                        {{ request('region') == $region ? 'selected' : '' }}>{{ $region }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </label>
-
-                        <label class="select-box__label">
-                            <select name="genre" class="select-box__item">
-                                <option value="">All genre</option>
-                                @foreach ($genres as $genre)
-                                    <option value="{{ $genre }}"
-                                        {{ request('genre') == $genre ? 'selected' : '' }}>{{ $genre }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </label>
-                    </div>
-
-                    <div class="search__text">
-                        <div class="search__item">
-                            <div class="search__item-button"></div>
-                            <label class="search__item-label">
-                                <input type="text" name="word" class="search__item-input" placeholder="Search ..."
-                                    value="{{ request('word') }}">
-                            </label>
-                        </div>
-                    </div>
-                    <button type="submit" class="form__button">検索</button>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('content')
@@ -96,12 +50,12 @@
                         <p class="shop__tag-info">#{{ $shop->genre }}</p>
                     </div>
                     <div class="shop__button">
-                        <a href="/detail/{{ $shop->id }}?from=index" class="shop__button-detail">詳しくみる</a>
+                        <a href="/detail/{{ $shop->id }}" class="shop__button-detail">詳しくみる</a>
                         @if (Auth::check())
                             @if (in_array($shop->id, $favorites))
                                 <form class="shop__button-favorite form" action="/favorite" method="post">
                                     @csrf
-                                    @method('delete')
+                                    <input type="hidden" name="shop_id" value="{{ $shop->id }}">
                                     <button type="submit" class="shop__button-favorite-btn" title="お気に入り削除">
                                         <i class="fa-sharp-duotone fa-solid fa-heart fa-2x"></i>
                                     </button>
@@ -109,6 +63,7 @@
                             @else
                                 <form class="shop__button-favorite form" action="/favorite" method="post">
                                     @csrf
+                                    <input type="hidden" name="shop_id" value="{{ $shop->id }}">
                                     <button type="submit" class="shop__button-favorite-btn" title="お気に入り追加">
                                         <i class="fa-sharp fa-solid fa-heart fa-2x"></i>
                                     </button>
@@ -123,10 +78,5 @@
                 </div>
             </div>
         @endforeach
-
-        @for ($i = 0; $i < 4; $i++)
-            <div class="shop__content dummy"></div>
-        @endfor
-
     </div>
 @endsection

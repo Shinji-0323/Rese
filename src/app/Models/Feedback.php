@@ -14,4 +14,9 @@ class Feedback extends Model
         'score',
         'comment',
     ];
+
+    public function reservation()
+    {
+        return $this->belongsTo(Reservation::class);
+    }
 }

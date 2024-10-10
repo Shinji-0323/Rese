@@ -27,9 +27,6 @@
     <form class="reservation__wrap" action="{{ isset($reservation) ? url('/reserve/' . $reservation->id . '/edit') : url('/reserve') }}"
         method="post">
         @csrf
-        @if(isset($reservation))
-            @method('PUT')
-        @endif
         <div class="reservation__content">
             <p class="reservation__title">{{ request()->is('*edit*') ? '予約変更' : '予約' }}
             </p>
@@ -107,12 +104,8 @@
         </div>
         <div class="reservation__button">
             @if (Auth::check())
-                @if (Auth::user()->hasRole('admin|writer'))
-                    <p class="reservation__message">予約は"ユーザー"の方のみ可能です</p>
-                @else
                     <button type="submit" class="reservation__button-btn"
                         onclick="return confirmReservation()">{{ request()->is('*edit*') ? '予約内容を変更する' : '予約する' }}</button>
-                @endif
             @else
                 <button type="button" class="reservation__button-btn--disabled" disabled>予約は<a href="/register"
                         class="reservation__button-link">会員登録</a><a href="/login"
@@ -120,7 +113,4 @@
             @endif
         </div>
     </form>
-
-    <!-- <script src="{{ asset('js/detail.js') }}"></script>
-    <script src="{{ asset('js/reservation.js') }}"></script>-->
 @endsection

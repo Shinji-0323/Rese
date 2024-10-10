@@ -1,0 +1,173 @@
+th {
+    font-weight: normal;
+    padding-right: 20px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.my_page {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reservation {
+    width: 50%;
+    margin: 50px 0 0 20px;
+}
+
+.reservation__situation {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.reservation__card {
+    background-color: rgb(22, 84, 218);
+    color: white;
+    margin-bottom: 15px;
+    width: 90%;
+    height: 190px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px #A9A9A9;
+}
+
+.reservation__title {
+    display: flex;
+    margin: 0 30px 0 30px;
+}
+
+.reservation__title-mark {
+    margin: 20px 40px 16px 0;
+}
+
+.reservation__title-number {
+    margin-top: 20px;
+}
+
+.reservation__title-delete {
+    margin: 20px 0 16px auto;
+}
+
+.reservation__contents {
+    display: flex;
+    position: relative;
+}
+
+.reservation__contents-table {
+    width: 70%;
+}
+
+.reservation__contents-change {
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+}
+
+.favorite {
+    width: 50%;
+}
+
+.favorite__name {
+    font-size: 23px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.favorite__shop {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+.favorite__list {
+    display: flex;
+    justify-content: space-between;
+    right: 0;
+    flex-wrap: wrap;
+}
+
+.shop {
+    width: 240px;
+    height: 250px;
+    margin: 15px 10px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 3px 3px 3px #A9A9A9;
+}
+
+.shop__image {
+    width: 100%;
+    height: 130px;
+    border-radius: 4px 4px 0 0;
+}
+
+.shop__content {
+    width: 215px;
+    margin: 0 auto;
+}
+
+.shop__title {
+    font-weight: bold;
+    margin: 13px 0 3px;
+    font-size: 20px;
+}
+
+.shop__tag {
+    display: flex;
+
+}
+
+.shop__tag>p {
+    margin: 0;
+    margin-right: 5px;
+    font-size: 13px;
+}
+
+.shop__item {
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    margin: 10px 0;
+}
+
+.shop__button {
+    background-color: blue;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 90px;
+    height: 30px;
+}
+
+.heart__favorite {
+    width: 30px;
+    height: 30px;
+    border: none;
+    position: relative;
+    background: none;
+    cursor: pointer;
+}
+
+.heart__favorite::before,
+.heart__favorite::after {
+    content: "";
+    width: 50%;
+    height: 80%;
+    background: red;
+    border-radius: 25px 25px 0 0;
+    display: block;
+    position: absolute;
+}
+
+.heart__favorite::before {
+    transform: rotate(-45deg);
+    left: 14%;
+    top: 14%;
+}
+
+.heart__favorite::after {
+    transform: rotate(45deg);
+    right: 14%;
+    top: 14%;
+}

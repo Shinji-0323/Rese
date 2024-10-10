@@ -16,4 +16,19 @@ class Reservation extends Model
         'time',
         'number',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+
+    public function feedback()
+    {
+        return $this->belongsTo(Feedback::class);
+    }
 }

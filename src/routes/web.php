@@ -22,18 +22,19 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/', [ShopController::class, 'index']);
 Route::get('/detail/{shop_id}', [ShopController::class, 'detail']);
-Route::post('/reserve', [ReserveController::class, 'store']);
-Route::get('/reserve/edit', [ReserveController::class, 'edit']);
-Route::post('/reserve/update', [ReserveController::class, 'update']);
-Route::get('/reserve/delete', [ReserveController::class, 'destroy']);
-Route::get('/my_page', [MyPageController::class, 'create']);
-Route::get('/favorite', [FavoriteController::class, 'flip']);
-Route::get('/feedback/{reservation_id}', [FeedbackController::class, 'create']);
-Route::post('/feedback/store', [FeedbackController::class, 'store']);
 
-
-Route::get('/review/add/{shop_id}', [ReviewController::class, 'create']);
-Route::post('/review/store', [ReviewController::class, 'store']);
-Route::post('/review/delete', [ReviewController::class, 'destroy']);
-Route::get('/review/edit/{shop_id}', [ReviewController::class, 'edit']);
-Route::post('/review/update', [ReviewController::class, 'update']);
+Route::middleware('auth', 'verified')->group(function () {
+    Route::post('/reserve', [ReserveController::class, 'store']);
+    Route::get('/reserve/edit', [ReserveController::class, 'edit']);
+    Route::post('/reserve/update', [ReserveController::class, 'update']);
+    Route::get('/reserve/delete', [ReserveController::class, 'destroy']);
+    Route::get('/my_page', [MyPageController::class, 'my_page']);
+    Route::post('/favorite', [FavoriteController::class, 'flip']);
+    Route::get('/feedback/{reservation_id}', [FeedbackController::class, 'create']);
+    Route::post('/feedback/store', [FeedbackController::class, 'store']);
+    Route::get('/review/add/{shop_id}', [ReviewController::class, 'create']);
+    Route::post('/review/store', [ReviewController::class, 'store']);
+    Route::post('/review/delete', [ReviewController::class, 'destroy']);
+    Route::get('/review/edit/{shop_id}', [ReviewController::class, 'edit']);
+    Route::post('/review/update', [ReviewController::class, 'update']);
+});
