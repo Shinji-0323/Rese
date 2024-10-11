@@ -29,8 +29,6 @@
             </label>
 
             <div class="search__item">
-                <div class="search__item-button"></div>
-                <label class="search__item-label">
                     <input type="text" name="word" class="search__item-input" placeholder="Search ..." value="{{ request('word') }}">
                 </label>
             </div>

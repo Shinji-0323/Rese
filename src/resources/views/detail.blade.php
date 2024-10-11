@@ -24,9 +24,10 @@
         </div>
     </div>
 
-    <form class="reservation__wrap" action="{{ isset($reservation) ? url('/reserve/' . $reservation->id . '/edit') : url('/reserve') }}"
+    <form class="reservation__wrap" action="{{ isset($reservation) ? url('/reserve/update') : url('/reserve') }}"
         method="post">
         @csrf
+        <input type="hidden" name="shop_id" value="{{ $shop->id }}">
         <div class="reservation__content">
             <p class="reservation__title">{{ request()->is('*edit*') ? '予約変更' : '予約' }}
             </p>

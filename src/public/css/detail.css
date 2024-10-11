@@ -2,6 +2,10 @@ main {
     display: flex;
     gap: 20px;
     justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 header {
@@ -13,6 +17,7 @@ header {
     margin-top: 10px;
     height: 620px;
     overflow: auto;
+    min-width: 320px;
 }
 
 .detail__wrap::-webkit-scrollbar {
@@ -36,6 +41,21 @@ header {
     font-size: 25px;
     font-weight: bold;
     padding-left: 10px;
+}
+
+.favorite__count {
+    font-size: 1.6rem;
+}
+
+.favorite__count::before {
+    content: "";
+    background: url(../images/heart_color.svg) no-repeat;
+    vertical-align: middle;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 5px;
 }
 
 .detail__image {
@@ -67,12 +87,14 @@ header {
 
 .reservation__wrap {
     width: 45%;
-    height: 650px;
+    min-height: 650px;
+    height: auto;
     background-color: rgb(63, 90, 242);
     margin-top: -70px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    min-width: 320px;
 }
 
 .reservation__content {
@@ -202,6 +224,7 @@ header {
         border-radius: 5px;
         display: flex;
         flex-direction: column;
+        min-height: auto;
         height: auto;
     }
 }

@@ -2,12 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
-use App\Http\Controllers\ReserveController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +21,14 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/', [ShopController::class, 'index']);
 Route::get('/detail/{shop_id}', [ShopController::class, 'detail']);
+Route::view('/thanks', 'auth.thanks');
+Route::get('/done', function () {return view('reservation.done');});
 
-Route::middleware('auth', 'verified')->group(function () {
-    Route::post('/reserve', [ReserveController::class, 'store']);
-    Route::get('/reserve/edit', [ReserveController::class, 'edit']);
-    Route::post('/reserve/update', [ReserveController::class, 'update']);
-    Route::get('/reserve/delete', [ReserveController::class, 'destroy']);
+Route::middleware('verified')->group(function () {
+    Route::post('/reserve', [ReservationController::class, 'store']);
+    Route::get('/reserve/edit', [ReservationController::class, 'edit']);
+    Route::post('/reserve/update', [ReservationController::class, 'update']);
+    Route::get('/reserve/delete', [ReservationController::class, 'destroy']);
     Route::get('/my_page', [MyPageController::class, 'my_page']);
     Route::post('/favorite', [FavoriteController::class, 'flip']);
     Route::get('/feedback/{reservation_id}', [FeedbackController::class, 'create']);

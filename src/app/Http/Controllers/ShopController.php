@@ -41,13 +41,13 @@ class ShopController extends Controller
 
     public function detail(Request $request)
     {
-        /* $user = Auth::user();
-        $userId = Auth::id(); */
+        $user = Auth::user();
+        $userId = Auth::id();
         $shop = Shop::find($request->shop_id);
         $from = $request->input('from');
 
         $countFavorites = Favorite::where('shop_id', $shop->id)->count();
 
-        return view('detail', compact(/* 'user', */ 'shop', 'countFavorites'));
+        return view('detail', compact('user', 'shop', 'countFavorites'));
     }
 }
