@@ -14,13 +14,13 @@ class ReservationController extends Controller
 {
     public function store(ReservationRequest $request)
     {
-        Reservation::create([
-            'user_id' => Auth::id(),
-            'shop_id' => $request->input('shop_id'),
-            'date' => $request->input('date'),
-            'time' => $request->input('time'),
-            'number' => $request->input('number'),
-        ]);
+        $reservation = new Reservation();
+        $reservation->shop_id = $shop->id;
+        $reservation->user_id = Auth::user()->id;
+        $reservation->date = $request->input('date');
+        $reservation->time = $request->input('time');
+        $reservation->number = $request->input('number');
+        $reservation->save();
 
         return redirect('/done');
     }

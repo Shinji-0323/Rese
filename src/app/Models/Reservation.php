@@ -12,7 +12,7 @@ class Reservation extends Model
     protected $fillable = [
         'user_id',
         'shop_id',
-        'data',
+        'date',
         'time',
         'number',
     ];
@@ -27,8 +27,8 @@ class Reservation extends Model
         return $this->belongsTo(Shop::class);
     }
 
-    public function feedback()
+    /* public function feedback()
     {
         return $this->hasOne(Feedback::class);
-    }
+    } */
 }

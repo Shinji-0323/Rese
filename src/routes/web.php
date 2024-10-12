@@ -24,11 +24,11 @@ Route::get('/detail/{shop_id}', [ShopController::class, 'detail']);
 Route::view('/thanks', 'auth.thanks');
 Route::get('/done', function () {return view('reservation.done');});
 
-Route::middleware('verified')->group(function () {
-    Route::post('/reserve', [ReservationController::class, 'store']);
-    Route::get('/reserve/edit', [ReservationController::class, 'edit']);
-    Route::post('/reserve/update', [ReservationController::class, 'update']);
-    Route::get('/reserve/delete', [ReservationController::class, 'destroy']);
+Route::middleware('auth')->group(function () {
+    Route::post('/reservation', [ReservationController::class, 'store']);
+    Route::get('/reservation/edit', [ReservationController::class, 'edit']);
+    Route::post('/reservation/update', [ReservationController::class, 'update']);
+    Route::get('/reservation/delete', [ReservationController::class, 'destroy']);
     Route::get('/my_page', [MyPageController::class, 'my_page']);
     Route::post('/favorite', [FavoriteController::class, 'flip']);
     Route::get('/feedback/{reservation_id}', [FeedbackController::class, 'create']);

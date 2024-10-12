@@ -24,10 +24,9 @@
         </div>
     </div>
 
-    <form class="reservation__wrap" action="{{ isset($reservation) ? url('/reserve/update') : url('/reserve') }}"
+    <form class="reservation__wrap" action="{{ isset($reservation) ? url('/reservation/update') : url('/reservation') }}"
         method="post">
         @csrf
-        <input type="hidden" name="shop_id" value="{{ $shop->id }}">
         <div class="reservation__content">
             <p class="reservation__title">{{ request()->is('*edit*') ? '予約変更' : '予約' }}
             </p>
@@ -105,12 +104,14 @@
         </div>
         <div class="reservation__button">
             @if (Auth::check())
-                    <button type="submit" class="reservation__button-btn"
-                        onclick="return confirmReservation()">{{ request()->is('*edit*') ? '予約内容を変更する' : '予約する' }}</button>
+                <button type="submit" class="reservation__button-btn">
+                    {{ request()->is('*edit*') ? '予約内容を変更する' : '予約する' }}
+                </button>
             @else
-                <button type="button" class="reservation__button-btn--disabled" disabled>予約は<a href="/register"
-                        class="reservation__button-link">会員登録</a><a href="/login"
-                        class="reservation__button-link">ログイン</a>が必要です</button>
+                <button type="button" class="reservation__button-btn--disabled" disabled>
+                    予約は<a href="/register" class="reservation__button-link">会員登録</a>
+                    または<a href="/login" class="reservation__button-link">ログイン</a>が必要です
+                </button>
             @endif
         </div>
     </form>
