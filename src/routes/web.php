@@ -19,23 +19,25 @@ use App\Http\Controllers\ReviewController;
 |
 */
 
-Route::get('/', [ShopController::class, 'index']);
-Route::get('/detail/{shop_id}', [ShopController::class, 'detail']);
-Route::view('/thanks', 'auth.thanks');
-Route::get('/done', function () {return view('reservation.done');});
+Route::get('/email/verify', [MailController::class, 'unverified'])->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [MailController::class, 'verify_complete'])->middleware(['auth', 'signed'])->name('verification.verify');
+Route::post('/email/verification-notification', [MailController::class, 'retransmission'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::middleware('auth')->group(function () {
-    Route::post('/reservation', [ReservationController::class, 'store']);
-    Route::get('/reservation/edit', [ReservationController::class, 'edit']);
-    Route::post('/reservation/update', [ReservationController::class, 'update']);
-    Route::get('/reservation/delete', [ReservationController::class, 'destroy']);
-    Route::get('/my_page', [MyPageController::class, 'my_page']);
-    Route::post('/favorite', [FavoriteController::class, 'flip']);
-    Route::get('/feedback/{reservation_id}', [FeedbackController::class, 'create']);
-    Route::post('/feedback/store', [FeedbackController::class, 'store']);
-    Route::get('/review/add/{shop_id}', [ReviewController::class, 'create']);
-    Route::post('/review/store', [ReviewController::class, 'store']);
-    Route::post('/review/delete', [ReviewController::class, 'destroy']);
-    Route::get('/review/edit/{shop_id}', [ReviewController::class, 'edit']);
-    Route::post('/review/update', [ReviewController::class, 'update']);
+Route::get('/', [ShopController::class, 'index'])->name('index');
+Route::get('/detail/{id}', [ShopController::class, 'detail'])->name('detail');
+Route::post('/reservation', [StoreInformationController::class, 'reservation'])->middleware('verified');
+Route::get('/done', function(){return view('done');});
+Route::post('/update', [StoreInformationController::class, 'update'])->middleware('verified');
+Route::get('/search', [StoreInformationController::class, 'search'])->middleware('verified');
+
+Route::get('/my_page', [UserInformationController::class, 'my_page'])->name('my_page')->middleware('verified');
+Route::get('/delete_reservation', [UserInformationController::class, 'delete_reservation']);
+Route::get('/reservation_change', [UserInformationController::class,'change']);
+Route::get('/favorite', [FavoriteController::class,'favorite'])->middleware('verified');
+Route::get('/evaluation', [UserInformationController::class,'evaluation']);
+Route::get('/verified', function () {
+    return view('verified');
+});
+Route::get('/thanks', function () {
+    return view('thanks');
 });

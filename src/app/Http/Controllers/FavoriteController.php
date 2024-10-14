@@ -10,14 +10,13 @@ use App\Models\Favorite;
 
 class FavoriteController extends Controller
 {
-    public function flip(Request $request)
+    public function favorite(Request $request)
     {
         $shop_id = $request['shop_id'];
+        $page = $request['page'];
         $id = Auth::id();
         $favorite = Favorite::where('user_id',$id)->where('shop_id',$shop_id)->first();
-
-
-        if( is_null($favorite) ) {
+        if(!$favorite){
             Favorite::create([
             'user_id' => $id,
             'shop_id' => $shop_id,
@@ -25,7 +24,11 @@ class FavoriteController extends Controller
         }else{
             Favorite::find($favorite->id)->delete();
         };
-
-        return redirect()->back();
+        switch($page){
+            case 'shop_all':
+                return redirect('/');
+            case 'my_page';
+                return redirect('/my_page');
+        };
     }
 }
