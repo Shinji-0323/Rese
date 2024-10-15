@@ -11,7 +11,7 @@
         <p class="reservation__situation">予約状況</p>
         @foreach($reservations as $order => $reservation)
         <div class="reservation__card">
-            <!-- <div class="reservation__title">
+            <div class="reservation__title">
                 <div class="reservation__title-mark">時</div>
                 <p class="reservation__title-number">予約{{++$order}}</p>
                 <form class="reservation__title-delete" action="/delete_reservation" method="get">
@@ -19,7 +19,7 @@
                     <input type="hidden" name="reservation_id" value="{{$reservation->id}}" />
                     <button class="">✕</button>
                 </form>
-            </div> -->
+            </div>
             <div class="reservation__contents">
                 <table class="reservation__contents-table">
                     <tr>
@@ -55,7 +55,7 @@
         <div class="favorite__list">
             @foreach($favorites as $favorite)
             <div class="shop">
-                <img class="shop__image" src="{{asset($favorite->shop['image_path'])}}" >
+                <img class="shop__image" src="{{asset($favorite->shop['image_path'])}}"> >
                 <div class="shop__content">
                     <p class="shop__title">{{$favorite->shop['name']}}</p>
                     <div class="shop__tag">

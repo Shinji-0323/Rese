@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use App\Models\Favorite;
+use App\Models\MyPage;
 use App\Models\Admin;
 use App\Models\Review;
 use Illuminate\Http\Request;
