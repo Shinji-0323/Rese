@@ -39,6 +39,9 @@ class ShopController extends Controller
         $shop = Shop::where('id',$id)->first();
         $today = new DateTime();
         $today_date = $today->format('Y-m-d');
-        return view('detail',compact('shop','today_date'));
+
+        $backRoute = '/';
+
+        return view('detail',compact('shop','today_date', 'backRoute'));
     }
 }

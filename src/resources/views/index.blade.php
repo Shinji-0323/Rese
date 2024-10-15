@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('css/index.css')}}">
 @endsection
 
-@section('search')
+@section('header')
     <div class="search">
         <form class="search__form" action="/search" method="get">
             <label class="search-label">
@@ -53,7 +53,7 @@
                     <form class="shop__favorite" action="/favorite" method="get">
                     @csrf
                         <input type="hidden" name="shop_id" value="{{ $shop['id'] }}" />
-                        <input type="hidden" name="page" value="shop_all" />
+                        <input type="hidden" name="page" value="index" />
                     @php
                         $favored = false;
                     @endphp

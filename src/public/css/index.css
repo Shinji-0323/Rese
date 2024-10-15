@@ -12,14 +12,14 @@
     width: 65%;
 }
 
-.search__select {
+.search-label {
     display: inline-flex;
     align-items: center;
     position: relative;
     width: 25%;
 }
 
-.search__select::after {
+.search-label::after {
     position: absolute;
     right: 5px;
     width: 10px;
@@ -102,13 +102,15 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 15px 1%;
+    padding: 0 10px;
+    margin: auto;
 }
 
 .shop {
     width: 240px;
-    height: 250px;
-    margin: 15px 10px;
-    background-color: white;
+    border: none;
+    background-color: #fff;
     border-radius: 4px;
     box-shadow: 3px 3px 3px #A9A9A9;
 }
@@ -120,25 +122,23 @@
 }
 
 .shop__content {
-    width: 215px;
-    margin: 0 auto;
+    margin: 20px;
 }
 
 .shop__title {
     font-weight: bold;
-    margin: 13px 0 3px;
     font-size: 20px;
 }
 
 .shop__tag {
     display: flex;
-
+    margin-top: 5px;
 }
 
 .shop__tag > p {
     margin: 0;
     margin-right: 5px;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .shop__item {
