@@ -49,7 +49,7 @@
                     <P>#{{$shop->genre}}</P>
                 </div>
                 <div class="shop__item">
-                    <button class="shop__button" onclick="location.href='{{ route('detail',['id' => $shop['id'] ]) }}'">詳しく見る</button>
+                    <button class="shop__button" onclick="location.href='/detail/{{ $shop->id }}?from=index'">詳しく見る</button>
                     <form class="shop__favorite" action="/favorite" method="get">
                     @csrf
                         <input type="hidden" name="shop_id" value="{{ $shop['id'] }}" />

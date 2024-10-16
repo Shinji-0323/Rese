@@ -26,21 +26,4 @@ class MyPageController extends Controller
         };
         return view('my_page',compact('reservations','favorites'));
     }
-
-    public function delete_reservation(Request $request)
-    {
-        $reservation_id = $request->reservation_id;
-        Reservation::find($reservation_id)->delete();
-
-        return redirect('/my_page');
-    }
-
-    public function change(Request $request)
-    {
-        $reservation = $request->all();
-        $shop = Shop::where('id',$reservation['shop_id'])->with('area','genre')->first();
-        $reservation = Reservation::where('user_id',$reservation['user_id'])->where('shop_id',$reservation['shop_id'])->first();
-        return view('shop_detail',compact('shop','reservation'));
-    }
-
 }

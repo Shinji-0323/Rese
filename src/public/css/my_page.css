@@ -1,59 +1,70 @@
-th {
-    font-weight: normal;
-    padding-right: 20px;
-    padding-left: 20px;
-    text-align: left;
+.user__name {
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin: 0;
+    padding-bottom: 20px;
+    text-align: center;
 }
 
-.my_page {
+.mypage__wrap {
     display: flex;
     justify-content: space-between;
+    gap: 30px;
 }
 
-.reservation {
-    width: 50%;
-    margin: 50px 0 0 20px;
+.reservation__wrap {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
 }
 
-.reservation__situation {
+.reservation__title,
+.favorite__title {
     font-size: 23px;
     font-weight: bold;
 }
 
-.reservation__card {
-    background-color: rgb(22, 84, 218);
-    color: white;
-    margin-bottom: 15px;
-    width: 90%;
-    height: 190px;
+.reservation__content {
+    margin-bottom: 20px;
+    padding: 10px 10% 30px 10%;
+    background-color: rgb(63, 90, 242);
     border-radius: 5px;
-    box-shadow: 3px 3px 3px #A9A9A9;
+    color: #fff;
+    font-size: 1.6rem;
 }
 
-.reservation__title {
+.reservation__header {
     display: flex;
     margin: 0 30px 0 30px;
 }
 
-.reservation__title-mark {
+.header__mark {
     margin: 20px 40px 16px 0;
 }
 
-.reservation__title-number {
+.header__number {
     margin-top: 20px;
 }
 
-.reservation__title-delete {
+.header__form {
     margin: 20px 0 16px auto;
 }
 
-.reservation__contents {
+.reservation__detail {
     display: flex;
     position: relative;
 }
 
-.reservation__contents-table {
+.reservation__table {
     width: 70%;
+}
+
+.table__header {
+    width: 95px;
+    text-align: left;
+    font-weight: normal;
+    padding: 5px 0;
 }
 
 .reservation__contents-change {
@@ -62,34 +73,19 @@ th {
     right: 20px;
 }
 
-.favorite {
-    width: 50%;
+.favorite__wrap {
+    width: 55%;
 }
 
-.favorite__name {
-    font-size: 23px;
-    font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 0;
-}
-
-.favorite__shop {
-    font-size: 23px;
-    font-weight: bold;
-    margin-bottom: 9px;
-}
-
-.favorite__list {
+.shop__wrap {
     display: flex;
-    justify-content: space-between;
-    right: 0;
-    flex-wrap: wrap;
 }
 
-.shop {
-    width: 240px;
+.shop__content {
+    width: 100%;
+    max-width: 240px;
     height: 250px;
-    margin: 15px 10px;
+    margin: 0 40px 0 0;
     background-color: white;
     border-radius: 4px;
     box-shadow: 3px 3px 3px #A9A9A9;
@@ -101,7 +97,7 @@ th {
     border-radius: 4px 4px 0 0;
 }
 
-.shop__content {
+.shop__item {
     width: 215px;
     margin: 0 auto;
 }
@@ -109,29 +105,28 @@ th {
 .shop__title {
     font-weight: bold;
     margin: 13px 0 3px;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .shop__tag {
     display: flex;
-
 }
 
-.shop__tag>p {
+.shop__tag-info {
     margin: 0;
     margin-right: 5px;
-    font-size: 13px;
+    font-size: 12px;
 }
 
-.shop__item {
+.shop__button {
     display: flex;
     justify-content: space-between;
     height: 30px;
     margin: 10px 0;
 }
 
-.shop__button {
-    background-color: blue;
+.shop__button-detail {
+    background-color: rgb(63, 90, 242);
     border: none;
     color: white;
     cursor: pointer;
@@ -170,4 +165,59 @@ th {
     transform: rotate(45deg);
     right: 14%;
     top: 14%;
+}
+
+.mobile-favorite__title {
+    display: none;
+}
+
+.mobile-favorite__wrap {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .user__name {
+        margin: 0 auto;
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .mypage__wrap {
+        display: block;
+    }
+
+    .reservation__wrap {
+        width: 90%;
+        margin: 0 auto;
+        height: auto
+    }
+
+    .reservation__content {
+        max-width: 400px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    .reservation__title {
+        text-align: center;
+    }
+
+    .mobile-favorite__title {
+        display: block;
+    }
+
+    .favorite__wrap {
+        display: none;
+    }
+
+    .reservation__table:has(:checked) + .mobile-favorite__wrap {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 15px 0;
+    }
+
+    .table__header {
+        width: 70px;
+    }
 }

@@ -19,7 +19,7 @@ class ShopController extends Controller
     {
         $all_area = 'All area';
         $all_genre = 'All genre';
-        
+
         $shops = Shop::all();
         $id = Auth::id();
         $regions = array($all_area);

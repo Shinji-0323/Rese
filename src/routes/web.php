@@ -24,8 +24,8 @@ Route::get('/', [ShopController::class, 'index'])->name('index');
 Route::get('/detail/{shop_id}', [ShopController::class, 'detail'])->name('detail');
 Route::post('/reservation', [ReservationController::class, 'reservation'])->middleware('verified');
 Route::get('/reservation/edit', [ReservationController::class,'edit']);
-Route::post('/update', [ReservationController::class, 'update'])->middleware('verified');
-Route::get('/reservation/delete', [ReservationController::class, 'destroy']);
+Route::post('/reservation/update', [ReservationController::class, 'update'])->middleware('verified');
+Route::post('/reservation/delete', [ReservationController::class, 'destroy']);
 Route::get('/my_page', [MyPageController::class, 'my_page'])->name('my_page')->middleware('verified');
 Route::get('/favorite', [FavoriteController::class,'favorite'])->middleware('verified');
 
