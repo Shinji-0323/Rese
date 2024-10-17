@@ -13,7 +13,6 @@ class FavoriteController extends Controller
     public function favorite(Request $request)
     {
         $shop_id = $request['shop_id'];
-        $page = $request['page'];
         $id = Auth::id();
         $favorite = Favorite::where('user_id',$id)->where('shop_id',$shop_id)->first();
         if(!$favorite){
@@ -24,11 +23,7 @@ class FavoriteController extends Controller
         }else{
             Favorite::find($favorite->id)->delete();
         };
-        switch($page){
-            case 'shop_all':
-                return redirect('/');
-            case 'my_page';
-                return redirect('/my_page');
-        };
+
+        return redirect('/');
     }
 }

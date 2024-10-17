@@ -43,34 +43,42 @@
         <div class="shop">
             <img class="shop__image" src="{{ $shop->image_url }}" alt="イメージ画像" >
             <div class="shop__content">
-                <p class="shop__title">{{$shop['store_name']}}</p>
+                <p class="shop__title">{{$shop['name']}}</p>
                 <div class="shop__tag">
                     <p>#{{$shop->region}}</p>
                     <P>#{{$shop->genre}}</P>
                 </div>
                 <div class="shop__item">
                     <button class="shop__button" onclick="location.href='/detail/{{ $shop->id }}?from=index'">詳しく見る</button>
-                    <form class="shop__favorite" action="/favorite" method="get">
-                    @csrf
-                        <input type="hidden" name="shop_id" value="{{ $shop['id'] }}" />
-                        <input type="hidden" name="page" value="index" />
-                    @php
-                        $favored = false;
-                    @endphp
-                    @foreach($favorites as $favorite)
-                        @if($shop['id'] == $favorite['shop_id'])
+                    @if (Auth::check())
+                        {{-- ユーザーがログインしている場合 --}}
+                        <form class="shop__favorite" action="/favorite" method="post">
+                        @csrf
+                            <input type="hidden" name="shop_id" value="{{ $shop['id'] }}" />
                             @php
-                                $favored = true;
-                                break;
+                                $favored = false;
                             @endphp
-                        @endif
-                    @endforeach
-                    @if($favored)
-                        <button class="heart__favorite"></button>
+                            @foreach($favorites as $favorite)
+                                @if($shop['id'] == $favorite['shop_id'])
+                                    @php
+                                        $favored = true;
+                                        break;
+                                    @endphp
+                                @endif
+                            @endforeach
+
+                            @if($favored)
+                                {{-- お気に入り登録済みなら赤色のハート --}}
+                                <button class="heart__favorite heart__red"></button>
+                            @else
+                                {{-- お気に入り未登録ならグレーのハート --}}
+                                <button class="heart__favorite heart__gray"></button>
+                            @endif
+                        </form>
                     @else
-                        <button class="heart"></button>
+                        {{-- ユーザーがログインしていない場合は全てグレー --}}
+                        <button class="heart__favorite heart__gray" onclick="location.href='/login'"></button>
                     @endif
-                    </form>
                 </div>
             </div>
         </div>
