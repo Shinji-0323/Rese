@@ -22,10 +22,13 @@ use App\Http\Controllers\ReviewController;
 
 Route::get('/', [ShopController::class, 'index'])->name('index');
 Route::get('/detail/{shop_id}', [ShopController::class, 'detail'])->name('detail');
+Route::get('/search', [ShopController::class, 'search']);
+
 Route::post('/reservation', [ReservationController::class, 'reservation'])->middleware('verified');
 Route::get('/reservation/edit', [ReservationController::class,'edit']);
 Route::post('/reservation/update', [ReservationController::class, 'update'])->middleware('verified');
 Route::post('/reservation/delete', [ReservationController::class, 'destroy']);
+
 Route::get('/my_page', [MyPageController::class, 'my_page'])->name('my_page')->middleware('verified');
 Route::post('/favorite', [FavoriteController::class,'favorite'])->middleware('verified');
 
@@ -38,7 +41,6 @@ Route::post('/review/delete', [ReviewController::class, 'destroy'])
 Route::get('/review/edit/{shop_id}', [ReviewController::class, 'edit'])
 Route::post('/review/update', [ReviewController::class, 'update'])
  */
-/* Route::get('/search', [Controller::class, 'search'])->middleware('verified'); */
 
 Route::get('/thanks', function () {return view('thanks');});
 Route::get('/done', function () {return view('done');});

@@ -95,9 +95,10 @@ header {
     width: 200px;
 }
 
-.error__item {
+.error__text {
     margin-bottom: 15px;
-    color: red;
+    color: #fff;
+    background-color: red;
     font-size: 1.4rem;
     padding-left: 10px;
 }

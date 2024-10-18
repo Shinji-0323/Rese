@@ -43,22 +43,22 @@
             @enderror
             <div class="form__content">
                 @if(!empty($today_date))
-                    <input class="form__item" type="date" name="date" oninput="finalConfirmation()" id="date" value="{{$today_date}}"/>
+                    <input class="form__item" type="date" name="date" min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" value="{{ $today_date ?? $reservation['date'] }}" onchange="updateDetails()">
                 @else
-                    <input class="form__item" type="date" name="date" value="{{$reservation['date']}}"/>
+                    <input class="form__item" type="date" name="date" value="{{$reservation['date']}}" onchange="updateDetails()"/>
                 @endif
                 @error('time')
                     @foreach ($errors->get('time') as $error)
                     <p class="error__text">{{$error}}</p>
                     @endforeach
                 @enderror
-                <input class="form__item" type="time" name="time" oninput="finalConfirmation()" id="time" min="09:00" max="18:00" />
+                <input class="form__item" type="time" name="time" onchange="updateDetails()" min="09:00" max="22:00" />
                 @error('number')
                     @foreach ($errors->get('number') as $error)
                     <p class="error__text">{{$error}}</p>
                     @endforeach
                 @enderror
-                <select class="form__item" name="number" oninput="finalConfirmation()" id="number" >
+                <select class="form__item" name="number" onchange="updateDetails()" >
                     <option value="" {{ request()->is('*edit*') && isset($reservation->time) ? '' : 'selected' }}
                     disabled>--人数を選択してください --</option>
                         @foreach (range(1, 5) as $number)
@@ -76,19 +76,19 @@
                 <table class ="reservation__table">
                     <tr>
                         <th class="table__header">Shop</th>
-                        <td class="table__item">{{$shop['name']}}</td>
+                        <td class="table__item" id="shop-name">{{$shop['name']}}</td>
                     </tr>
                     <tr>
                         <th class="table__header">Date</th>
-                        <td class="table__item" id="date">{{ request()->is('*edit*') ? $reservation->date : '' }}</td>
+                        <td class="table__item" id="selected-date">{{ request()->is('*edit*') ? $reservation->date : '' }}</td>
                     </tr>
                     <tr>
                         <th class="table__header">Time</th>
-                        <td class="table__item" id="time">{{ request()->is('*edit*') ? date('H:i', strtotime($reservation->time)) : '' }}</td>
+                        <td class="table__item" id="selected-time">{{ request()->is('*edit*') ? date('H:i', strtotime($reservation->time)) : '' }}</td>
                     </tr>
                     <tr?>
                         <th class="table__header">Number</th>
-                        <td class="table__item" id="number">{{ request()->is('*edit*') ? $reservation->number . '人' : '' }}</td>
+                        <td class="table__item" id="selected-number">{{ request()->is('*edit*') ? $reservation->number . '人' : '' }}</td>
                     </tr>
                 </table>
             </div>
@@ -111,4 +111,20 @@
             @endif
         </div>
     </form>
+
+    <script>
+        function updateDetails() {
+            // 日付の更新
+            var selectedDate = document.querySelector('input[name="date"]').value;
+            document.getElementById('selected-date').textContent = selectedDate;
+
+            // 時間の更新
+            var selectedTime = document.querySelector('input[name="time"]').value;
+            document.getElementById('selected-time').textContent = selectedTime;
+
+            // 人数の更新
+            var selectedNumber = document.querySelector('select[name="number"]').value;
+            document.getElementById('selected-number').textContent = selectedNumber + "人";
+        }
+    </script>
 @endsection

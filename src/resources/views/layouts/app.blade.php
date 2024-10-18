@@ -22,9 +22,9 @@
                         <li class="nav__item"><a class="nav__item-link" href="{{ route('index')}}">Home</a></li>
                         @if(Auth::check())
                             <li class="nav__item">
-                                <form class="nav__item-form" action="/logout" method="post">
+                                <form class="nav__item-link" action="/logout" method="post">
                                     @csrf
-                                    <button class="nav__item-link">Logout</button>
+                                    <button class="nav__item-button">Logout</button>
                                 </form>
                             </li>
                             <li class="nav__item"><a class="nav__item-link" href="{{ route('my_page')}}">Mypage</a></li>

@@ -45,4 +45,24 @@ class ShopController extends Controller
 
         return view('detail',compact('shop','today_date', 'backRoute'));
     }
+
+    public function search(Request $request)
+    {
+        $element = $request->all();
+        $query = Shop::query();
+        $search = array_filter($element);
+        if(!empty($search['region'])){
+            $query->where('region',$search['region']);
+        }
+        if(!empty($search['genre'])){
+            $query->where('genre',$search['genre']);
+        }
+        if(!empty($search['name'])){
+            $query->where('name','like','%' . $search['name'] . '%');
+        }
+        $shops = $query->get();
+        $id = Auth::id();
+        $favorites = Favorite::where('user_id',$id)->get();
+        return view('index', compact('shops','favorites'));
+    }
 }

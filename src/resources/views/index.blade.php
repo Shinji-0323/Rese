@@ -10,8 +10,8 @@
             <label class="search-label">
                 <select class="search__select" name="region">
                     <option value="">All area</option>
-                    @foreach ($regions as $region)
-                    <option class="select-box__option" value="{{ $region }}" {{ request('region') == $region ? 'selected' : '' }}>{{ $region }} </option>
+                    @foreach ($shops->unique('region') as $shop)
+                        <option class="select-box__option" value="{{ $shop->region }}" {{ request('region') == $shop->region ? 'selected' : '' }}>{{ $shop->region }} </option>
                     @endforeach
                 </select>
             </label>
@@ -19,9 +19,9 @@
             <label class="search-label">
                 <select class="search__select" name="genre">
                     <option value="">All genre</option>
-                    @foreach ($genres as $genre)
-                    <option value="{{ $genre }}" {{ request('genre') == $genre ? 'selected' : '' }}>
-                    {{ $genre }}</option>
+                    @foreach ($shops->unique('genre') as $shop)
+                        <option value="{{ $shop->genre }}" {{ request('genre') == $shop->genre ? 'selected' : '' }}>
+                    {{ $shop->genre }}</option>
                     @endforeach
                 </select>
             </label>
@@ -29,12 +29,11 @@
             <div class="search__item">
                 <div class="search__item-button"></div>
                 <label class="search__item-label">
-                    <input type="text" name="store_name" class="search__item-input" placeholder="Search..." />
+                    <input type="text" name="name" class="search__item-input" placeholder="Search..." value="{{ request('name') }}" />
                 </label>
             </div>
         </form>
     </div>
-
 @endsection
 
 @section('content')
@@ -43,7 +42,7 @@
         <div class="shop">
             <img class="shop__image" src="{{ $shop->image_url }}" alt="イメージ画像" >
             <div class="shop__content">
-                <p class="shop__title">{{$shop['name']}}</p>
+                <span class="shop__title">{{$shop['name']}}</span>
                 <div class="shop__tag">
                     <p>#{{$shop->region}}</p>
                     <P>#{{$shop->genre}}</P>
@@ -69,15 +68,15 @@
 
                             @if($favored)
                                 {{-- お気に入り登録済みなら赤色のハート --}}
-                                <button class="heart__favorite heart__red"></button>
+                                <button class="heart__favorite"></button>
                             @else
                                 {{-- お気に入り未登録ならグレーのハート --}}
-                                <button class="heart__favorite heart__gray"></button>
+                                <button class="heart"></button>
                             @endif
                         </form>
                     @else
                         {{-- ユーザーがログインしていない場合は全てグレー --}}
-                        <button class="heart__favorite heart__gray" onclick="location.href='/login'"></button>
+                        <button class="heart" onclick="location.href='/login'"></button>
                     @endif
                 </div>
             </div>
