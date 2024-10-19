@@ -9,7 +9,7 @@
         <div class="detail__header">
             <div class="header__title">
                 <a href="{{ $backRoute }}" class="header__back"><</a>
-                <span class="header__shop-name">{{$shop['name']}}</span>
+                <span class="header__shop-name">{{$shop->name}}</span>
             </div>
         </div>
         <div class="detail__image">
