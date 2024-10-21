@@ -24,6 +24,6 @@ class FavoriteController extends Controller
             Favorite::find($favorite->id)->delete();
         };
 
-        return redirect('/');
+        return redirect('/my_page');
     }
 }

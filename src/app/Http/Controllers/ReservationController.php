@@ -20,12 +20,14 @@ class ReservationController extends Controller
         return redirect('/done');
     }
 
-    public function edit(Request $request)
+    public function edit(Reservation $reservation)
     {
-        $reservation_id = $request->reservation_id;
-        Reservation::find($reservation_id)->delete();
+        $user = Auth::user();
+        $shop = Shop::find($reservation->shop_id);
 
-        return redirect('/my_page');
+        $backRoute = '/mypage';
+
+        return view('detail', compact('user', 'shop', 'backRoute'));
     }
 
     public function destroy(Request $request)
@@ -38,8 +40,8 @@ class ReservationController extends Controller
     public function update(Request $request)
     {
         $reservation = $request->all();
-        $shop = Shop::where('id',$reservation['shop_id'])->with('area','genre')->first();
+        $shop = Shop::where('id',$reservation['shop_id'])->with('region','genre')->first();
         $reservation = Reservation::where('user_id',$reservation['user_id'])->where('shop_id',$reservation['shop_id'])->first();
-        return view('shop_detail',compact('shop','reservation'));
+        return view('detail',compact('shop','reservation'));
     }
 }

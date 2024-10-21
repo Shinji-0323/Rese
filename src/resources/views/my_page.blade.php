@@ -15,6 +15,12 @@
                 <div class="reservation__header">
                     <div class="header__mark"><i class="fa-regular fa-clock"></i></div>
                     <p class="header__number">予約{{++$order}}</p>
+                    <form class="header__form" action="/reservation/edit" method="get">
+                        @csrf
+                            <input type="hidden" name="shop_id" value="{{$reservation['shop_id']}}" />
+                            <input type="hidden" name="user_id" value="{{$reservation['user_id']}}" />
+                            <button class="">予約変更</button>
+                    </form>
                     <form action="/reservation/delete" method="post"  class="header__form">
                         @csrf
                         <input type="hidden" name="reservation_id" value="{{$reservation->id}}" />
@@ -40,12 +46,6 @@
                             <td class="table__item">{{$reservation['number']}}人</td>
                         </tr>
                     </table>
-                    <form class="reservation__contents-change"action="/reservation/edit" method="get">
-                        @csrf
-                            <input type="hidden" name="shop_id" value="{{$reservation['shop_id']}}" />
-                            <input type="hidden" name="user_id" value="{{$reservation['user_id']}}" />
-                            <button class="">予約変更</button>
-                    </form>
                 </div>
             </div>
             @endforeach
