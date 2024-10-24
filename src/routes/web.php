@@ -33,8 +33,8 @@ Route::get('/email/verify/{id}/{hash}', [MailController::class, 'verify_complete
 Route::post('/email/verification-notification', [MailController::class, 'retransmission'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::post('/reservation', [ReservationController::class, 'reservation'])->middleware('verified');
-Route::get('/reservation/edit', [ReservationController::class,'edit']);
-Route::post('/reservation/update', [ReservationController::class, 'update'])->middleware('verified');
+Route::get('/reservation/edit/{id}', [ReservationController::class,'edit'])->name('reservation.edit');
+Route::post('/reservation/update/{id}', [ReservationController::class, 'update'])->middleware('verified')->name('reservation.update');
 Route::post('/reservation/delete', [ReservationController::class, 'destroy']);
 
 Route::get('/my_page', [MyPageController::class, 'my_page'])->name('my_page')->middleware('verified');

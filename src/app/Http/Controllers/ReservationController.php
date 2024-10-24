@@ -20,14 +20,16 @@ class ReservationController extends Controller
         return redirect('/done');
     }
 
-    public function edit(Reservation $reservation)
+    public function edit($id)
     {
-        $user = Auth::user();
+        $reservation = Reservation::find($id);
+
         $shop = Shop::find($reservation->shop_id);
+        $user = Auth::user();
 
         $backRoute = '/mypage';
 
-        return view('detail', compact('user', 'shop', 'backRoute'));
+        return view('detail', compact('reservation', 'user', 'shop', 'backRoute'));
     }
 
     public function destroy(Request $request)
@@ -37,11 +39,21 @@ class ReservationController extends Controller
         return redirect('/my_page');
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $reservation = $request->all();
-        $shop = Shop::where('id',$reservation['shop_id'])->with('region','genre')->first();
-        $reservation = Reservation::where('user_id',$reservation['user_id'])->where('shop_id',$reservation['shop_id'])->first();
-        return view('detail',compact('shop','reservation'));
+        $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|date_format:H:i',
+            'number' => 'required|integer|min:1',
+        ]);
+
+        $reservation = Reservation::find($id);
+
+        $reservation->date = $request->input('date');
+        $reservation->time = $request->input('time');
+        $reservation->number = $request->input('number');
+        $reservation->save();
+
+        return redirect('/done');
     }
 }
