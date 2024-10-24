@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Shop;
 use App\Models\Favorite;
 use App\Models\MyPage;
@@ -9,6 +10,7 @@ use App\Models\Admin;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use DateTime;
@@ -64,5 +66,31 @@ class ShopController extends Controller
         $id = Auth::id();
         $favorites = Favorite::where('user_id',$id)->get();
         return view('index', compact('shops','favorites'));
+    }
+
+    public function register(Request $request)
+    {
+        // バリデーション
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string',
+        ]);
+
+        // ユーザー作成
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // ログイン状態にする
+        Auth::login($user);
+
+        // メール認証リンクを送信
+        $user->sendEmailVerificationNotification();
+
+        // メール認証画面にリダイレクト
+        return redirect()->route('verification.notice')->with('status', 'verification-link-sent');
     }
 }

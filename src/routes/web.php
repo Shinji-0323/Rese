@@ -7,6 +7,7 @@ use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,11 @@ Route::get('/detail/{shop_id}', [ShopController::class, 'detail'])->name('detail
 Route::get('/search', [ShopController::class, 'search']);
 Route::get('/thanks', function () {return view('thanks');});
 Route::get('/done', function () {return view('done');});
+
+Route::post('/register', [ShopController::class, 'register'])->name('register');
+Route::get('/email/verify', [MailController::class, 'unverified'])->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [MailController::class, 'verify_complete'])->middleware(['auth', 'signed'])->name('verification.verify');
+Route::post('/email/verification-notification', [MailController::class, 'retransmission'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::post('/reservation', [ReservationController::class, 'reservation'])->middleware('verified');
 Route::get('/reservation/edit', [ReservationController::class,'edit']);
