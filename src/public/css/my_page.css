@@ -187,7 +187,9 @@
     }
 
     .mypage__wrap {
-        display: block;
+        display: flex;
+        flex-direction: column; /* 縦に並べる */
+        align-items: center;
     }
 
     .reservation__wrap {
@@ -196,32 +198,25 @@
         height: auto
     }
 
-    .reservation__content {
-        max-width: 400px;
-        margin: 0 auto;
-        margin-bottom: 20px;
-    }
-
-    .reservation__title {
-        text-align: center;
-    }
-
-    .mobile-favorite__title {
-        display: block;
-    }
 
     .favorite__wrap {
-        display: none;
+        margin: 0 auto;
+        width: 90%;
+        height: auto; /* 高さを自動調整 */
+        display: block; /* 表示するように設定 */
     }
 
-    .reservation__table:has(:checked) + .mobile-favorite__wrap {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        gap: 15px 0;
+    .shop__wrap {
+        justify-content: space-between;
     }
 
-    .table__header {
-        width: 70px;
+    .shop__content {
+        width: 100%;
+        max-width: 240px;
+        height: 250px;
+        margin: 40px 40px;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 3px 3px 3px #A9A9A9;
     }
 }
