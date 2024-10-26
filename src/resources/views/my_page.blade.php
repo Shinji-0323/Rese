@@ -9,46 +9,80 @@
     <p class="user__name">{{ Auth::user()->name }}さん</p>
     <div class="mypage__wrap">
         <div class="reservation__wrap">
-            <p class="reservation__title">予約状況</p>
-            @foreach($reservations as $order => $reservation)
-            <div class="reservation__content">
-                <div class="reservation__header">
-                    <div class="header__mark"><i class="fa-regular fa-clock"></i></div>
-                    <p class="header__number">予約{{++$order}}</p>
-                    <form class="header__form" action="{{ route('reservation.edit', ['id' => $reservation->id]) }}" method="get">
-                        @csrf
-                            <input type="hidden" name="shop_id" value="{{$reservation['shop_id']}}" />
-                            <input type="hidden" name="user_id" value="{{$reservation['user_id']}}" />
-                            <button class="">予約変更</button>
-                    </form>
-                    <form class="header__form" action="/reservation/delete" method="post">
-                        @csrf
-                        <input type="hidden" name="reservation_id" value="{{$reservation->id}}" />
-                        <button class="header__button"><i class="fa-regular fa-circle-xmark"></i></button>
-                    </form>
+            <div class="reservation__tab">
+                <p class="reservation__title">予約状況</p>
+                @foreach($reservations as $order => $reservation)
+                <div class="reservation__content">
+                    <div class="reservation__header">
+                        <div class="header__mark"><i class="fa-regular fa-clock"></i></div>
+                        <p class="header__number">予約{{++$order}}</p>
+                        <form class="header__form" action="{{ route('reservation.edit', ['id' => $reservation->id]) }}" method="get">
+                            @csrf
+                                <input type="hidden" name="shop_id" value="{{$reservation['shop_id']}}" />
+                                <input type="hidden" name="user_id" value="{{$reservation['user_id']}}" />
+                                <button class="">予約変更</button>
+                        </form>
+                        <form class="header__form" action="/reservation/delete" method="post">
+                            @csrf
+                            <input type="hidden" name="reservation_id" value="{{$reservation->id}}" />
+                            <button class="header__button"><i class="fa-regular fa-circle-xmark"></i></button>
+                        </form>
+                    </div>
+                    <div class="reservation__detail">
+                        <table class="reservation__table">
+                            <tr>
+                                <th class="table__header">Shop</th>
+                                <td class="table__item">{{$reservation->shop['name']}}</td>
+                            </tr>
+                            <tr>
+                                <th class="table__header">Date</th>
+                                <td class="table__item">{{$reservation['date']}}</td>
+                            </tr>
+                            <tr>
+                                <th class="table__header">Time</th>
+                                <td class="table__item">{{\Carbon\Carbon::createFromFormat('H:i:s', $reservation['time'])->format('H:i')}}</td>
+                            </tr>
+                            <tr>
+                                <th class="table__header">Number</th>
+                                <td class="table__item">{{$reservation['number']}}人</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                <div class="reservation__detail">
-                    <table class="reservation__table">
-                        <tr>
-                            <th class="table__header">Shop</th>
-                            <td class="table__item">{{$reservation->shop['name']}}</td>
-                        </tr>
-                        <tr>
-                            <th class="table__header">Date</th>
-                            <td class="table__item">{{$reservation['date']}}</td>
-                        </tr>
-                        <tr>
-                            <th class="table__header">Time</th>
-                            <td class="table__item">{{\Carbon\Carbon::createFromFormat('H:i:s', $reservation['time'])->format('H:i')}}</td>
-                        </tr>
-                        <tr>
-                            <th class="table__header">Number</th>
-                            <td class="table__item">{{$reservation['number']}}人</td>
-                        </tr>
-                    </table>
-                </div>
+                @endforeach
             </div>
-            @endforeach
+
+            <div class="reservation__tab">
+                <p class="reservation__title">予約履歴</p>
+                @foreach ($histories as $reservation)
+                    <div class="reservation__content reservation__content--steelblue">
+                        <div class="reservation__header">
+                            <p class="header__number">履歴{{ $loop->iteration }}</p>
+                            <div class="header__form">
+                                <a href="{{ route('review', ['shop_id' => $reservation->shop_id]) }}"><button>レビュー投稿</button></a>
+                            </div>
+                        </div>
+                        <table class="reservation__table">
+                            <tr>
+                                <th class="table__header">Shop</th>
+                                <td class="table__item">{{ $reservation->shop['name'] }}</td>
+                            </tr>
+                            <tr>
+                                <th class="table__header">Date</th>
+                                <td class="table__item">{{ $reservation['date'] }}</td>
+                            </tr>
+                            <tr>
+                                <th class="table__header">Time</th>
+                                <td class="table__item">{{ date('H:i',strtotime($reservation['time'])) }}</td>
+                            </tr>
+                            <tr>
+                                <th class="table__header">Number</th>
+                                <td class="table__item">{{ $reservation['number'] }}人</td>
+                            </tr>
+                        </table>
+                    </div>
+                @endforeach
+            </div>
         </div>
 
         <div class="favorite__wrap">

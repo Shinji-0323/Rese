@@ -19,6 +19,10 @@
     padding-left: 15px;
 }
 
+.reservation__tab {
+    flex-direction: column;
+}
+
 .reservation__title,
 .favorite__title {
     font-size: 23px;
@@ -32,6 +36,10 @@
     border-radius: 5px;
     color: #fff;
     font-size: 1.6rem;
+}
+
+.reservation__content--steelblue {
+    background-color: steelblue;
 }
 
 .reservation__header {
