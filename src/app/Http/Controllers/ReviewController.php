@@ -74,9 +74,9 @@ class ReviewController extends Controller
         $user = Auth::user();
         $shop = shop::find($request->shop_id);
         $shopReviews = Review::where('shop_id', $request->shop_id)->get();
-        $avgRating = round(Review::where('shop_id', $request->shop_id)->avg('rating'), 1);
+        $avgStar = round(Review::where('shop_id', $request->shop_id)->avg('star'), 1);
         $countFavorites = Favorite::where('shop_id', $request->shop_id)->count();
 
-        return view('reviews.list', compact('user','shop', 'shopReviews', 'avgRating'));
+        return view('reviews.list', compact('user','shop', 'shopReviews', 'avgStar'));
     }
 }

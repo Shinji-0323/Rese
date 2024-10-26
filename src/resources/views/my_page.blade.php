@@ -59,7 +59,7 @@
                         <div class="reservation__header">
                             <p class="header__number">履歴{{ $loop->iteration }}</p>
                             <div class="header__form">
-                                <a href="{{ route('review', ['shop_id' => $reservation->shop_id]) }}"><button>レビュー投稿</button></a>
+                                <a href="{{ route('review', ['shop_id' => $reservation->shop_id]) }}"><button>{{ request()->is('*edit*') ? 'レビュー変更' : 'レビュー投稿' }}</button></a>
                             </div>
                         </div>
                         <table class="reservation__table">

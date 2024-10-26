@@ -22,6 +22,7 @@
         <div class="detail__outline">
             <P class="detail__outline-text">{{$shop->description}}</P>
         </div>
+        <a href="/review/shop/{{ $shop->id }}" class="all-review__button">全ての口コミ情報</a>
     </div>
 
     @if(!empty($today_date))
