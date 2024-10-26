@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Shop;
 use App\Models\Favorite;
 use App\Models\Review;
+use App\Http\Requests\ReviewRequest;
 
 class ReviewController extends Controller
 {
@@ -16,6 +17,9 @@ class ReviewController extends Controller
 
         $review = Review::where('user_id', $userId)->where('shop_id', $shop_id)->first();
         $shop = Shop::where('id', $shop_id)->first();
+        if (!$shop) {
+            dd('Shop not found for shop_id: ' . $shop_id);
+        }
         $favorites = Auth::user()->favorites()->pluck('shop_id')->toArray();
 
         return view('reviews.index', compact('review', 'shop', 'favorites'));
@@ -26,30 +30,35 @@ class ReviewController extends Controller
         $userId = Auth::id();
         $review = Review::where('user_id', $userId)->where('shop_id', $shop_id)->first();
 
-        if ($review) {
-            $form = $request->all();
-            unset($form['_token']);
-            if ($request->hasFile('image_url')) {
-                $file = $request->file('image_url');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('reservationsystem-restaurant', $filename, 's3');
-                $form['image_url'] = Storage::disk('s3')->url($path);
-            }
-            Review::find($review->id)->update($form);
-        } else {
-            $review = new Review();
-            $review->user_id = $userId;
-            $review->shop_id = $shop_id;
-            $review->rating = $request->input('rating');
-            $review->comment = $request->input('comment');
-            if ($request->hasFile('image_url')) {
-                $file = $request->file('image_url');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('reservationsystem-restaurant', $filename, 's3');
-                $form['image_url'] = Storage::disk('s3')->url($path);
-            }
-            $review->save();
-        }
+        $star = $request->input('star');  // 'star' というフィールドで送信されているか確認
+        $comment = $request->input('comment');
+        $imageUrl = null;
+
+    // 画像がある場合、処理する
+    if ($request->hasFile('image_url')) {
+        $file = $request->file('image_url');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('reservationsystem-restaurant', $filename, 's3');
+        $imageUrl = Storage::disk('s3')->url($path);
+    }
+
+    // 口コミが既に存在する場合、更新
+    if ($review) {
+        $review->update([
+            'star' => $star,
+            'comment' => $comment,
+            'image_url' => $imageUrl,
+        ]);
+    } else {
+        // 新しい口コミを作成
+        Review::create([
+            'user_id' => $userId,
+            'shop_id' => $shop_id,
+            'star' => $star,
+            'comment' => $comment,
+            'image_url' => $imageUrl,
+        ]);
+    }
 
         return view('reviews.thanks', compact('shop_id'));
     }

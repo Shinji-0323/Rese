@@ -95,12 +95,12 @@
 
 .shop__content {
     width: 100%;
-    max-width: 240px;
-    height: 250px;
+    max-width: 250px;
     margin: 0 40px 40px 0;
     background-color: white;
     border-radius: 4px;
     box-shadow: 3px 3px 3px #A9A9A9;
+    border: none;
 }
 
 .shop__image {
@@ -110,8 +110,7 @@
 }
 
 .shop__item {
-    width: 215px;
-    margin: 0 auto;
+    margin: 20px;
 }
 
 .shop__title {
@@ -122,29 +121,34 @@
 
 .shop__tag {
     display: flex;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 .shop__tag-info {
     margin: 0;
     margin-right: 5px;
-    font-size: 12px;
 }
 
 .shop__button {
     display: flex;
     justify-content: space-between;
-    height: 30px;
+    align-items: center;
     margin: 10px 0;
 }
 
 .shop__button-detail {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
     background-color: rgb(63, 90, 242);
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 3px;
-    width: 90px;
+    border: 1px solid rgb(63, 90, 242);
+    border-radius: 5px;
+    color: #fff;
+    padding: 0 16px;
     height: 30px;
+    cursor: pointer;
+    font-size: 12px;
 }
 
 .heart__favorite {

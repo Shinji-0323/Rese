@@ -17,23 +17,32 @@
                         <p class="shop__tag-info">#{{ $shop->genre }}</p>
                     </div>
                     <div class="shop__button">
-                        <a href="/detail/{{ $shop->id }}?from=index" class="shop__button-detail">詳しくみる</a>
-                        @if (in_array($shop->id, $favorites))
-                            <form action="{{ route('favorite', $shop) }}" method="post" enctype="application/x-www-form-urlencoded" class="shop__button-favorite form">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="shop__button-favorite-btn" title="お気に入り削除">
-                                    <img class="favorite__btn-image" src="{{ asset('images/heart_color.svg') }}">
-                                </button>
-                            </form>
-                        @else
-                            <form action="{{ route('favorite', $shop) }}" method="post" enctype="application/x-www-form-urlencoded" class="shop__button-favorite form">
-                                @csrf
-                                <button type="submit" class="shop__button-favorite-btn" title="お気に入り追加">
-                                    <img class="favorite__btn-image" src="{{ asset('images/heart.svg') }}">
-                                </button>
-                            </form>
-                        @endif
+                        <button class="shop__button-detail" onclick="location.href='/detail/{{ $shop->id }}?from=index'">詳しくみる</button>
+                        <form class="shop__favorite" action="/favorite" method="post">
+                        @csrf
+                            <input type="hidden" name="shop_id" value="{{ $shop->id }}" />
+                            @php
+                                $favored = false;
+                            @endphp
+                            @foreach($favorites as $favorite)
+                            @if(isset($favorite) && isset($favorite->shop_id))
+                                @if($shop->id == $favorite->shop_id)
+                                    @php
+                                        $favored = true;
+                                        break;
+                                    @endphp
+                                @endif
+                            @endif
+                            @endforeach
+
+                            @if($favored)
+                                {{-- お気に入り登録済みなら赤色のハート --}}
+                                <button class="heart__favorite"></button>
+                            @else
+                                {{-- お気に入り未登録ならグレーのハート --}}
+                                <button class="heart"></button>
+                            @endif
+                        </form>
                     </div>
                 </div>
             </div>
@@ -42,13 +51,13 @@
         <form action="{{ route('review.store',$shop->id) }}" method="post" class="review__form" enctype="multipart/form-data">
             @csrf
             <p class="review__form-title">体験を評価してください</p>
-            @error('rating')
+            @error('star')
                 <span class="error__message">{{ $message }}</span>
             @enderror
             <div class="review__area">
                 <span class="review__rating">
                     @for ($i = 5; $i >= 1 ; $i--)
-                        <input id="star0{{ $i }}" type="radio" name="rating" value="{{ $i }}" class="rating__star" {{ $review && $review->rating == $i ? 'checked' : '' }}>
+                        <input id="star0{{ $i }}" type="radio" name="star" value="{{ $i }}" class="rating__star" {{ $review && $review->star == $i ? 'checked' : '' }}>
                         <label for="star0{{ $i }}" class="rating__star-label">★</label>
                     @endfor
                 </span>

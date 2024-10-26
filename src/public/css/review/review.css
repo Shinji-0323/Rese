@@ -31,16 +31,16 @@ main {
 }
 
 .title__text {
-    font-size: 3.2rem;
+    font-size: 32px;
     margin-top: 0;
 }
 
 .shop__content {
     width: 100%;
-    max-width: 260px;
+    max-width: 250px;
     border: none;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px gray;
+    border-radius: 4px;
+    box-shadow: 3px 3px 3px #A9A9A9;
     background-color: #fff;
     margin: 0 auto;
 }
@@ -49,8 +49,7 @@ main {
     width: 100%;
     height: 130px;
     object-fit: cover;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-radius: 4px 4px 0 0;
 }
 
 .shop__item {
@@ -59,12 +58,13 @@ main {
 
 .shop__title {
     font-weight: bold;
-    font-size: 1.6rem;
+    margin: 13px 0 3px;
+    font-size: 16px;
 }
 
 .shop__tag {
     display: flex;
-    font-size: 1.2rem;
+    font-size: 12px;
     margin-top: 5px;
 }
 
@@ -91,24 +91,70 @@ main {
     padding: 0 16px;
     height: 30px;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 12px;
 }
 
-.shop__button-detail:hover {
-    opacity: 0.8;
-}
-
-.shop__button-favorite-btn {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
+.heart {
+    width: 30px;
+    height: 30px;
     border: none;
-    background-color: #fff;
+    position: relative;
+    background: none;
+    cursor: pointer;
+}
+.heart::before,
+.heart::after {
+    content: "";
+    width: 50%;
+    height: 80%;
+    background: #DCDCDC;
+    border-radius: 25px 25px 0 0;
+    display: block;
+    position: absolute;
 }
 
-.shop__button-favorite-btn:hover {
-    opacity: 0.6;
+.heart::before {
+    transform: rotate(-45deg);
+    left: 14%;
+    top: 5%;
+}
+
+.heart::after {
+    transform: rotate(45deg);
+    right: 14%;
+    top: 5%;
+}
+
+.heart__favorite {
+    width: 30px;
+    height: 30px;
+    border: none;
+    position: relative;
+    background: none;
+    cursor: pointer;
+}
+
+.heart__favorite::before,
+.heart__favorite::after {
+    content: "";
+    width: 50%;
+    height: 80%;
+    background-color: red;
+    border-radius: 25px 25px 0 0;
+    display: block;
+    position: absolute;
+}
+
+.heart__favorite::before {
+    transform: rotate(-45deg);
+    left: 14%;
+    top: 5%;
+}
+
+.heart__favorite::after {
+    transform: rotate(45deg);
+    right: 14%;
+    top: 5%;
 }
 
 .review__form {
