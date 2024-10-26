@@ -19,6 +19,10 @@
     padding-left: 15px;
 }
 
+.reservation__tab {
+    flex-direction: column;
+}
+
 .reservation__title,
 .favorite__title {
     font-size: 23px;
@@ -32,6 +36,10 @@
     border-radius: 5px;
     color: #fff;
     font-size: 1.6rem;
+}
+
+.reservation__content--steelblue {
+    background-color: steelblue;
 }
 
 .reservation__header {
@@ -87,12 +95,12 @@
 
 .shop__content {
     width: 100%;
-    max-width: 240px;
-    height: 250px;
+    max-width: 250px;
     margin: 0 40px 40px 0;
     background-color: white;
     border-radius: 4px;
     box-shadow: 3px 3px 3px #A9A9A9;
+    border: none;
 }
 
 .shop__image {
@@ -102,8 +110,7 @@
 }
 
 .shop__item {
-    width: 215px;
-    margin: 0 auto;
+    margin: 20px;
 }
 
 .shop__title {
@@ -114,29 +121,34 @@
 
 .shop__tag {
     display: flex;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 .shop__tag-info {
     margin: 0;
     margin-right: 5px;
-    font-size: 12px;
 }
 
 .shop__button {
     display: flex;
     justify-content: space-between;
-    height: 30px;
+    align-items: center;
     margin: 10px 0;
 }
 
 .shop__button-detail {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
     background-color: rgb(63, 90, 242);
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 3px;
-    width: 90px;
+    border: 1px solid rgb(63, 90, 242);
+    border-radius: 5px;
+    color: #fff;
+    padding: 0 16px;
     height: 30px;
+    cursor: pointer;
+    font-size: 12px;
 }
 
 .heart__favorite {
@@ -187,7 +199,9 @@
     }
 
     .mypage__wrap {
-        display: block;
+        display: flex;
+        flex-direction: column; /* 縦に並べる */
+        align-items: center;
     }
 
     .reservation__wrap {
@@ -196,32 +210,25 @@
         height: auto
     }
 
-    .reservation__content {
-        max-width: 400px;
-        margin: 0 auto;
-        margin-bottom: 20px;
-    }
-
-    .reservation__title {
-        text-align: center;
-    }
-
-    .mobile-favorite__title {
-        display: block;
-    }
 
     .favorite__wrap {
-        display: none;
+        margin: 0 auto;
+        width: 90%;
+        height: auto; /* 高さを自動調整 */
+        display: block; /* 表示するように設定 */
     }
 
-    .reservation__table:has(:checked) + .mobile-favorite__wrap {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        gap: 15px 0;
+    .shop__wrap {
+        justify-content: space-between;
     }
 
-    .table__header {
-        width: 70px;
+    .shop__content {
+        width: 100%;
+        max-width: 240px;
+        height: 250px;
+        margin: 40px 40px;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 3px 3px 3px #A9A9A9;
     }
 }

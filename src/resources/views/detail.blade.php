@@ -27,7 +27,7 @@
     @if(!empty($today_date))
         <form class="reservation__wrap" action="/reservation" method="post">
     @else
-        <form class="reservation__wrap" action="{{ request()->is('*edit*') ? route('reservation.update', $reservation) : route('reservation', $shop) }}" method="post">
+        <form class="reservation__wrap" action="{{ route('reservation.update', ['id' => $reservation->id]) }}" method="post">
     @endif
         @csrf
         <div class="reservation__content">
@@ -35,7 +35,7 @@
             @if (Auth::check())
                 <input type="hidden" name="user_id" value="{{Auth::id()}}" />
             @endif
-            <input type="hidden" name="shop_id" value="{{$shop['id']}}" />
+                <input type="hidden" name="shop_id" value="{{$shop['id']}}" />
             @error('date')
                 @foreach ($errors->get('date') as $error)
                 <p class="error__text">{{$error}}</p>

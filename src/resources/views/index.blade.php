@@ -44,8 +44,8 @@
             <div class="shop__content">
                 <span class="shop__title">{{$shop['name']}}</span>
                 <div class="shop__tag">
-                    <p>#{{$shop->region}}</p>
-                    <P>#{{$shop->genre}}</P>
+                    <p class="shop__tag-info">#{{$shop->region}}</p>
+                    <P class="shop__tag-info">#{{$shop->genre}}</P>
                 </div>
                 <div class="shop__item">
                     <button class="shop__button" onclick="location.href='/detail/{{ $shop->id }}?from=index'">詳しく見る</button>
