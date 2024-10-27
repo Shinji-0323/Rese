@@ -25,6 +25,8 @@ Route::controller(ShopController::class)->group(function () {
     Route::get('/detail/{shop_id}', 'detail')->name('detail');
     Route::get('/search', 'search');
     Route::post('/register', 'register')->name('register');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
 });
 
 Route::get('/thanks', function () {return view('thanks');});

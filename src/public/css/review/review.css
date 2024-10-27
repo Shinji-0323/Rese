@@ -94,37 +94,6 @@ main {
     font-size: 12px;
 }
 
-.heart {
-    width: 30px;
-    height: 30px;
-    border: none;
-    position: relative;
-    background: none;
-    cursor: pointer;
-}
-.heart::before,
-.heart::after {
-    content: "";
-    width: 50%;
-    height: 80%;
-    background: #DCDCDC;
-    border-radius: 25px 25px 0 0;
-    display: block;
-    position: absolute;
-}
-
-.heart::before {
-    transform: rotate(-45deg);
-    left: 14%;
-    top: 5%;
-}
-
-.heart::after {
-    transform: rotate(45deg);
-    right: 14%;
-    top: 5%;
-}
-
 .heart__favorite {
     width: 30px;
     height: 30px;
@@ -139,7 +108,7 @@ main {
     content: "";
     width: 50%;
     height: 80%;
-    background-color: red;
+    background: red;
     border-radius: 25px 25px 0 0;
     display: block;
     position: absolute;
@@ -148,13 +117,13 @@ main {
 .heart__favorite::before {
     transform: rotate(-45deg);
     left: 14%;
-    top: 5%;
+    top: 14%;
 }
 
 .heart__favorite::after {
     transform: rotate(45deg);
     right: 14%;
-    top: 5%;
+    top: 14%;
 }
 
 .review__form {

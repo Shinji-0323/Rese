@@ -14,7 +14,7 @@ class ShopsTableSeeder extends Seeder
      */
     public function run()
     {
-        $param = [
+        /* $param = [
             'name' => '仙人',
             'region' => '東京都',
             'genre' => '寿司',
@@ -192,6 +192,6 @@ class ShopsTableSeeder extends Seeder
             'description' => '毎日店主自ら市場等に出向き、厳選した魚介類が、お鮨をはじめとした繊細な料理に仕立てられます。また、選りすぐりの種類豊富なドリンクもご用意しております。',
             'image_url' => 'https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg'
         ];
-        DB::table('shops')->insert($param);
+        DB::table('shops')->insert($param); */
     }
 }
