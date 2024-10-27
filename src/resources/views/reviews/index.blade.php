@@ -9,7 +9,7 @@
         <div class="title__wrap">
             <p class="title__text">今回のご利用はいかがでしたか？</p>
             <div class="shop__content">
-                <img class="shop__image" src="{{ $shop->image_url }}" alt="イメージ画像">
+                <img class="shop__image" src="{{ asset('storage/shop_images/' . $shop->image_url) }}" alt="イメージ画像">
                 <div class="shop__item">
                     <span class="shop__title">{{ $shop->name }}</span>
                     <div class="shop__tag">
@@ -21,27 +21,7 @@
                         <form class="shop__favorite" action="/favorite" method="post">
                         @csrf
                             <input type="hidden" name="shop_id" value="{{ $shop->id }}" />
-                            @php
-                                $favored = false;
-                            @endphp
-                            @foreach($favorites as $favorite)
-                            @if(isset($favorite) && isset($favorite->shop_id))
-                                @if($shop->id == $favorite->shop_id)
-                                    @php
-                                        $favored = true;
-                                        break;
-                                    @endphp
-                                @endif
-                            @endif
-                            @endforeach
-
-                            @if($favored)
-                                {{-- お気に入り登録済みなら赤色のハート --}}
-                                <button class="heart__favorite"></button>
-                            @else
-                                {{-- お気に入り未登録ならグレーのハート --}}
-                                <button class="heart"></button>
-                            @endif
+                            <button class="heart__favorite"></button>
                         </form>
                     </div>
                 </div>

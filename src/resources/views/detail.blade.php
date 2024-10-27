@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="detail__image">
-            <img class="detail__image-img" src="{{ $shop->image_url }}" alt="イメージ画像" >
+            <img class="detail__image-img" src="{{ asset('storage/shop_images/' . $shop->image_url) }}" alt="イメージ画像" >
         </div>
         <div class="detail__tag">
             <P class="detail__tag-info">#{{$shop->region}}</P>
@@ -22,6 +22,7 @@
         <div class="detail__outline">
             <P class="detail__outline-text">{{$shop->description}}</P>
         </div>
+        <a href="/review/shop/{{ $shop->id }}" class="all-review__button">全ての口コミ情報</a>
     </div>
 
     @if(!empty($today_date))

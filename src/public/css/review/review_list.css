@@ -1,9 +1,12 @@
 .review__wrap {
-    font-size: 1.6rem;
+    font-size: 16px;
 }
 
 .review__header {
-    font-size: 2.4rem;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .shop__image {
@@ -16,7 +19,7 @@
     display: inline-block;
     white-space: nowrap;
     color: rgb(225, 225, 225);
-    font-size: 2.8rem;
+    font-size: 28px;
 }
 
 .rating__star::before,
@@ -32,18 +35,18 @@
     overflow: hidden;
     white-space: nowrap;
     color: rgb(63, 90, 242);
-    font-size: 2.8rem;
+    font-size: 28px;
     width: var(--star-width);
 }
 
 .rating__number {
-    font-size: 2.8rem;
+    font-size: 28px;
     color: rgb(63, 90, 242);
     font-weight: bold;
 }
 
 .shop__detail {
-    font-size: 1.2rem;
+    font-size: 12px;
 }
 
 .review__title {
@@ -80,6 +83,7 @@
 
 .shop__name {
     margin: 0;
+    font-size: 20px;
 }
 
 .review__container {

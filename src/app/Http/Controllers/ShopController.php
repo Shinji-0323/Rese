@@ -11,6 +11,7 @@ use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use DateTime;
@@ -70,27 +71,53 @@ class ShopController extends Controller
 
     public function register(Request $request)
     {
-        // バリデーション
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string',
         ]);
 
-        // ユーザー作成
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        // ログイン状態にする
         Auth::login($user);
 
-        // メール認証リンクを送信
         $user->sendEmailVerificationNotification();
 
-        // メール認証画面にリダイレクト
         return redirect()->route('verification.notice')->with('status', 'verification-link-sent');
+    }
+
+    public function create()
+    {
+        return view('layouts.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'region' => 'required|string|max:255',
+            'genre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('public/shop_images');
+            $imageName = basename($path);
+        }
+
+        $shop = new Shop();
+        $shop->name = $request->input('name');
+        $shop->region = $request->input('region');
+        $shop->genre = $request->input('genre');
+        $shop->description = $request->input('description');
+        $shop->image_url = $imageName;
+        $shop->save();
+
+        return redirect()->route('index');
     }
 }

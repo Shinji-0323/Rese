@@ -61,6 +61,92 @@ header {
     font-size: 1.4rem;
 }
 
+.header__review {
+    text-decoration: none;
+}
+
+.rating__star {
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    white-space: nowrap;
+    color: rgb(225, 225, 225);
+    font-size: 2.8rem;
+}
+
+.rating__star--small {
+    margin-left: 10px;
+    font-size: 2.4rem;
+}
+
+.rating__star::before,
+.rating__star::after {
+    content: "★★★★★";
+}
+
+.rating__star::after {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: rgb(63, 90, 242);
+    font-size: 2.8rem;
+    width: var(--star-width);
+}
+
+.rating__star--small::after {
+    font-size: 2.4rem;
+}
+
+.rating__number {
+    font-size: 2.8rem;
+    color: rgb(63, 90, 242);
+    font-weight: bold;
+}
+
+.review__count {
+    text-decoration: none;
+    font-size: 1.6rem;
+    color: rgb(28, 65, 251);
+}
+
+.review__count-none {
+    text-decoration: none;
+    font-size: 1.6rem;
+}
+
+.review__count::before,
+.review__count-none::before {
+    content: "";
+    background: url(../images/review_lightcoral.svg) no-repeat;
+    vertical-align: middle;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.all-review__button {
+    display: block;
+    color: inherit;
+    width: 100%;
+    text-decoration: none;
+    background-color: rgb(84, 124, 243);
+    color: #fff;
+    font-size: 1.6rem;
+    text-align: center;
+    height: 35px;
+    padding: 6px;
+    margin: 50px 0 20px;
+}
+
+.all-review__button:hover {
+    opacity: 0.6;
+}
+
 .reservation__wrap {
     width: 45%;
     height: 650px;

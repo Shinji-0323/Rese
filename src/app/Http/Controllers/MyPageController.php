@@ -14,9 +14,21 @@ class MyPageController extends Controller
     public function my_page()
     {
         $id = Auth::id();
-        $today = Carbon::today();
-        $reservations = Reservation::where('user_id',$id)->whereDate('date','>',$today)->with('shop','user')->get();
-        $histories = Reservation::where('user_id',$id)->whereDate('date','<=',$today)->with('shop','user')->get();
+        $now = Carbon::now();
+        $reservations = Reservation::where('user_id',$id)->where(function ($query) use ($now) {
+            $query->where('date', '>', $now->toDateString())
+            ->orWhere(function ($query) use ($now) {
+                $query->where('date', '=', $now->toDateString())
+                ->where('time', '>', $now->toTimeString());
+                });
+            })->with('shop', 'user')->get();
+        $histories = Reservation::where('user_id',$id)->where(function ($query) use ($now) {
+            $query->where('date', '<', $now->toDateString())
+            ->orWhere(function ($query) use ($now) {
+                $query->where('date', '=', $now->toDateString())
+                ->where('time', '<=', $now->toTimeString());
+                });
+            })->with('shop', 'user')->get();
         $favorites = Favorite::where('user_id',$id)->with('shop')->get();
         foreach($favorites as $favorite){
             $region = Shop::find($favorite->shop['region']);

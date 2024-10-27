@@ -59,7 +59,7 @@
                         <div class="reservation__header">
                             <p class="header__number">履歴{{ $loop->iteration }}</p>
                             <div class="header__form">
-                                <a href="{{ route('review', ['shop_id' => $reservation->shop_id]) }}"><button>レビュー投稿</button></a>
+                                <a href="{{ route('review', ['shop_id' => $reservation->shop_id]) }}"><button>{{ request()->is('*edit*') ? 'レビュー変更' : 'レビュー投稿' }}</button></a>
                             </div>
                         </div>
                         <table class="reservation__table">
@@ -90,7 +90,7 @@
                 <div class="shop__wrap">
                     @foreach($favorites as $favorite)
                         <div class="shop__content">
-                            <img class="shop__image" src="{{asset($favorite->shop['image_url'])}}" alt="イメージ画像">
+                            <img class="shop__image" src="{{asset('storage/shop_images/' . $favorite->shop['image_url'])}}" alt="イメージ画像">
                             <div class="shop__item">
                                 <p class="shop__title">{{$favorite->shop['name']}}</p>
                                 <div class="shop__tag">

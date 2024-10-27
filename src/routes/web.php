@@ -25,6 +25,8 @@ Route::controller(ShopController::class)->group(function () {
     Route::get('/detail/{shop_id}', 'detail')->name('detail');
     Route::get('/search', 'search');
     Route::post('/register', 'register')->name('register');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
 });
 
 Route::get('/thanks', function () {return view('thanks');});
@@ -52,4 +54,5 @@ Route::prefix('review')->controller(ReviewController::class)->group(function () 
     Route::get('/{shop_id}', 'index')->name('review');
     Route::post('/store/{shop_id}', 'store')->name('review.store');
     Route::post('/delete/{review_id}', 'delete');
+    Route::get('/shop/{shop_id}', 'list');
 });
