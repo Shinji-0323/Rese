@@ -23,6 +23,10 @@ class CreateAdminsTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('admin_id')->default(3)->constrained('admin'); // デフォルトは利用者（User）
+        });
     }
 
     /**
@@ -33,5 +37,8 @@ class CreateAdminsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('admins');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('admin_id');
+        });
     }
 }

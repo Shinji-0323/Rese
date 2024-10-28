@@ -39,4 +39,14 @@ class Admin extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function shops()
+    {
+        return $this->belongsToMany(Shop::class);
+    }
 }

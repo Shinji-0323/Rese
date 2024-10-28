@@ -8,6 +8,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,4 +56,16 @@ Route::prefix('review')->controller(ReviewController::class)->group(function () 
     Route::post('/store/{shop_id}', 'store')->name('review.store');
     Route::post('/delete/{review_id}', 'delete');
     Route::get('/shop/{shop_id}', 'list');
+});
+
+Route::middleware('role:admin')->controller(AdminController::class)->group(function () {
+    Route::get('/admin', 'index');
+    Route::post('/admin/create-store-owner', 'createStoreOwner');
+});
+
+Route::middleware('role:writer')->controller(WriterController::class)->group(function () {
+    Route::get('/writer', 'index');
+    Route::get('/writer/reservations', 'showReservations');
+    Route::post('/writer/store', 'store');
+    Route::post('/writer/update{id}', 'update');
 });
