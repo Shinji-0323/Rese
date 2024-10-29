@@ -36,7 +36,8 @@ main {
 
 .form__item-user,
 .form__item-mail,
-.form__item-key {
+.form__item-key,
+.form__item-role {
     width: 100%;
     margin-bottom: 5px;
 }
@@ -48,45 +49,15 @@ main {
     margin-left: 38px;
 }
 
-.form__item-user::before {
+.form__item-user::before,
+.form__item-shop::before,
+.form__item-mail::before,
+.form__item-key::before,
+.form__item-role::before {
     content: "";
     display: inline-block;
     width: 25px;
     height: 25px;
-    background: url(../images/person.svg) no-repeat;
-    background-size: contain;
-    margin-right: 8px;
-    vertical-align: bottom;
-}
-
-.form__item-shop::before {
-    content: "";
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    background: url(../images/shop.svg) no-repeat;
-    background-size: contain;
-    margin-right: 8px;
-    vertical-align: bottom;
-}
-
-.form__item-mail::before {
-    content: "";
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    background: url(../images/mail.svg) no-repeat;
-    background-size: contain;
-    margin-right: 8px;
-    vertical-align: bottom;
-}
-
-.form__item-key::before {
-    content: "";
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    background: url(../images/key.svg) no-repeat;
     background-size: contain;
     margin-right: 8px;
     vertical-align: bottom;

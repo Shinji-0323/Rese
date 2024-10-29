@@ -8,6 +8,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,4 +56,25 @@ Route::prefix('review')->controller(ReviewController::class)->group(function () 
     Route::post('/store/{shop_id}', 'store')->name('review.store');
     Route::post('/delete/{review_id}', 'delete');
     Route::get('/shop/{shop_id}', 'list');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/register/shopRepresentative', 'create');
+        Route::post('/register/shopRepresentative', 'register');
+        Route::get('/user/index', 'userShow');
+        Route::get('/search-users/index', 'search');
+        Route::get('/csv-import', 'importIndex');
+        Route::post('/csv-import','csvImport');
+    });
+
+    Route::view('/email-notification', 'admin.email_notification')->name('admin.notification');
+});
+
+Route::middleware(['auth', 'role:admin|writer'])->prefix('writer')->controller(WriterController::class)->group(function () {
+    Route::get('/shop-edit', 'editShow');
+    Route::post('/shop-edit', 'create_and_edit');
+    Route::get('/confirm/shop-reservation', 'reservationShow');
+    Route::patch('/update/shop-reservation', 'update');
+    Route::delete('/destroy/shop-reservation', 'destroy');
 });
