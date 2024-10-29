@@ -12,10 +12,10 @@
         <form action="/admin/register/shopRepresentative" method="post" class="form__item">
             @csrf
             <div class="form__item-user">
-                <input type="text" class="form__input-item" name="username" placeholder="Shop Representative Name" value="{{ old('username') }}">
+                <input type="text" class="form__input-item" name="name" placeholder="Shop Representative Name" value="{{ old('name') }}">
             </div>
             <div class="error__item">
-                @error('username')
+                @error('name')
                     <span class="error__message">{{ $message }}</span>
                 @enderror
             </div>
@@ -34,6 +34,15 @@
             </div>
             <div class="error__item">
                 @error('password')
+                    <span class="error__message">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form__item-role">
+                <input type="role" class="form__input-item" name="role" placeholder="role"  value="{{ old('role') }}">
+            </div>
+            <div class="error__item">
+                @error('role')
                     <span class="error__message">{{ $message }}</span>
                 @enderror
             </div>

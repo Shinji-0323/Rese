@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdminShopsTable extends Migration
+class CreateAdminShopTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAdminShopsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admin_shops', function (Blueprint $table) {
+        Schema::create('admin_shop', function (Blueprint $table) {
             $table->id();
             $table->foreignId('admin_id')->constrained()->cascadeOnDelete();
             $table->foreignId('shop_id')->constrained()->cascadeOnDelete();

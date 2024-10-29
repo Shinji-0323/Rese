@@ -58,14 +58,23 @@ Route::prefix('review')->controller(ReviewController::class)->group(function () 
     Route::get('/shop/{shop_id}', 'list');
 });
 
-Route::middleware('role:admin')->controller(AdminController::class)->group(function () {
-    Route::get('/admin', 'index');
-    Route::post('/admin/create-store-owner', 'createStoreOwner');
+Route::prefix('admin')->group(function () {
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/register/shopRepresentative', 'create');
+        Route::post('/register/shopRepresentative', 'register');
+        Route::get('/user/index', 'userShow');
+        Route::get('/search-users/index', 'search');
+        Route::get('/csv-import', 'importIndex');
+        Route::post('/csv-import','csvImport');
+    });
+
+    Route::view('/email-notification', 'admin.email_notification')->name('admin.notification');
 });
 
-Route::middleware('role:writer')->controller(WriterController::class)->group(function () {
-    Route::get('/writer', 'index');
-    Route::get('/writer/reservations', 'showReservations');
-    Route::post('/writer/store', 'store');
-    Route::post('/writer/update{id}', 'update');
+Route::middleware(['auth', 'role:admin|writer'])->prefix('writer')->controller(WriterController::class)->group(function () {
+    Route::get('/shop-edit', 'editShow');
+    Route::post('/shop-edit', 'create_and_edit');
+    Route::get('/confirm/shop-reservation', 'reservationShow');
+    Route::patch('/update/shop-reservation', 'update');
+    Route::delete('/destroy/shop-reservation', 'destroy');
 });
