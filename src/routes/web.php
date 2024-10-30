@@ -33,12 +33,10 @@ Route::controller(ShopController::class)->group(function () {
 Route::get('/thanks', function () {return view('thanks');});
 Route::get('/done', function () {return view('done');});
 
-Route::middleware('auth')->prefix('email')->group(function () {
-    Route::controller(MailController::class)->group(function () {
-        Route::get('/verify', 'unverified')->name('verification.notice');
-        Route::get('/verify/{id}/{hash}', 'verify_complete')->middleware('signed')->name('verification.verify');
-        Route::post('/verification-notification', 'retransmission')->middleware('throttle:6,1')->name('verification.send');
-    });
+Route::middleware('auth')->prefix('email')->controller(MailController::class)->group(function () {
+    Route::get('/verify', 'unverified')->name('verification.notice');
+    Route::get('/verify/{id}/{hash}', 'verify_complete')->middleware('signed')->name('verification.verify');
+    Route::post('/verification-notification', 'retransmission')->middleware('throttle:6,1')->name('verification.send');
 });
 
 Route::prefix('reservation')->controller(ReservationController::class)->group(function () {
@@ -58,17 +56,16 @@ Route::prefix('review')->controller(ReviewController::class)->group(function () 
     Route::get('/shop/{shop_id}', 'list');
 });
 
-Route::prefix('admin')->group(function () {
-    Route::controller(AdminController::class)->group(function () {
-        Route::get('/register/shopRepresentative', 'create');
-        Route::post('/register/shopRepresentative', 'register');
+Route::prefix('admin')->controller(AdminController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
         Route::get('/user/index', 'userShow');
-        Route::get('/search-users/index', 'search');
-        Route::get('/csv-import', 'importIndex');
-        Route::post('/csv-import','csvImport');
+        Route::get('/add', 'store');
+        Route::get('/delete', 'destroy');
     });
-
-    Route::view('/email-notification', 'admin.email_notification')->name('admin.notification');
+    Route::get('/register', 'showRegisterForm');
+    Route::post('/register', 'storeRegister');
+    Route::get('/login', 'showLoginForm');
+    Route::post('/login', 'storeLogin');
 });
 
 Route::middleware(['auth', 'role:admin|writer'])->prefix('writer')->controller(WriterController::class)->group(function () {
