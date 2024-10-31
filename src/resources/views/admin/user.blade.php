@@ -7,7 +7,7 @@
 @section('content')
     <div class="mail__wrap">
         <div class="mail__content">お知らせメール作成</div>
-        <a class="mail__button" href="{{ url('admin/make_announcement') }}">作成</a>
+        <button class="mail__button" href="{{ url('admin/make_announcement') }}">作成</button>
     </div>
 
     <div class="admin__wrap">
@@ -18,38 +18,40 @@
                 {{ session('message') }}
             </div>
             <div class="content__header">
-                <label for="name" class="">名前</label>
-                <input type="text" name="name" value="{{ old('name') }}">
-                <div class="text-red-600">
+                <label for="name" class="content__header__label">名前</label>
+                <input class="content__header__input" type="text" name="name" value="{{ old('name') }}">
+                <div class="content__header__error">
                     @error('name')
                         ※{{ $message }}
                     @enderror
                 </div>
             </div>
             <div class="content__header">
-                <label for="email" class="">Email</label>
-                <input type="text" name="email" value="{{ old('email') }}">
-                <div class="text-red-600">
+                <label for="email" class="content__header__label">Email</label>
+                <input class="content__header__input" type="text" name="email" value="{{ old('email') }}">
+                <div class="content__header__error">
                     @error('email')
                         ※{{ $message }}
                     @enderror
                 </div>
             </div>
             <div class="content__header">
-                <label for="role" class="">役割</label>
-                <select name="role">
-                    <option value=""  selected></option>
+                <label for="role" class="content__header__label">役割</label>
+                <select class="content__header__select" name="role">
+                    @foreach ( App\Consts\RoleConst::ROLE_LIST as $key => $val )
+                    <option value="{{ $key }}" @if($key == old('role')) selected @endif>{{ $val }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="content__header">
-                <label for="shop" class="">店舗</label>
-                <select name="shop">
+                <label for="shop" class="content__header__label">店舗</label>
+                <select class="content__header__select" name="shop">
                     @foreach ( $shop_list as $key => $value )
                     <option value="{{ $value }}" @if($value === (int)old('shop')) selected @endif>{{ $key }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="ml-8">
+            <div class="content__button">
                 <button class="admin__button" type="submit">
                     登録・変更
                 </button>
@@ -57,7 +59,8 @@
         </form>
     </div>
 
-    <div class="table__wrap">
+    <div class="user__wrap">
+        <div class="user__title">管理者一覧</div>
         <table class="user__table">
             <tr>
                 <th class="table__header header-no">Id</th>
@@ -65,23 +68,24 @@
                 <th class="table__header header-email">email</th>
                 <th class="table__header header-role">役割</th>
                 <th class="table__header header-shop">店舗</th>
+                <th class="table__header header-content"></th>
             </tr>
             @foreach ($admin_list as $admin)
                 <tr>
                     <td class="table__data">{{ $admin['id'] }}</td>
                     <td class="table__data">{{ $admin['name'] }}</td>
-                    <td class="table__data data-email">{{ $admin['email'] }}</td>
+                    <td class="table__data">{{ $admin['email'] }}</td>
                     <td class="table__data">{{ $admin['role'] }}</td>
                     <td class="table__data">
                         @foreach ($admin['shops'] as $shop)
                         {{ $admin['shops'] }}
                         @endforeach
                     </td>
-                    <td>
+                    <td class="table__button">
                     <form method="POST" action="{{ url('admin/delete') }}">
                         @csrf
                         <input type="hidden" name="admin_id" value="{{ $admin['id'] }}">
-                        <button class="submit" type="submit">
+                        <button class="user__button" type="submit">
                             削除
                         </button>
                     </form>
