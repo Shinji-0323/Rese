@@ -13,7 +13,7 @@
         <div class="review__content-wrap">
             <div class="review__content shop__data">
                 <div class="review__title shop-image__wrap">
-                    <img class="shop__image" src="{{ asset('storage/shop_images/' . $shop->image_url) }}" alt="イメージ写真">
+                    <img class="shop__image" src="{{ $shop['image_url'] }}" alt="イメージ写真">
                 </div>
                 <div class="review__area review__detail">
                     <p class="shop__name">{{ $shop->name }}</p>

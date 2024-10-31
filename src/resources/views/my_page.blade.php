@@ -90,7 +90,7 @@
                 <div class="shop__wrap">
                     @foreach($favorites as $favorite)
                         <div class="shop__content">
-                            <img class="shop__image" src="{{ $shop['image_url'] }}" alt="イメージ画像">
+                            <img class="shop__image" src="{{ $favorite->shop['image_url'] }}" alt="イメージ画像">
                             <div class="shop__item">
                                 <p class="shop__title">{{$favorite->shop['name']}}</p>
                                 <div class="shop__tag">

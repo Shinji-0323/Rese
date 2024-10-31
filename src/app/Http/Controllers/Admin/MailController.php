@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Controller;
 
 class MailController extends Controller
 {
@@ -15,7 +16,7 @@ class MailController extends Controller
     public function verify_complete(EmailVerificationRequest $request)
     {
         $request->fulfill();
-        return redirect('/thanks');
+        return redirect('admin/done');
     }
 
     public function retransmission(Request $request)
