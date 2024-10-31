@@ -20,7 +20,7 @@ class AdminController extends Controller
 
     public function storeRegister(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'name' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -50,28 +50,28 @@ class AdminController extends Controller
             'password' => ['required'],
         ]);
 
-        // 管理者のレコードをadminsテーブルから取得
-        $admin = Admin::where('email', $credentials['email'])->first();
+        // 管理者の認証を試行
+        if (Auth::guard('admin')->attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
+            // 認証成功
 
-        // 管理者が存在し、パスワードが一致する場合
-        if ($admin && Hash::check($credentials['password'], $admin->password)) {
-            // ロールが "admin" か確認
-            if ($admin->isAdmin()) {
-                // 認証成功、セッションを再生成
-                Auth::login($admin);
+            // ユーザーが管理者かどうかを確認
+            $admin = Auth::guard('admin')->user();
+            if ($admin->role === '管理者' || $admin->role === '店舗代表者') {
+                // ログイン成功時にセッションIDを再生成
                 $request->session()->regenerate();
 
-                // 管理者ダッシュボードへリダイレクト
+                // 管理者ページにリダイレクト
                 return redirect()->intended('admin/user/index');
             } else {
-                // ロールが管理者でない場合、ログアウト処理
+                // 役割が管理者でない場合はログアウトしてリダイレクト
                 Auth::logout();
-
-                return redirect();
+                return redirect('/admin/login')->withErrors([
+                    'email' => '管理者のみアクセスできます。',
+                ]);
             }
         }
 
-        // 認証失敗時の処理
+        // 認証失敗時
         throw ValidationException::withMessages([
             'email' => __('auth.failed'),
         ]);
