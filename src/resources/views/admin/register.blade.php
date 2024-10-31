@@ -41,10 +41,10 @@
 
             <div class="form__item-role">
                 <i class="fa-solid fa-shield-halved fa-2x"> 
-                    <select class="form__item-select" name="admin_id" id="">
+                    <select class="form__item-select" name="role" id="">
                         <option disabled selected>選択してください</option>
                         @foreach($admins as $admin)
-                            <option value="{{ $admin->id }}" {{ old('admin_id')==$admin->id ? 'selected' : '' }}>{{
+                            <option value="{{ $admin->role }}" {{ old('role')==$admin->role ? 'selected' : '' }}>{{
                         $admin->role }}</option>
                         @endforeach
                     </select>
