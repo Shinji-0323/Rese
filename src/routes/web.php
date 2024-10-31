@@ -5,10 +5,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\MailController;
-use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,19 +22,12 @@ Route::controller(ShopController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/detail/{shop_id}', 'detail')->name('detail');
     Route::get('/search', 'search');
-    Route::post('/register', 'register')->name('register');
     Route::get('/create', 'create')->name('create');
     Route::post('/store', 'store')->name('store');
 });
 
-Route::get('/thanks', function () {return view('thanks');});
+Route::get('/thanks', function () {return view('auth.thanks');});
 Route::get('/done', function () {return view('done');});
-
-Route::middleware('auth')->prefix('email')->controller(MailController::class)->group(function () {
-    Route::get('/verify', 'unverified')->name('verification.notice');
-    Route::get('/verify/{id}/{hash}', 'verify_complete')->middleware('signed')->name('verification.verify');
-    Route::post('/verification-notification', 'retransmission')->middleware('throttle:6,1')->name('verification.send');
-});
 
 Route::prefix('reservation')->controller(ReservationController::class)->group(function () {
     Route::post('/', 'reservation')->middleware('verified');
@@ -46,8 +36,10 @@ Route::prefix('reservation')->controller(ReservationController::class)->group(fu
     Route::post('/delete', 'destroy');
 });
 
-Route::get('/my_page', [MyPageController::class, 'my_page'])->name('my_page')->middleware('verified');
-Route::post('/favorite', [FavoriteController::class,'favorite'])->middleware('verified');
+Route::middleware(['auth', 'verified'])->group(function (){
+    Route::get('/my_page', [MyPageController::class, 'my_page'])->name('my_page');
+    Route::post('/favorite', [FavoriteController::class,'favorite']);
+});
 
 Route::prefix('review')->controller(ReviewController::class)->group(function () {
     Route::get('/{shop_id}', 'index')->name('review');
@@ -56,22 +48,6 @@ Route::prefix('review')->controller(ReviewController::class)->group(function () 
     Route::get('/shop/{shop_id}', 'list');
 });
 
-Route::prefix('admin')->controller(AdminController::class)->group(function () {
-    Route::middleware('auth')->group(function () {
-        Route::get('/user/index', 'userShow');
-        Route::get('/add', 'store');
-        Route::get('/delete', 'destroy');
-    });
-    Route::get('/register', 'showRegisterForm');
-    Route::post('/register', 'storeRegister');
-    Route::get('/login', 'showLoginForm');
-    Route::post('/login', 'storeLogin');
-});
+require __DIR__.'/auth.php';
 
-Route::middleware(['auth', 'role:admin|writer'])->prefix('writer')->controller(WriterController::class)->group(function () {
-    Route::get('/shop-edit', 'editShow');
-    Route::post('/shop-edit', 'create_and_edit');
-    Route::get('/confirm/shop-reservation', 'reservationShow');
-    Route::patch('/update/shop-reservation', 'update');
-    Route::delete('/destroy/shop-reservation', 'destroy');
-});
+

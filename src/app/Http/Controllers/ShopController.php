@@ -12,8 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
 use DateTime;
 
 class ShopController extends Controller
@@ -67,27 +65,6 @@ class ShopController extends Controller
         $id = Auth::id();
         $favorites = Favorite::where('user_id',$id)->get();
         return view('index', compact('shops','favorites'));
-    }
-
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string',
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        Auth::login($user);
-
-        $user->sendEmailVerificationNotification();
-
-        return redirect()->route('verification.notice')->with('status', 'verification-link-sent');
     }
 
     public function create()

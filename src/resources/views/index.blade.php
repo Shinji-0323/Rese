@@ -40,7 +40,7 @@
     <div class="list">
         @foreach($shops as $shop)
         <div class="shop">
-            <img class="shop__image" src="{{ asset('storage/shop_images/' . $shop->image_url) }}" alt="イメージ画像" >
+            <img class="shop__image" src="{{ $shop['image_url'] }}" alt="イメージ画像" >
             <div class="shop__content">
                 <span class="shop__title">{{$shop['name']}}</span>
                 <div class="shop__tag">

@@ -12,7 +12,7 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
-    public function showRegisterForm()
+    /* public function showRegisterForm()
     {
         $admins = Admin::all();
         return view('admin.register', compact('admins'));
@@ -76,7 +76,7 @@ class AdminController extends Controller
             'email' => __('auth.failed'),
         ]);
     }
-
+ */
 
     public function userShow()
     {
