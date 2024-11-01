@@ -19,19 +19,18 @@ class AuthenticatedSessionController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard('admin')->attempt($credentials)) {
             // 認証成功時のリダイレクト先
-            return redirect()->intended('/');
+            return redirect()->intended(route('admin.user.index'));
         }
+        return back()->withErrors([
+            'email' => 'メールアドレスまたはパスワードが正しくありません。',
+        ])->onlyInput('email');
     }
 
     public function destroy(Request $request)
     {
         Auth::guard('admin')->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
         return redirect('/admin/login');
     }
 }
