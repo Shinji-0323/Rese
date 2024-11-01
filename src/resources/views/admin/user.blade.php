@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.app')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/admin/index_user.css') }}">
@@ -75,7 +75,13 @@
                     <td class="table__data">{{ $admin['id'] }}</td>
                     <td class="table__data">{{ $admin['name'] }}</td>
                     <td class="table__data">{{ $admin['email'] }}</td>
-                    <td class="table__data">{{ $admin['role'] }}</td>
+                    <td class="table__data">
+                        @if ($admin['role'] === 'admin')
+                            管理者
+                        @elseif ($admin['role'] === 'store_manager')
+                            店舗代表者
+                        @endif
+                    </td>
                     <td class="table__data">
                         @foreach ($admin['shops'] as $shop)
                         {{ $admin['shops'] }}

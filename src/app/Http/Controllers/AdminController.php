@@ -31,6 +31,14 @@ class AdminController extends Controller
                     'shop_name'=>$shop->name
                 ];
             }
+
+            $role = $admin->role;
+            if ($role === 'admin') {
+                $role = '管理者';
+            } elseif ($role === 'store_manager') {
+                $role = '店舗代表者';
+            }
+
             $admin_list[] = [
                 'id'=>$admin->id,
                 'name'=>$admin->name,
