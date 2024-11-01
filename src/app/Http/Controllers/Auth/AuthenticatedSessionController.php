@@ -17,11 +17,12 @@ class AuthenticatedSessionController extends Controller
 
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        $credentials = $request->only('email', 'password');
 
-        $request->session()->regenerate();
-
-        return redirect()->intended($this->redirectTo);
+        if (Auth::attempt($credentials)) {
+            // 認証成功時のリダイレクト先
+            return redirect()->intended('/');
+        }
     }
 
     public function destroy(Request $request)
