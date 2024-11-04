@@ -12,7 +12,7 @@
 
     <div class="admin__wrap">
         <div class="admin__content">管理者登録・変更</div>
-        <form class="admin__content__form" method="POST" action="{{ url('admin/add') }}">
+        <form class="admin__content__form" method="POST" action="{{ route('admin.add') }}">
             @csrf
             <div>
                 {{ session('message') }}
@@ -88,7 +88,7 @@
                         @endforeach
                     </td>
                     <td class="table__button">
-                    <form method="POST" action="{{ url('admin/delete') }}">
+                    <form method="POST" action="{{ route('admin.delete') }}">
                         @csrf
                         <input type="hidden" name="admin_id" value="{{ $admin['id'] }}">
                         <button class="user__button" type="submit">

@@ -14,13 +14,13 @@
             {{ session('delete-message') }}
         </div>
     @endif
-    <form class="header__wrap" action="/writer/confirm/shop-reservation" method="get">
+    <form class="header__wrap" action="/writer/confirm/shop-reservation" method="post">
         @csrf
-        <button class="date__change-button" name="prevDate" title="前日"><</button>
-        <input type="hidden" name="displayDate" value="{{ $displayDate }}">
-        <p class="header__text">{{ $displayDate->format('Y-m-d') }}</p>
-        <p class="header__text-week">({{ $displayDate->isoFormat('ddd') }})</p>
-        <button class="date__change-button" name="nextDate" title="翌日">></button>
+            <button class="date__change-button" name="prevDate"><</button>
+            <input type="hidden" name="displayDate" value="{{ $displayDate }}">
+            <p class="header__text">{{ $displayDate->format('Y-m-d') }}</p>
+            <p class="header__text-week">({{ $displayDate->isoFormat('ddd') }})</p>
+            <button class="date__change-button" name="nextDate">></button>
     </form>
 
     <div class="table__wrap">

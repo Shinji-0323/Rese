@@ -20,20 +20,18 @@ Route::middleware('auth:admin')->prefix('email')->controller(MailController::cla
     Route::post('/verification-notification', 'retransmission')->middleware('throttle:6,1')->name('admin.verification.send');
 });
 
-Route::middleware(['auth:admin', 'role:admin'])->group(function () {
-    Route::controller(AdminController::class)->group(function () {
-        Route::get('/user/index', 'userShow')->name('admin.user.index');
-        Route::get('/add', 'store')->name('admin.add');
-        Route::get('/delete', 'destroy')->name('admin.delete');
-    });
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/user/index', [AdminController::class, 'userShow'])->name('admin.user.index');
+    Route::post('/add', [AdminController::class, 'store'])->name('admin.add');
+    Route::post('/delete', [AdminController::class, 'destroy'])->name('admin.delete');
 });
 
-Route::middleware(['auth', 'role:admin|writer'])->prefix('writer')->controller(WriterController::class)->group(function () {
-    Route::get('/shop-edit', 'editShow')->name('shop-edit');
-    Route::post('/shop-edit', 'create_and_edit')->name('shop-edit.create');
-    Route::get('/confirm/shop-reservation', 'reservationShow')->name('confirm-shop-reservation');
-    Route::patch('/update/shop-reservation', 'update')->name('update-shop-reservation');
-    Route::delete('/destroy/shop-reservation', 'destroy')->name('destroy-shop-reservation');
+Route::middleware('auth:admin')->prefix('writer')->group(function () {
+    Route::get('/shop-edit', [WriterController::class, 'editShow'])->name('shop-edit');
+    Route::post('/shop-edit', [WriterController::class, 'create_and_edit'])->name('shop-edit.create');
+    Route::get('/confirm/shop-reservation', [WriterController::class, 'reservationShow'])->name('confirm-shop-reservation');
+    Route::patch('/update/shop-reservation', [WriterController::class, 'update'])->name('update-shop-reservation');
+    Route::delete('/destroy/shop-reservation', [WriterController::class, 'destroy'])->name('destroy-shop-reservation');
 });
 
 

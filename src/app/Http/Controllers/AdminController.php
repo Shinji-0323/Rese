@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AddAdminRequest;
 use Illuminate\Validation\ValidationException;
 use App\Models\Admin;
 use App\Models\Shop;
@@ -51,6 +52,11 @@ class AdminController extends Controller
         return view('admin.user', compact('admin_list', 'shop_list'));
     }
 
+    public function isAdmin($role)
+    {
+        return $role === 'admin';
+    }
+
     public function store(AddAdminRequest $request)
     {
         if (!$this->isAdmin(Auth::user()->role)) return redirect('admin/login');
@@ -80,7 +86,7 @@ class AdminController extends Controller
             }
             $message = '登録情報を更新しました。';
         }
-        return redirect('/admin/index')->with('message', $message);
+        return redirect('admin.user')->with('message', $message);
     }
 
     public function destroy(Request $request)
@@ -93,7 +99,7 @@ class AdminController extends Controller
         $admin->delete();
 
         $message = '管理者を削除しました。';
-        return redirect('/admin/index')->with('message', $message);
+        return redirect('admin.user.index')->with('message', $message);
     }
 
     public function logout(Request $request)

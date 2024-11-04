@@ -13,8 +13,7 @@ class WriterController extends Controller
 {
     public function editShow()
     {
-        $areas = Area::all();
-        $genres = Genre::all();
+        $shops = Shop::all();
 
         $shopRepresentative = Auth::user()->shopRepresentative;
         $shop = null;
@@ -23,7 +22,7 @@ class WriterController extends Controller
             $shop = $shopRepresentative->shop;
         }
 
-        return view('writer/shop_edit', compact('areas', 'genres', 'shop'));
+        return view('writer.shop_edit', compact('shops', 'shop'));
     }
 
     public function create_and_edit(Request $request)
@@ -79,7 +78,7 @@ class WriterController extends Controller
                 ->paginate(15);
         }
 
-        return view('writer/shop_reservation', compact('displayDate', 'reservations'));
+        return view('writer.shop_reservation', compact('displayDate', 'reservations'));
     }
 
     public function update(Request $request)
