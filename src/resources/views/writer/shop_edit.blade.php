@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/writer/shop_edit.css')}}">
@@ -33,10 +33,10 @@
                         エリア
                     </div>
                     <div class="edit__area">
-                        <select name="area_id" size="1" class="edit__area-select" required>
+                        <select name="region" class="edit__area-select" required>
                             <option value="" {{ $shop ? '' : 'selected' }} disabled>-- 選択 --</option>
-                            @foreach ($areas as $area)
-                                <option value="{{ $area->id }}" {{ $shop && $shop->area_id == $area->id ? 'selected' : ''}}>{{ $area->name }}</option>
+                            @foreach ($shops->unique('region') as $shop)
+                                <option class="select-box__option" value="{{ $shop->region }}" {{ request('region') == $shop->region ? 'selected' : '' }}>{{ $shop->region }} </option>
                             @endforeach
                         </select>
                     </div>
@@ -47,10 +47,11 @@
                         ジャンル
                     </div>
                     <div class="edit__area">
-                        <select name="genre_id" size="1" class="edit__area-select" required>
+                        <select name="genre" class="edit__area-select" required>
                             <option value="" {{ $shop ? '' : 'selected' }} disabled>-- 選択 --</option>
-                            @foreach ($genres as $genre)
-                                <option value="{{ $genre->id }}" {{ $shop && $shop->genre_id == $genre->id ? 'selected' : '' }}>{{ $genre->name }}</option>
+                            @foreach ($shops->unique('genre') as $shop)
+                                <option value="{{ $shop->genre }}" {{ request('genre') == $shop->genre ? 'selected' : '' }}>
+                            {{ $shop->genre }}</option>
                             @endforeach
                         </select>
                     </div>

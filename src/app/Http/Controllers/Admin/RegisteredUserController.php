@@ -13,15 +13,18 @@ class RegisteredUserController extends Controller
 {
     public function create()
     {
-        return view('admin.register');
+        $roles = ['admin' => '管理者', 'store_manager' => '店舗代表者'];
+
+        return view('admin.register', ['roles' => $roles]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:admins',
             'password' => 'required|string',
+            'role' => 'required'
         ]);
 
         $admin = Admin::create([
@@ -31,10 +34,10 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
         ]);
 
-        Auth::login($admin);
+        Auth::guard('admin')->login($admin);
 
         $admin->sendEmailVerificationNotification();
 
-        return redirect()->route('verification.notice')->with('status', 'verification-link-sent');
+        return redirect()->route('admin.verification.notice')->with('status', 'verification-link-sent');
     }
 }

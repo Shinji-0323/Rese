@@ -10,7 +10,7 @@ class MailController extends Controller
 {
     public function unverified()
     {
-        return view('auth.verified');
+        return view('admin.verified');
     }
 
     public function verify_complete(EmailVerificationRequest $request)

@@ -17,20 +17,20 @@ class AuthenticatedSessionController extends Controller
 
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        $credentials = $request->only('email', 'password');
 
-        $request->session()->regenerate();
-
-        return redirect()->intended($this->redirectTo);
+        if (Auth::guard('admin')->attempt($credentials)) {
+            // 認証成功時のリダイレクト先
+            return redirect()->intended(route('admin.user.index'));
+        }
+        return back()->withErrors([
+            'email' => 'メールアドレスまたはパスワードが正しくありません。',
+        ])->onlyInput('email');
     }
 
     public function destroy(Request $request)
     {
         Auth::guard('admin')->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
         return redirect('/admin/login');
     }
 }

@@ -30,13 +30,13 @@ Route::get('/thanks', function () {return view('auth.thanks');});
 Route::get('/done', function () {return view('done');});
 
 Route::prefix('reservation')->controller(ReservationController::class)->group(function () {
-    Route::post('/', 'reservation')->middleware('verified');
+    Route::post('/', 'reservation');
     Route::get('/edit/{id}', 'edit')->name('reservation.edit');
-    Route::post('/update/{id}', 'update')->middleware('verified')->name('reservation.update');
+    Route::post('/update/{id}', 'update')->name('reservation.update');
     Route::post('/delete', 'destroy');
 });
 
-Route::middleware(['auth', 'verified'])->group(function (){
+Route::middleware('auth')->group(function (){
     Route::get('/my_page', [MyPageController::class, 'my_page'])->name('my_page');
     Route::post('/favorite', [FavoriteController::class,'favorite']);
 });
