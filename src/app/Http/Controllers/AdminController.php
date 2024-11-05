@@ -62,31 +62,31 @@ class AdminController extends Controller
         if (!$this->isAdmin(Auth::user()->role)) return redirect('admin/login');
 
         $message = '';
-        $admin = Admin::select()->EmailSearch($request->email)->get()->toArray();
+        $admin = Admin::where('email', $request->email)->first();
+
         if ( empty($admin) ) {
             $admin = Admin::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'role' => $request->role,
-                'password' => 'xxxxxxxx'
+                'password' => Hash::make($request->password)
             ]);
-            if ( 1 == $request->role ) {
+            if ($request->role === 'store_manager') {
                 $admin->shops()->sync([$request->shop]);
             }
             $message = '新規登録を行いました。';
         } else {
-            $admin = Admin::find($admin[0]['id']);
             $admin->update([
                 'role' => $request->role
             ]);
-            if ( 1 == $request->role ) {
+            if ($request->role === 'store_manager') {
                 $admin->shops()->syncWithoutDetaching([$request->shop]);
             } else {
                 $admin->shops()->sync([]);
             }
             $message = '登録情報を更新しました。';
         }
-        return redirect('admin.user')->with('message', $message);
+        return redirect()->route('admin.user.index')->with('message', $message);
     }
 
     public function destroy(Request $request)
@@ -99,7 +99,7 @@ class AdminController extends Controller
         $admin->delete();
 
         $message = '管理者を削除しました。';
-        return redirect('admin.user.index')->with('message', $message);
+        return redirect()->route('admin.user.index')->with('message', $message);
     }
 
     public function logout(Request $request)

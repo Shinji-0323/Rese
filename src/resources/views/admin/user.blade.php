@@ -36,12 +36,26 @@
                 </div>
             </div>
             <div class="content__header">
+                <label for="password" class="content__header__label">パスワード</label>
+                <input class="content__header__input" type="password" name="password" value="{{ old('password') }}">
+                <div class="content__header__error">
+                    @error('password')
+                        ※{{ $message }}
+                    @enderror
+                </div>
+            </div>
+            <div class="content__header">
                 <label for="role" class="content__header__label">役割</label>
                 <select class="content__header__select" name="role">
                     @foreach ( App\Consts\RoleConst::ROLE_LIST as $key => $val )
                     <option value="{{ $key }}" @if($key == old('role')) selected @endif>{{ $val }}</option>
                     @endforeach
                 </select>
+                <div class="content__header__error">
+                    @error('role')
+                        ※{{ $message }}
+                    @enderror
+                </div>
             </div>
             <div class="content__header">
                 <label for="shop" class="content__header__label">店舗</label>
@@ -84,7 +98,7 @@
                     </td>
                     <td class="table__data">
                         @foreach ($admin['shops'] as $shop)
-                        {{ $admin['shops'] }}
+                        {{ $shop['shop_name'] }}
                         @endforeach
                     </td>
                     <td class="table__button">

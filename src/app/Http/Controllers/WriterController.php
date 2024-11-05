@@ -56,14 +56,14 @@ class WriterController extends Controller
 
     public function reservationShow(Request $request)
     {
-        Carbon::setLocale('ja');
+        $displayDate = Carbon::parse($request->input('displayDate'));
 
         if ($request->has('prevDate')) {
-            $displayDate = Carbon::parse($request->input('displayDate'))->subDay();
-        } elseif ($request->has('nextDate')) {
-            $displayDate = Carbon::parse($request->input('displayDate'))->addDay();
-        } else {
-            $displayDate = Carbon::now();
+            $displayDate->subDay();
+        }
+
+        if ($request->has('nextDate')) {
+            $displayDate->addDay();
         }
 
         $shopRepresentative = Auth::user()->shopRepresentative;
