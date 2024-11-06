@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Shop;
 use App\Models\Reservation;
+use App\Models\AdminShop;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -30,25 +31,24 @@ class WriterController extends Controller
         $shopRepresentative = Auth::user()->shopRepresentative;
 
         if ($shopRepresentative) {
-            $shop = $request->except(['_token', 'image_url']);
+            $shopData = $request->except(['_token', 'image_url']);
 
-            if ($request->image_url) {
-                $path = $request->file('image_url')->store('reservationsystem-restaurant', 's3');
-                $request->file('image_url');
-                $shop['image_url'] = Storage::disk('s3')->url($path);
+            if ($request->hasFile('image_url')) {
+                $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
+                $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
             }
 
-            Shop::find($shopRepresentative->shop_id)->update($shop);
+            Shop::find($shopRepresentative->shop_id)->update($shopData);
             return back()->with('success', '店舗情報を更新しました。');
         } else {
-            $shop = $request->all();
-            $createdShop = Shop::create($shop);
+            $shopData = $request->all();
 
-            $shopRepresentative = new Shop_representatives();
-            $shopRepresentative->user_id = Auth::user()->id;
-            $shopRepresentative->shop_id = $createdShop->id;
+            if ($request->hasFile('image_url')) {
+                $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
+                $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
+            }
 
-            $shopRepresentative->save();
+            $createdShop = Shop::create($shopData);
 
             return back()->with('success', '店舗情報を作成しました。');
         }

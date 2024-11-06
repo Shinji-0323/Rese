@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AddAdminRequest extends FormRequest
 {
@@ -23,11 +24,21 @@ class AddAdminRequest extends FormRequest
      */
     public function rules()
     {
+        $adminId = $this->input('admin_id');
+        $isUpdate = !empty($adminId);
+
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins',
+            'name' => $isUpdate ? 'nullable' : 'required|string|max:255',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                $isUpdate ? Rule::unique('admins', 'email')->ignore($adminId) : 'unique:admins,email'
+            ],
+            'password' => $isUpdate ? 'nullable|string' : 'required|string',
             'role' => 'required',
-            'password' => 'required|string',
+            'shop' => 'required_if:role,store_manager',
         ];
     }
 
@@ -37,9 +48,10 @@ class AddAdminRequest extends FormRequest
             'name.required' => '名前は必須項目です。',
             'email.required' => 'メールアドレスは必須項目です。',
             'email.email' => 'メールアドレスの形式が正しくありません。',
-            'role.required' => '役割を選択してください。',
+            'email.unique' => '指定のメールアドレスは既に使用されています。',
             'password.required' => 'パスワードは必須項目です。',
-            // 必要に応じて他のエラーメッセージを追加
+            'role.required' => '役割は必須項目です。',
+            'shop.required_if' => '店舗代表者の場合、店舗は必須項目です。',
         ];
     }
 }

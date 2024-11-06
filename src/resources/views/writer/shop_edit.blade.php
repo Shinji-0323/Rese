@@ -17,7 +17,7 @@
         </div>
 
         <div class="edit__content-wrap">
-            <form action="/writer/shop-edit" method="post" enctype="multipart/form-data" class="edit__form">
+            <form action="{{ route('shop-edit.create') }}" method="post" enctype="multipart/form-data" class="edit__form">
                 @csrf
                 <div class="edit__content">
                     <div class="edit__title vertical-center">
@@ -35,8 +35,8 @@
                     <div class="edit__area">
                         <select name="region" class="edit__area-select" required>
                             <option value="" {{ $shop ? '' : 'selected' }} disabled>-- 選択 --</option>
-                            @foreach ($shops->unique('region') as $shop)
-                                <option class="select-box__option" value="{{ $shop->region }}" {{ request('region') == $shop->region ? 'selected' : '' }}>{{ $shop->region }} </option>
+                            @foreach ($shops->unique('region') as $shopRegion)
+                                <option class="select-box__option" value="{{ $shopRegion->region }}" {{ request('region') == $shopRegion->region ? 'selected' : '' }}>{{ $shopRegion->region }} </option>
                             @endforeach
                         </select>
                     </div>
@@ -49,9 +49,9 @@
                     <div class="edit__area">
                         <select name="genre" class="edit__area-select" required>
                             <option value="" {{ $shop ? '' : 'selected' }} disabled>-- 選択 --</option>
-                            @foreach ($shops->unique('genre') as $shop)
-                                <option value="{{ $shop->genre }}" {{ request('genre') == $shop->genre ? 'selected' : '' }}>
-                            {{ $shop->genre }}</option>
+                            @foreach ($shops->unique('genre') as $shopGenre)
+                                <option value="{{ $shopGenre->genre }}" {{ request('genre') == $shopGenre->genre ? 'selected' : '' }}>
+                            {{ $shopGenre->genre }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -62,7 +62,7 @@
                         説明
                     </div>
                     <div class="edit__area textarea__area">
-                        <textarea class="edit__area-textarea" name="outline" rows="10" required>{{ $shop->outline ?? '' }}</textarea>
+                        <textarea class="edit__area-textarea" name="description" rows="10" required>{{ $shop->description ?? '' }}</textarea>
                     </div>
                 </div>
 

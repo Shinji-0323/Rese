@@ -14,7 +14,7 @@ class Shop extends Model
         'region',
         'genre',
         'description',
-        'img_url',
+        'image_url',
         'operation_patten',
         'seats_number',
     ];

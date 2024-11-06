@@ -14,6 +14,7 @@
         <div class="admin__content">管理者登録・変更</div>
         <form class="admin__content__form" method="POST" action="{{ route('admin.add') }}">
             @csrf
+                <input type="hidden" name="admin_id" value="{{ $admin->id ?? '' }}">
             <div>
                 {{ session('message') }}
             </div>
