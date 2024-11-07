@@ -28,13 +28,13 @@ class AddAdminRequest extends FormRequest
         $isUpdate = !empty($adminId);
 
         return [
-            'name' => $isUpdate ? 'nullable' : 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => [
                 'required',
                 'string',
                 'email',
                 'max:255',
-                $isUpdate ? Rule::unique('admins', 'email')->ignore($adminId) : 'unique:admins,email'
+                Rule::unique('admins', 'email')->ignore($adminId)
             ],
             'password' => $isUpdate ? 'nullable|string' : 'required|string',
             'role' => 'required',

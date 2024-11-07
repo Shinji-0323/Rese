@@ -15,8 +15,9 @@ class AdminController extends Controller
 {
     public function userShow()
     {
-        $shops = Shop::all();
+        $admin = Auth::user();
         $shop_list = array();
+        $shops = Shop::all();
         foreach( $shops as $shop) {
             $shop_list[$shop->name] = $shop->id;
         }
@@ -32,14 +33,7 @@ class AdminController extends Controller
                     'shop_name'=>$shop->name
                 ];
             }
-
-            $role = $admin->role;
-            if ($role === 'admin') {
-                $role = '管理者';
-            } elseif ($role === 'store_manager') {
-                $role = '店舗代表者';
-            }
-
+    
             $admin_list[] = [
                 'id'=>$admin->id,
                 'name'=>$admin->name,
@@ -49,34 +43,57 @@ class AdminController extends Controller
             ];
         }
 
-        return view('admin.user', compact('admin_list', 'shop_list'));
-    }
-
-    public function isAdmin($role)
-    {
-        return $role === 'admin';
+        // 役割が店舗代表者の場合は、一覧表示のみを許可
+        if ($admin->role === 'store_manager') {
+            $isUpdate = false;
+            return view('admin.user', compact('admin', 'admin_list', 'isUpdate'));
+        }
+        
+        // 管理者のときは新規登録や更新も表示する
+        $isUpdate = false;
+        return view('admin.user', compact('admin', 'admin_list', 'shop_list', 'isUpdate'));
     }
 
     public function store(AddAdminRequest $request)
     {
+        // ログインしているユーザーの役割を確認
+        $admin = Auth::user();
+
+        // 店舗代表者がアクセスした場合、アクセスを制限
+        if ($admin->role === 'store_manager') {
+            return redirect()->route('admin.user.index')->with('message', '権限がありません。');
+        }
+
+        // 以下は新規登録と更新の処理
         $adminId = $request->input('admin_id');
         $isUpdate = !empty($adminId);
 
         if ($isUpdate) {
             // 更新処理
-            $admin = Admin::findOrFail($adminId);
+            $adminToUpdate = Admin::findOrFail($adminId);
 
-            // 名前とメールアドレスの変更は許可せず、他の項目のみ更新
-            $admin->update([
+            $validatedData = $request->validate([
+                'role' => 'required',
+                'password' => 'nullable|string',
+                'shop' => 'required_if:role,store_manager',
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    Rule::unique('admins', 'email')->ignore($adminId)
+                ],
+            ]);
+            
+            $adminToUpdate->update([
                 'role' => $request->input('role'),
-                'password' => $request->input('password') ? Hash::make($request->input('password')) : $admin->password,
+                'password' => $request->input('password') ? Hash::make($request->input('password')) : $adminToUpdate->password,
             ]);
 
-            // 店舗の同期（役割が店舗代表者の場合のみ）
             if ($request->input('role') === 'store_manager') {
-                $admin->shops()->syncWithoutDetaching([$request->input('shop')]);
+                $adminToUpdate->shops()->sync([$request->input('shop')]);
             } else {
-                $admin->shops()->sync([]);
+                $adminToUpdate->shops()->sync([]);
             }
 
             $message = '登録情報を更新しました。';
@@ -90,16 +107,15 @@ class AdminController extends Controller
                 'shop' => 'required_if:role,store_manager',
             ]);
 
-            $admin = Admin::create([
+            $newAdmin = Admin::create([
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'role' => $validatedData['role'],
                 'password' => Hash::make($validatedData['password']),
             ]);
 
-            // 店舗の登録（役割が店舗代表者の場合のみ）
             if ($validatedData['role'] === 'store_manager') {
-                $admin->shops()->attach($validatedData['shop']);
+                $newAdmin->shops()->attach($validatedData['shop']);
             }
 
             $message = '新規登録を行いました。';
@@ -107,27 +123,20 @@ class AdminController extends Controller
 
         return redirect()->route('admin.user.index')->with('message', $message);
     }
-    
+
     public function destroy(Request $request)
     {
-        if (!$this->isAdmin(Auth::user()->role)) return redirect('admin/login');
+        // ログインしているユーザーの役割を確認
+        $admin = Auth::user();
 
-        $admin_id = $request->admin_id;
-        $admin = Admin::find($admin_id);
-        $admin->shops()->detach();
-        $admin->delete();
+        // 店舗代表者がアクセスした場合、アクセスを制限
+        if ($admin->role === 'store_manager') {
+            return redirect()->route('admin.user.index')->with('message', '権限がありません。');
+        }
 
-        $message = '管理者を削除しました。';
-        return redirect()->route('admin.user.index')->with('message', $message);
-    }
+        $adminId = $request->input('admin_id');
+        Admin::findOrFail($adminId)->delete();
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('admin.login');
+        return redirect()->route('admin.user.index')->with('message', '管理者を削除しました。');
     }
 }
