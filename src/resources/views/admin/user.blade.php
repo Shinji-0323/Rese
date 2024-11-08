@@ -11,7 +11,7 @@
     </div>
 
     <div class="admin__wrap">
-        <div class="admin__content">管理者登録・変更</div>
+        <div class="admin__content">管理者登録</div>
         <form class="admin__content__form" method="POST" action="{{ route('admin.add') }}">
             @csrf
             <div>
@@ -37,7 +37,7 @@
             </div>
             <div class="content__header">
                 <label for="password" class="content__header__label">パスワード</label>
-                <input class="content__header__input" type="password" name="password" value="{{ old('password') }}">
+                <input class="content__header__input" type="password" name="password">
                 <div class="content__header__error">
                     @error('password')
                         ※{{ $message }}
@@ -67,7 +67,7 @@
             </div>
             <div class="content__button">
                 <button class="admin__button" type="submit">
-                    登録・変更
+                    登録
                 </button>
             </div>
         </form>
@@ -102,14 +102,14 @@
                         @endforeach
                     </td>
                     <td class="table__button">
-                    <form method="POST" action="{{ route('admin.delete') }}">
-                        @csrf
-                        <input type="hidden" name="admin_id" value="{{ $admin['id'] }}">
-                        <button class="user__button" type="submit">
-                            削除
-                        </button>
-                    </form>
-                </td>
+                        <form method="POST" action="{{ route('admin.delete') }}">
+                            @csrf
+                            <input type="hidden" name="admin_id" value="{{ $admin['id'] }}">
+                            <button class="user__button" type="submit">
+                                削除
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </table>

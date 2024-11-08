@@ -14,7 +14,7 @@ class Shop extends Model
         'region',
         'genre',
         'description',
-        'img_url',
+        'image_url',
         'operation_patten',
         'seats_number',
     ];
@@ -36,6 +36,6 @@ class Shop extends Model
 
     public function admins()
     {
-        return $this->belongsToMany(Admin::class);
+        return $this->belongsToMany(Admin::class, 'admin_shop', 'shop_id', 'admin_id');
     }
 }

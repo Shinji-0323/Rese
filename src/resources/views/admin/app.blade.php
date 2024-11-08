@@ -20,7 +20,9 @@
                 <nav class="nav__content">
                     <ul class="nav__list">
                         @if(Auth::check())
-                            <li class="nav__item"><a class="nav__item-link" href="{{ route('admin.user.index')}}">管理者一覧</a></li>
+                            @if(Auth::user()->role === 'admin')
+                                <li class="nav__item"><a class="nav__item-link" href="{{ route('admin.user.index')}}">管理者一覧</a></li>
+                            @endif
                             <li class="nav__item"><a class="nav__item-link" href="{{ route('shop-edit')}}">店舗情報登録</a></li>
                             <li class="nav__item"><a class="nav__item-link" href="{{ route('confirm-shop-reservation')}}">予約情報</a></li>
                             <li class="nav__item">

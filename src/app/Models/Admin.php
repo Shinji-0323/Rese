@@ -56,6 +56,13 @@ class Admin extends Authenticatable implements MustVerifyEmail
 
     public function shops()
     {
-        return $this->belongsToMany(Shop::class);
+        return $this->belongsToMany(Shop::class, 'admin_shop', 'admin_id', 'shop_id');
     }
-}
+
+
+    public function scopeEmailSearch($query, $email)
+    {
+        return $query->where('email', $email);
+        }
+    }
+

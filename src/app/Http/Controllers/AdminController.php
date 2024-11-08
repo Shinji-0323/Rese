@@ -9,14 +9,20 @@ use App\Http\Requests\AddAdminRequest;
 use Illuminate\Validation\ValidationException;
 use App\Models\Admin;
 use App\Models\Shop;
-use App\Models\User;
+use App\Models\AdminShop;
+use App\Http\Traits\Content;
 
 class AdminController extends Controller
 {
+    use Content;
+
     public function userShow()
     {
-        $shops = Shop::all();
+        if (!$this->isAdmin(Auth::user()->role)) return redirect('admin/login');
+
+        //店舗一覧
         $shop_list = array();
+        $shops = Shop::all();
         foreach( $shops as $shop) {
             $shop_list[$shop->name] = $shop->id;
         }
@@ -32,14 +38,7 @@ class AdminController extends Controller
                     'shop_name'=>$shop->name
                 ];
             }
-
-            $role = $admin->role;
-            if ($role === 'admin') {
-                $role = '管理者';
-            } elseif ($role === 'store_manager') {
-                $role = '店舗代表者';
-            }
-
+    
             $admin_list[] = [
                 'id'=>$admin->id,
                 'name'=>$admin->name,
@@ -52,63 +51,38 @@ class AdminController extends Controller
         return view('admin.user', compact('admin_list', 'shop_list'));
     }
 
-    public function isAdmin($role)
-    {
-        return $role === 'admin';
-    }
-
     public function store(AddAdminRequest $request)
     {
-        if (!$this->isAdmin(Auth::user()->role)) return redirect('admin/login');
+        if (!$this->isAdmin(Auth::user()->role)) return redirect('admin.login');
 
-        $message = '';
-        $admin = Admin::where('email', $request->email)->first();
+        $message = '新規登録を行いました。';
 
-        if ( empty($admin) ) {
-            $admin = Admin::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'role' => $request->role,
-                'password' => Hash::make($request->password)
-            ]);
-            if ($request->role === 'store_manager') {
-                $admin->shops()->sync([$request->shop]);
-            }
-            $message = '新規登録を行いました。';
-        } else {
-            $admin->update([
-                'role' => $request->role
-            ]);
-            if ($request->role === 'store_manager') {
-                $admin->shops()->syncWithoutDetaching([$request->shop]);
-            } else {
-                $admin->shops()->sync([]);
-            }
-            $message = '登録情報を更新しました。';
+        // 新規作成
+        $admin = Admin::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'password' => Hash::make($request['password'])
+        ]);
+
+        // 店舗責任者の場合は店舗を登録
+        if ($request->role === 'store_manager') {
+            $admin->shops()->attach($request->shop);
         }
+
         return redirect()->route('admin.user.index')->with('message', $message);
     }
 
     public function destroy(Request $request)
     {
-        if (!$this->isAdmin(Auth::user()->role)) return redirect('admin/login');
+        if (!$this->isAdmin(Auth::user()->role)) return redirect('admin.login');
 
         $admin_id = $request->admin_id;
         $admin = Admin::find($admin_id);
-        $admin->shops()->detach();
+        $admin->shops()->detach();  // 中間テーブルから関連レコードを削除
         $admin->delete();
 
         $message = '管理者を削除しました。';
         return redirect()->route('admin.user.index')->with('message', $message);
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('admin.login');
     }
 }

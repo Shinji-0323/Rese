@@ -15,40 +15,29 @@ class WriterController extends Controller
     {
         $shops = Shop::all();
 
-        $shopRepresentative = Auth::user()->shopRepresentative;
-        $shop = null;
-
-        if ($shopRepresentative) {
-            $shop = $shopRepresentative->shop;
-        }
+        $shop = Auth::user()->shops()->first();
 
         return view('writer.shop_edit', compact('shops', 'shop'));
     }
 
     public function create_and_edit(Request $request)
     {
-        $shopRepresentative = Auth::user()->shopRepresentative;
 
-        if ($shopRepresentative) {
-            $shop = $request->except(['_token', 'image_url']);
+        $shopData = $request->except(['_token', 'image_url']);
 
-            if ($request->image_url) {
-                $path = $request->file('image_url')->store('reservationsystem-restaurant', 's3');
-                $request->file('image_url');
-                $shop['image_url'] = Storage::disk('s3')->url($path);
-            }
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
+            $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
+        }
 
-            Shop::find($shopRepresentative->shop_id)->update($shop);
+        $shop = Auth::user()->shops()->first();
+        if ($shop) {
+            $shop->update($shopData);
             return back()->with('success', '店舗情報を更新しました。');
         } else {
-            $shop = $request->all();
-            $createdShop = Shop::create($shop);
+            $createdShop = Shop::create($shopData);
 
-            $shopRepresentative = new Shop_representatives();
-            $shopRepresentative->user_id = Auth::user()->id;
-            $shopRepresentative->shop_id = $createdShop->id;
-
-            $shopRepresentative->save();
+            Auth::user()->shops()->attach($createdShop->id);
 
             return back()->with('success', '店舗情報を作成しました。');
         }
@@ -60,18 +49,18 @@ class WriterController extends Controller
 
         if ($request->has('prevDate')) {
             $displayDate->subDay();
-        }
-
-        if ($request->has('nextDate')) {
+        } elseif ($request->has('nextDate')) {
             $displayDate->addDay();
+        } else {
+            $displayDate = Carbon::now();
         }
 
-        $shopRepresentative = Auth::user()->shopRepresentative;
+        $adminshop = Auth::user()->adminshop;
         $reservations = null;
 
-        if ($shopRepresentative) {
+        if ($adminshop) {
             $reservations = Reservation::with('user')
-                ->where('shop_id', $shopRepresentative->shop_id)
+                ->where('shop_id', $adminshop->shop_id)
                 ->whereDate('date', $displayDate)
                 ->orderBy('date', 'asc')
                 ->orderBy('time', 'asc')
