@@ -14,7 +14,7 @@
             {{ session('delete-message') }}
         </div>
     @endif
-    <form class="header__wrap" action="{{ route('confirm-shop-reservation') }}" method="post">
+    <form class="header__wrap" action="{{ route('confirm-shop-reservation') }}" method="get">
         @csrf
             <button class="date__change-button" name="prevDate"><</button>
             <input type="hidden" name="displayDate" value="{{ $displayDate }}">
@@ -78,7 +78,7 @@
         </table>
     </div>
     @if($reservations !== null)
-        {{ $reservations->links('vendor/pagination/paginate') }}
+        {{ $reservations->links() }}
     @endif
     <script src="{{ asset('js/reservation.js') }}"></script>
 @endsection
