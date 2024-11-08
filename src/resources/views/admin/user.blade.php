@@ -5,78 +5,73 @@
 @endsection
 
 @section('content')
-    @if ($admin->role === 'admin')
-        <div class="mail__wrap">
-            <div class="mail__content">お知らせメール作成</div>
-            <button class="mail__button" href="{{ url('admin/make_announcement') }}">作成</button>
-        </div>
+    <div class="mail__wrap">
+        <div class="mail__content">お知らせメール作成</div>
+        <button class="mail__button" href="{{ url('admin/make_announcement') }}">作成</button>
+    </div>
 
-        <div class="admin__wrap">
-            <div class="admin__content">管理者登録・変更</div>
-            <form class="admin__content__form" method="POST" action="{{ route('admin.add') }}">
-                @csrf
-                @if($isUpdate)
-                <input type="hidden" name="admin_id" value="{{ $admin->id ?? '' }}">
-                @endif
-                <div>
-                    {{ session('message') }}
+    <div class="admin__wrap">
+        <div class="admin__content">管理者登録</div>
+        <form class="admin__content__form" method="POST" action="{{ route('admin.add') }}">
+            @csrf
+            <div>
+                {{ session('message') }}
+            </div>
+            <div class="content__header">
+                <label for="name" class="content__header__label">名前</label>
+                <input class="content__header__input" type="text" name="name" value="{{ old('name') }}">
+                <div class="content__header__error">
+                    @error('name')
+                        ※{{ $message }}
+                    @enderror
                 </div>
-                <div class="content__header">
-                    <label for="name" class="content__header__label">名前</label>
-                    <input class="content__header__input" type="text" name="name" value="{{ old('name') }}">
-                    <div class="content__header__error">
-                        @error('name')
-                            ※{{ $message }}
-                        @enderror
-                    </div>
+            </div>
+            <div class="content__header">
+                <label for="email" class="content__header__label">Email</label>
+                <input class="content__header__input" type="text" name="email" value="{{ old('email') }}">
+                <div class="content__header__error">
+                    @error('email')
+                        ※{{ $message }}
+                    @enderror
                 </div>
-                <div class="content__header">
-                    <label for="email" class="content__header__label">Email</label>
-                    <input class="content__header__input" type="text" name="email" value="{{ old('email') }}">
-                    <div class="content__header__error">
-                        @error('email')
-                            ※{{ $message }}
-                        @enderror
-                    </div>
+            </div>
+            <div class="content__header">
+                <label for="password" class="content__header__label">パスワード</label>
+                <input class="content__header__input" type="password" name="password">
+                <div class="content__header__error">
+                    @error('password')
+                        ※{{ $message }}
+                    @enderror
                 </div>
-                <div class="content__header">
-                    <label for="password" class="content__header__label">パスワード</label>
-                    <input class="content__header__input" type="password" name="password">
-                    <div class="content__header__error">
-                        @error('password')
-                            ※{{ $message }}
-                        @enderror
-                    </div>
+            </div>
+            <div class="content__header">
+                <label for="role" class="content__header__label">役割</label>
+                <select class="content__header__select" name="role">
+                    @foreach ( App\Consts\RoleConst::ROLE_LIST as $key => $val )
+                    <option value="{{ $key }}" @if($key == old('role')) selected @endif>{{ $val }}</option>
+                    @endforeach
+                </select>
+                <div class="content__header__error">
+                    @error('role')
+                        ※{{ $message }}
+                    @enderror
                 </div>
-                <div class="content__header">
-                    <label for="role" class="content__header__label">役割</label>
-                    <select class="content__header__select" name="role">
-                        @foreach ( App\Consts\RoleConst::ROLE_LIST as $key => $val )
-                        <option value="{{ $key }}" @if($key == old('role')) selected @endif>{{ $val }}</option>
-                        @endforeach
-                    </select>
-                    <div class="content__header__error">
-                        @error('role')
-                            ※{{ $message }}
-                        @enderror
-                    </div>
-                </div>
-                <div class="content__header">
-                    <label for="shop" class="content__header__label">店舗</label>
-                    <select class="content__header__select" name="shop">
-                        @foreach ( $shop_list as $key => $value )
-                        <option value="{{ $value }}" @if($value === (int)old('shop')) selected @endif>{{ $key }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="content__button">
-                    <button class="admin__button" type="submit">
-                        登録・変更
-                    </button>
-                </div>
-            </form>
-        </div>
-    @endif
+            </div>
+            <div class="content__header">
+                <label for="shop" class="content__header__label">店舗</label>
+                <select class="content__header__select" name="shop">
+                    @foreach ( $shop_list as $key => $value )
+                    <option value="{{ $value }}" @if($value === (int)old('shop')) selected @endif>{{ $key }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="content__button">
+                <button class="admin__button" type="submit">
+                    登録
+                </button>
+            </div>
+        </form>
+    </div>
 
     <div class="user__wrap">
         <div class="user__title">管理者一覧</div>

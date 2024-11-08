@@ -14,7 +14,7 @@
             {{ session('delete-message') }}
         </div>
     @endif
-    <form class="header__wrap" action="/writer/confirm/shop-reservation" method="post">
+    <form class="header__wrap" action="{{ route('confirm-shop-reservation') }}" method="post">
         @csrf
             <button class="date__change-button" name="prevDate"><</button>
             <input type="hidden" name="displayDate" value="{{ $displayDate }}">

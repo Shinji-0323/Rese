@@ -49,10 +49,10 @@ class WriterController extends Controller
 
         if ($request->has('prevDate')) {
             $displayDate->subDay();
-        }
-
-        if ($request->has('nextDate')) {
+        } elseif ($request->has('nextDate')) {
             $displayDate->addDay();
+        } else {
+            $displayDate = Carbon::now();
         }
 
         $adminshop = Auth::user()->adminshop;

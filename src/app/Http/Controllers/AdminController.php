@@ -10,12 +10,17 @@ use Illuminate\Validation\ValidationException;
 use App\Models\Admin;
 use App\Models\Shop;
 use App\Models\AdminShop;
+use App\Http\Traits\Content;
 
 class AdminController extends Controller
 {
+    use Content;
+
     public function userShow()
     {
-        $admin = Auth::user();
+        if (!$this->isAdmin(Auth::user()->role)) return redirect('admin/login');
+
+        //店舗一覧
         $shop_list = array();
         $shops = Shop::all();
         foreach( $shops as $shop) {
@@ -43,82 +48,26 @@ class AdminController extends Controller
             ];
         }
 
-        // 役割が店舗代表者の場合は、一覧表示のみを許可
-        if ($admin->role === 'store_manager') {
-            $isUpdate = false;
-            return view('admin.user', compact('admin', 'admin_list', 'isUpdate'));
-        }
-        
-        // 管理者のときは新規登録や更新も表示する
-        $isUpdate = false;
-        return view('admin.user', compact('admin', 'admin_list', 'shop_list', 'isUpdate'));
+        return view('admin.user', compact('admin_list', 'shop_list'));
     }
 
     public function store(AddAdminRequest $request)
     {
-        // ログインしているユーザーの役割を確認
-        $admin = Auth::user();
+        if (!$this->isAdmin(Auth::user()->role)) return redirect('admin.login');
 
-        // 店舗代表者がアクセスした場合、アクセスを制限
-        if ($admin->role === 'store_manager') {
-            return redirect()->route('admin.user.index')->with('message', '権限がありません。');
-        }
+        $message = '新規登録を行いました。';
 
-        // 以下は新規登録と更新の処理
-        $adminId = $request->input('admin_id');
-        $isUpdate = !empty($adminId);
+        // 新規作成
+        $admin = Admin::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'password' => Hash::make($request['password'])
+        ]);
 
-        if ($isUpdate) {
-            // 更新処理
-            $adminToUpdate = Admin::findOrFail($adminId);
-
-            $validatedData = $request->validate([
-                'role' => 'required',
-                'password' => 'nullable|string',
-                'shop' => 'required_if:role,store_manager',
-                'email' => [
-                    'required',
-                    'string',
-                    'email',
-                    'max:255',
-                    Rule::unique('admins', 'email')->ignore($adminId)
-                ],
-            ]);
-            
-            $adminToUpdate->update([
-                'role' => $request->input('role'),
-                'password' => $request->input('password') ? Hash::make($request->input('password')) : $adminToUpdate->password,
-            ]);
-
-            if ($request->input('role') === 'store_manager') {
-                $adminToUpdate->shops()->sync([$request->input('shop')]);
-            } else {
-                $adminToUpdate->shops()->sync([]);
-            }
-
-            $message = '登録情報を更新しました。';
-        } else {
-            // 新規登録処理
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:admins,email',
-                'password' => 'required|string',
-                'role' => 'required',
-                'shop' => 'required_if:role,store_manager',
-            ]);
-
-            $newAdmin = Admin::create([
-                'name' => $validatedData['name'],
-                'email' => $validatedData['email'],
-                'role' => $validatedData['role'],
-                'password' => Hash::make($validatedData['password']),
-            ]);
-
-            if ($validatedData['role'] === 'store_manager') {
-                $newAdmin->shops()->attach($validatedData['shop']);
-            }
-
-            $message = '新規登録を行いました。';
+        // 店舗責任者の場合は店舗を登録
+        if ($request->role === 'store_manager') {
+            $admin->shops()->attach($request->shop);
         }
 
         return redirect()->route('admin.user.index')->with('message', $message);
@@ -126,17 +75,14 @@ class AdminController extends Controller
 
     public function destroy(Request $request)
     {
-        // ログインしているユーザーの役割を確認
-        $admin = Auth::user();
+        if (!$this->isAdmin(Auth::user()->role)) return redirect('admin.login');
 
-        // 店舗代表者がアクセスした場合、アクセスを制限
-        if ($admin->role === 'store_manager') {
-            return redirect()->route('admin.user.index')->with('message', '権限がありません。');
-        }
+        $admin_id = $request->admin_id;
+        $admin = Admin::find($admin_id);
+        $admin->shops()->detach();  // 中間テーブルから関連レコードを削除
+        $admin->delete();
 
-        $adminId = $request->input('admin_id');
-        Admin::findOrFail($adminId)->delete();
-
-        return redirect()->route('admin.user.index')->with('message', '管理者を削除しました。');
+        $message = '管理者を削除しました。';
+        return redirect()->route('admin.user.index')->with('message', $message);
     }
 }
