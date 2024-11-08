@@ -55,12 +55,12 @@ class WriterController extends Controller
             $displayDate = Carbon::now();
         }
 
-        $adminshop = Auth::user()->adminshop;
+        $shop = Auth::user()->shops()->first();;
         $reservations = null;
 
-        if ($adminshop) {
+        if ($shop) {
             $reservations = Reservation::with('user')
-                ->where('shop_id', $adminshop->shop_id)
+                ->where('shop_id', $shop->id)
                 ->whereDate('date', $displayDate)
                 ->orderBy('date', 'asc')
                 ->orderBy('time', 'asc')

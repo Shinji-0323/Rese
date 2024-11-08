@@ -78,7 +78,7 @@
         </table>
     </div>
     @if($reservations !== null)
-        {{ $reservations->links('vendor/pagination/paginate') }}
+        {{ $reservations->links() }}
     @endif
     <script src="{{ asset('js/reservation.js') }}"></script>
 @endsection
