@@ -9,7 +9,7 @@ use App\Http\Requests\AddAdminRequest;
 use Illuminate\Validation\ValidationException;
 use App\Models\Admin;
 use App\Models\Shop;
-use App\Models\User;
+use App\Models\AdminShop;
 
 class AdminController extends Controller
 {

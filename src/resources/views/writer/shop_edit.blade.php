@@ -34,9 +34,9 @@
                     </div>
                     <div class="edit__area">
                         <select name="region" class="edit__area-select" required>
-                            <option value="" {{ $shop ? '' : 'selected' }} disabled>-- 選択 --</option>
+                            <option value=""  {{ $shop ? '' : 'selected' }}disabled>-- 選択 --</option>
                             @foreach ($shops->unique('region') as $shopRegion)
-                                <option class="select-box__option" value="{{ $shopRegion->region }}" {{ request('region') == $shopRegion->region ? 'selected' : '' }}>{{ $shopRegion->region }} </option>
+                                <option class="select-box__option" value="{{ $shopRegion->region }}" {{ old('region', $shop->region ?? '') == $shopRegion->region ? 'selected' : '' }}>{{ $shopRegion->region }} </option>
                             @endforeach
                         </select>
                     </div>
@@ -48,9 +48,9 @@
                     </div>
                     <div class="edit__area">
                         <select name="genre" class="edit__area-select" required>
-                            <option value="" {{ $shop ? '' : 'selected' }} disabled>-- 選択 --</option>
+                            <option value=""  {{ $shop ? '' : 'selected' }} disabled>-- 選択 --</option>
                             @foreach ($shops->unique('genre') as $shopGenre)
-                                <option value="{{ $shopGenre->genre }}" {{ request('genre') == $shopGenre->genre ? 'selected' : '' }}>
+                                <option value="{{ $shopGenre->genre }}" {{ old('genre', $shop->genre ?? '') == $shopGenre->genre ? 'selected' : '' }}>
                             {{ $shopGenre->genre }}</option>
                             @endforeach
                         </select>
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="form__button">
-                    <a href="/mypage" class="back__button">戻る</a>
+                    <a href="{{ route('admin.user.index') }}" class="back__button">戻る</a>
                     <button type="submit" class="form__button-btn">{{ $shop ? '更新' : '登録' }}</button>
                 </div>
             </form>

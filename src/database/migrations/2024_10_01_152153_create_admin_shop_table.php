@@ -28,6 +28,6 @@ class CreateAdminShopTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admin_shops');
+        Schema::dropIfExists('admin_shop');
     }
 }

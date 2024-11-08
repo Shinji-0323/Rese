@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Shop;
 use App\Models\Reservation;
-use App\Models\AdminShop;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -16,39 +15,29 @@ class WriterController extends Controller
     {
         $shops = Shop::all();
 
-        $shopRepresentative = Auth::user()->shopRepresentative;
-        $shop = null;
-
-        if ($shopRepresentative) {
-            $shop = $shopRepresentative->shop;
-        }
+        $shop = Auth::user()->shops()->first();
 
         return view('writer.shop_edit', compact('shops', 'shop'));
     }
 
     public function create_and_edit(Request $request)
     {
-        $shopRepresentative = Auth::user()->shopRepresentative;
 
-        if ($shopRepresentative) {
-            $shopData = $request->except(['_token', 'image_url']);
+        $shopData = $request->except(['_token', 'image_url']);
 
-            if ($request->hasFile('image_url')) {
-                $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
-                $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
-            }
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
+            $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
+        }
 
-            Shop::find($shopRepresentative->shop_id)->update($shopData);
+        $shop = Auth::user()->shops()->first();
+        if ($shop) {
+            $shop->update($shopData);
             return back()->with('success', '店舗情報を更新しました。');
         } else {
-            $shopData = $request->all();
-
-            if ($request->hasFile('image_url')) {
-                $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
-                $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
-            }
-
             $createdShop = Shop::create($shopData);
+
+            Auth::user()->shops()->attach($createdShop->id);
 
             return back()->with('success', '店舗情報を作成しました。');
         }
@@ -66,12 +55,12 @@ class WriterController extends Controller
             $displayDate->addDay();
         }
 
-        $shopRepresentative = Auth::user()->shopRepresentative;
+        $adminshop = Auth::user()->adminshop;
         $reservations = null;
 
-        if ($shopRepresentative) {
+        if ($adminshop) {
             $reservations = Reservation::with('user')
-                ->where('shop_id', $shopRepresentative->shop_id)
+                ->where('shop_id', $adminshop->shop_id)
                 ->whereDate('date', $displayDate)
                 ->orderBy('date', 'asc')
                 ->orderBy('time', 'asc')
