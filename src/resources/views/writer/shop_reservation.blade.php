@@ -39,7 +39,7 @@
                 @if ($reservations !== null)
                     @forelse ($reservations as $reservation)
                         <tr>
-                            <form action="/writer/update/shop-reservation" method="post">
+                            <form action="{{ route('update-shop-reservation') }}" method="post">
                                 @method('patch')
                                 @csrf
                                 <td class="table__data">{{ $loop->iteration }}</td>
@@ -55,7 +55,7 @@
                                     <button type="submit" onclick="return confirmUpdate()" class="update__button">更新</button>
                                 </td>
                             </form>
-                            <form action="/writer/destroy/shop-reservation" method="post">
+                            <form action="{{ route('destroy-shop-reservation') }}" method="post">
                                 @method('delete')
                                 @csrf
                                 <td class="table__data table__data-button">
