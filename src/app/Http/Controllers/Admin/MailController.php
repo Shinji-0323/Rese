@@ -16,7 +16,7 @@ class MailController extends Controller
     public function verify_complete(EmailVerificationRequest $request)
     {
         $request->fulfill();
-        return redirect('admin/done');
+        return redirect()->route('admin.registration.done');;
     }
 
     public function retransmission(Request $request)
