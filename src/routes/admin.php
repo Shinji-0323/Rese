@@ -34,7 +34,7 @@ Route::middleware('auth:admin')->prefix('writer')->group(function () {
     Route::delete('/destroy/shop-reservation', [WriterController::class, 'destroy'])->name('destroy-shop-reservation');
 });
 
-Route::get('/admin/done', function () {return view('admin.done');})->name('admin.registration.done');
+Route::get('/admin/done', function () {return view('admin.done');});
 
 Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
