@@ -24,6 +24,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/user/index', [AdminController::class, 'userShow'])->name('admin.user.index');
     Route::post('/add', [AdminController::class, 'store'])->name('admin.add');
     Route::post('/delete', [AdminController::class, 'destroy'])->name('admin.delete');
+    Route::get('/email_notification', [AdminController::class, 'email_notification'])->name('admin.notification');
+    Route::post('/email_notification', [AdminController::class, 'sendNotification'])->name('admin.send_notification');
+
 });
 
 Route::middleware('auth:admin')->prefix('writer')->group(function () {
