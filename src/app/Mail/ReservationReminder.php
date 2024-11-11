@@ -7,19 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Notification extends Mailable
+class ReservationReminder extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $user;
+    public $reservation;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user, $messageContent)
+    public function __construct($user, $reservation)
     {
         $this->user = $user;
-        $this->messageContent = $messageContent;
+        $this->reservation = $reservation;
     }
 
     /**
@@ -29,11 +31,11 @@ class Notification extends Mailable
      */
     public function build()
     {
-        return $this->subject('お知らせメール')
-                    ->markdown('emails.notification')
+        return $this->subject('予約リマインダー')
+                    ->markdown('emails.reminder')
                     ->with([
                         'user' => $this->user,
-                        'messageContent' => $this->messageContent,
+                        'reservation' => $this->reservation,
                     ]);
     }
 }

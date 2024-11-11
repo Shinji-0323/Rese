@@ -4,6 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Reservation;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReservationReminder;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +18,22 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            $today = now()->toDateString();
+            $reservations = Reservation::whereDate('date', $today)->get();
+
+            foreach ($reservations as $reservation) {
+                try{
+                    $user = $reservation->user;
+
+                    if (!$user || $user->email) {
+                        Mail::to($user->email)->send(new ReservationReminder($user, $reservation));
+                    }
+                }catch (\Exception $e) {
+                    Log::error("Failed to send reservation reminder for reservation ID {$reservation->id}: {$e->getMessage()}");
+                }
+            }
+        })->dailyAt('08:00');
     }
 
     /**

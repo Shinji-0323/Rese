@@ -1,5 +1,5 @@
 @component('mail::message')
-# Reseからのお知らせ
+#  Reseからのお知らせ
 
 {{ $user->name }} 様
 {{ $messageContent }}

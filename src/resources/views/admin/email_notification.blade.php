@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="form__button">
-                    <a href="/mypage" class="back__button">戻る</a>
+                    <a href="{{ route('admin.user.index') }}" class="back__button">戻る</a>
                     <button type="submit" class="form__button-btn">メール送信</button>
                 </div>
             </form>

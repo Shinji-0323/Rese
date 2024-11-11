@@ -114,7 +114,7 @@ class AdminController extends Controller
         foreach ($users as $user) {
             Mail::to($user->email)->send(new Notification($user, $messageContent));
         }
-        return redirect()->route('admin.send_notification')->with('message', "メールを送信しました。");
+        return redirect()->route('admin.send_notification')->with('success', "メールを送信しました。");
     }
 
 }
