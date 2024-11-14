@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Requests\ReservationRequest;
 use App\Models\Reservation;
 use App\Models\Shop;
@@ -55,5 +58,31 @@ class ReservationController extends Controller
         $reservation->save();
 
         return redirect('/done');
+    }
+
+    public function showQrCode($reservationId)
+    {
+        $reservation = Reservation::findOrFail($reservationId);
+
+        $qrData = json_encode([
+            'reservation_id' => $reservation->id,
+            'user_id' => $reservation->user_id,
+            'timestamp' => now()->timestamp,
+        ]);
+
+        $qrCode = QrCode::size(200)->generate($qrData);
+
+        return view('qr_code', compact('qrCode', 'reservation'));
+    }
+
+    public function verifyQrCode($reservation_id)
+    {
+        $reservation = Reservation::find($reservation_id);
+
+        if ($reservation) {
+            return view('admin.verify_qr', ['reservation' => $reservation]);
+        } else {
+            return redirect()->route('error.page')->with('error', '予約が見つかりません');
+        }
     }
 }

@@ -9,7 +9,12 @@
 - 店 舗 名: {{ $reservation->shop->name }}
 - 人    数: {{ $reservation->number }}
 
-当日のご来店をお待ちしております。
+当日こちらのQRコードを提示してください。
 
-Thanks,{{ config('app.name') }}
+<img src="data:image/png;base64,{{ base64_encode($qrCode) }}" alt="QR Code">
+
+ご来店をお待ちしております。
+
+Thanks,
+{{ config('app.name') }}
 @endcomponent

@@ -23,15 +23,8 @@ class Kernel extends ConsoleKernel
             $reservations = Reservation::whereDate('date', $today)->get();
 
             foreach ($reservations as $reservation) {
-                try{
-                    $user = $reservation->user;
-
-                    if (!$user || $user->email) {
-                        Mail::to($user->email)->send(new ReservationReminder($user, $reservation));
-                    }
-                }catch (\Exception $e) {
-                    Log::error("Failed to send reservation reminder for reservation ID {$reservation->id}: {$e->getMessage()}");
-                }
+                $user = $reservation->user; // ユーザー情報を取得
+                Mail::to($user->email)->send(new ReservationReminder($user, $reservation));
             }
         })->dailyAt('08:00');
     }
