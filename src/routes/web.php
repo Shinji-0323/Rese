@@ -39,6 +39,7 @@ Route::prefix('reservation')->controller(ReservationController::class)->group(fu
 Route::middleware('auth')->group(function (){
     Route::get('/my_page', [MyPageController::class, 'my_page'])->name('my_page');
     Route::post('/favorite', [FavoriteController::class,'favorite']);
+    Route::get('/{id}/qr_code', [ReservationController::class, 'showQrCode'])->name('qr_code');
 });
 
 Route::prefix('review')->controller(ReviewController::class)->group(function () {

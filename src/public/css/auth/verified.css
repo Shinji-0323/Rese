@@ -1,5 +1,20 @@
+.header__wrap {
+    padding-top: 60px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.header__text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 .body__wrap {
     text-align: center;
+}
+
+.body__text {
+    font-size: 16px;
 }
 
 .alert-success {

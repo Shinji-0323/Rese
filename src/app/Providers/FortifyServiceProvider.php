@@ -9,9 +9,13 @@ use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use App\Models\User;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -33,6 +37,19 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class); */
 
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = User::where('email', $request->email)->first();
+    
+            if ($user && Hash::check($request->password, $user->password)) {
+                if (!$user->hasVerifiedEmail()) {
+                    // メールが未確認の場合にメール確認ページへリダイレクト
+                    return null;
+                }
+                return $user;
+            }
+            return null;
+        });
+
         Fortify::registerView(function () {
             return view('auth.register');
         });
@@ -50,8 +67,10 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::verifyEmailView(function(){
-            return view('auth.verify-email');
-        });
+            return auth()->guard('admin')->check()
+            ? view('admin.verified')
+            : view('auth.verified');
+    });
 
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;

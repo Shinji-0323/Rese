@@ -7,7 +7,7 @@
 @section('content')
     <div class="mail__wrap">
         <div class="mail__content">お知らせメール作成</div>
-        <button class="mail__button" href="{{ url('admin/make_announcement') }}">作成</button>
+        <button class="mail__button" onclick="location.href='{{ route('admin.notification') }}'" type="button">作成</button>
     </div>
 
     <div class="admin__wrap">

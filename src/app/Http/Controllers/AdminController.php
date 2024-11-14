@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\AddAdminRequest;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\AddAdminRequest;
 use App\Models\Admin;
 use App\Models\Shop;
+use App\Models\User;
 use App\Models\AdminShop;
 use App\Http\Traits\Content;
+use App\Mail\Notification;
 
 class AdminController extends Controller
 {
@@ -85,4 +88,33 @@ class AdminController extends Controller
         $message = '管理者を削除しました。';
         return redirect()->route('admin.user.index')->with('message', $message);
     }
+
+    public function email_notification()
+    {
+        return view('admin.email_notification');
+    }
+
+    public function sendNotification(Request $request)
+    {
+        $destination = $request->input('destination');
+        $messageContent = $request->input('message');
+
+        $users = collect();
+
+        if ($destination === 'all') {
+            $users = User::all()->merge(Admin::all());
+        } elseif ($destination === 'user') {
+            $users = User::all();
+        } elseif ($destination === 'writer') {
+            $users = Admin::where('role', 'store_manager')->get();
+        } elseif ($destination === 'admin') {
+            $users = Admin::where('role', 'admin')->get();
+        }
+
+        foreach ($users as $user) {
+            Mail::to($user->email)->send(new Notification($user, $messageContent));
+        }
+        return redirect()->route('admin.send_notification')->with('success', "メールを送信しました。");
+    }
+
 }

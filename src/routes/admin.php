@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\MailController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\WriterController;
+use App\Http\Controllers\ReservationController;
 
 Route::middleware('guest:admin')->group(function () {
     Route::get('register', [RegisteredUserController::class,'create'])->name('admin.register');
@@ -24,6 +25,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/user/index', [AdminController::class, 'userShow'])->name('admin.user.index');
     Route::post('/add', [AdminController::class, 'store'])->name('admin.add');
     Route::post('/delete', [AdminController::class, 'destroy'])->name('admin.delete');
+    Route::get('/email_notification', [AdminController::class, 'email_notification'])->name('admin.notification');
+    Route::post('/email_notification', [AdminController::class, 'sendNotification'])->name('admin.send_notification');
+
 });
 
 Route::middleware('auth:admin')->prefix('writer')->group(function () {
@@ -32,9 +36,11 @@ Route::middleware('auth:admin')->prefix('writer')->group(function () {
     Route::get('/confirm/shop-reservation', [WriterController::class, 'reservationShow'])->name('confirm-shop-reservation');
     Route::patch('/update/shop-reservation', [WriterController::class, 'update'])->name('update-shop-reservation');
     Route::delete('/destroy/shop-reservation', [WriterController::class, 'destroy'])->name('destroy-shop-reservation');
+
 });
 
 Route::get('/admin/done', function () {return view('admin.done');});
+Route::get('/verify/reservation/{reservation_id}', [ReservationController::class, 'verifyQrCode'])->name('reservation.verify');
 
 Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
