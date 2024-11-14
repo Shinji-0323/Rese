@@ -26,6 +26,7 @@
 
 <form action="{{ route('payment.process') }}" method="POST" id="payment-form">
     @csrf
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <label for="amount">支払金額 (円):</label>
     <input type="number" name="amount" id="amount" required>
 
