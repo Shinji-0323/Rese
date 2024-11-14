@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MailController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\WriterController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\PaymentController;
 
 Route::middleware('guest:admin')->group(function () {
     Route::get('register', [RegisteredUserController::class,'create'])->name('admin.register');
@@ -41,6 +42,8 @@ Route::middleware('auth:admin')->prefix('writer')->group(function () {
 
 Route::get('/admin/done', function () {return view('admin.done');});
 Route::get('/verify/reservation/{reservation_id}', [ReservationController::class, 'verifyQrCode'])->name('reservation.verify');
+Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
 
 Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
