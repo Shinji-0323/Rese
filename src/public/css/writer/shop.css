@@ -12,7 +12,7 @@ main {
     font-weight: bold;
 }
 
-.edit__wrap {
+.shop__wrap {
     width: 90%;
     margin: 0 auto;
     margin-top: 20px;
@@ -23,7 +23,7 @@ main {
     background-color: #fff;
 }
 
-.edit__header {
+.shop__header {
     background-color: rgb(63, 90, 242);
     color: #fff;
     border-top-left-radius: 8px;
@@ -31,20 +31,20 @@ main {
     padding: 15px;
 }
 
-.edit__content-wrap {
+.shop__content-wrap {
     width: 90%;
     margin: 0 auto;
     padding: 15px 0;
     font-size: clamp(1.2rem, 0.9136rem + 0.89vw, 1.6rem);
 }
 
-.edit__content {
+.shop__content {
     display: flex;
     border-bottom: 1px solid gray;
     padding: 10px 0 10px 10px;
 }
 
-.edit__title {
+.shop__title {
     width: 70px;
 }
 
@@ -52,20 +52,20 @@ main {
     padding-top: 5px;
 }
 
-.edit__area {
-    width: 85%;
+.shop__area {
+    width: 80%;
     padding-left: 15px;
     padding-right: 5px;
 }
 
-.edit__area-name,
-.edit__area-select {
+.shop__area-name,
+.shop__area-select {
     width: 130px;
     height: 30px;
     font-size: clamp(1.2rem, 0.9136rem + 0.89vw, 1.6rem);
 }
 
-.edit__area-textarea {
+.shop__area-textarea {
     border: 1px solid grey;
     font-family: Arial, Helvetica, sans-serif;
     padding: 5px;
@@ -73,13 +73,20 @@ main {
     font-size: clamp(1.2rem, 0.9136rem + 0.89vw, 1.6rem);
 }
 
-.edit__area-message {
+.shop__area-message {
     margin: 5px 0;
 }
 
-.edit__area-file {
+.shop__area-file {
     width: 100%;
     font-size: clamp(1.2rem, 0.9136rem + 0.89vw, 1.6rem);
+}
+
+.content__error {
+    margin-bottom: 15px;
+    color: red;
+    font-size: 1.4rem;
+    margin-left: auto;
 }
 
 .form__button {

@@ -32,6 +32,8 @@ Route::middleware('auth:admin')->group(function () {
 });
 
 Route::middleware('auth:admin')->prefix('writer')->group(function () {
+    Route::get('/shop-add', [WriterController::class, 'addShow'])->name('shop-add');
+    Route::post('/shop-add', [WriterController::class, 'create'])->name('shop-add.create');
     Route::get('/shop-edit', [WriterController::class, 'editShow'])->name('shop-edit');
     Route::post('/shop-edit', [WriterController::class, 'create_and_edit'])->name('shop-edit.create');
     Route::get('/confirm/shop-reservation', [WriterController::class, 'reservationShow'])->name('confirm-shop-reservation');

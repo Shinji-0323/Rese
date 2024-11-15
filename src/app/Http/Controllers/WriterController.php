@@ -8,9 +8,34 @@ use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\AddShopRequest;
+use App\Http\Requests\UpdateShopRequest;
 
 class WriterController extends Controller
 {
+    public function addShow()
+    {
+        $shops = Shop::all();
+
+        return view('writer.shop_add', compact('shops'));
+    }
+
+    public function create(AddShopRequest $request)
+    {
+
+        $shopData = $request->except(['_token', 'image_url']);
+
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
+            $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
+        }
+
+        $createdShop = Shop::create($shopData);
+        Auth::user()->shops()->attach($createdShop->id);
+
+        return back()->with('success', '店舗情報を作成しました。');
+    }
+
     public function editShow()
     {
         $shops = Shop::all();
@@ -20,7 +45,7 @@ class WriterController extends Controller
         return view('writer.shop_edit', compact('shops', 'shop'));
     }
 
-    public function create_and_edit(Request $request)
+    public function create_and_edit(UpdateShopRequest $request)
     {
 
         $shopData = $request->except(['_token', 'image_url']);
@@ -31,16 +56,9 @@ class WriterController extends Controller
         }
 
         $shop = Auth::user()->shops()->first();
-        if ($shop) {
             $shop->update($shopData);
+
             return back()->with('success', '店舗情報を更新しました。');
-        } else {
-            $createdShop = Shop::create($shopData);
-
-            Auth::user()->shops()->attach($createdShop->id);
-
-            return back()->with('success', '店舗情報を作成しました。');
-        }
     }
 
     public function reservationShow(Request $request)

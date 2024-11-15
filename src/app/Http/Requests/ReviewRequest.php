@@ -26,7 +26,7 @@ class ReviewRequest extends FormRequest
         return [
             'star' => 'required',
             'comment' => 'max:400',
-            'image_url' => 'file|mimes:jpeg,png'
+            'image_url' => 'file|mimes:jpeg,jpg,png'
         ];
     }
 
