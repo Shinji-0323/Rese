@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-<h1>支払いページ</h1>
+<h1>お会計</h1>
 
 @if (session('success_message'))
     <p style="color: green;">{{ session('success_message') }}</p>

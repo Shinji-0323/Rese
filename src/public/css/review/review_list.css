@@ -22,9 +22,12 @@
     font-size: 28px;
 }
 
-.rating__star::before,
-.rating__star::after {
-    content: "★★★★★";
+.star--filled {
+    color: #FFD700; /* ゴールド（評価がついた星） */
+}
+
+.star--empty {
+    color: #ccc; /* 灰色（評価がついていない星） */
 }
 
 .rating__star::after {
