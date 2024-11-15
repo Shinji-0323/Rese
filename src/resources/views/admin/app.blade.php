@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @yield('meta')
     <title>Rese</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css')}}">
     <link rel="stylesheet" href="{{ asset('css/common.css')}}">
     @yield('css')
+    @yield('js')
 </head>
 
 <body>
@@ -24,8 +24,11 @@
                             @if(Auth::user()->role === 'admin')
                                 <li class="nav__item"><a class="nav__item-link" href="{{ route('admin.user.index')}}">管理者一覧</a></li>
                             @endif
-                            <li class="nav__item"><a class="nav__item-link" href="{{ route('shop-edit')}}">店舗情報登録</a></li>
-                            <li class="nav__item"><a class="nav__item-link" href="{{ route('confirm-shop-reservation')}}">予約情報</a></li>
+                            <li class="nav__item"><a class="nav__item-link" href="{{ route('shop-add')}}">店舗情報登録</a></li>
+                            @if(Auth::user()->role === 'store_manager')
+                                <li class="nav__item"><a class="nav__item-link" href="{{ route('shop-edit')}}">店舗情報更新</a></li>
+                                <li class="nav__item"><a class="nav__item-link" href="{{ route('confirm-shop-reservation')}}">予約情報</a></li>
+                            @endif
                             <li class="nav__item">
                                 <form class="nav__item-link" action="{{ route('admin.logout')}}" method="post">
                                     @csrf
@@ -35,6 +38,7 @@
                         @else
                             <li class="nav__item"><a class="nav__item-link" href="/admin/register">Registration</a></li>
                             <li class="nav__item"><a class="nav__item-link" href="/admin/login">Login</a></li>
+                            <li class="nav__item"><a class="nav__item-link" href="/admin/payment">お会計</a></li>
                         @endif
                     </ul>
                 </nav>

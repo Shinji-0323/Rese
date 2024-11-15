@@ -1,7 +1,9 @@
 @extends('admin.app')
 
-<link rel="stylesheet" href="{{ asset('css/auth/auth.css') }}">
-<link rel="stylesheet" href="{{ asset('css/auth/verified.css') }}">
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/auth/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth/verified.css') }}">
+@endsection
 
 @section('content')
     <div class="header__wrap">

@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/review/review_list.css') }}">
 @endsection
 
+@section('js')
+    <script src="{{ asset('js/review_list.js') }}"></script>
+@endsection
+
 @section('content')
     <div class="review__wrap">
         <div class="review__header">
@@ -18,7 +22,11 @@
                 <div class="review__area review__detail">
                     <p class="shop__name">{{ $shop->name }}</p>
                     <span class="rating__name">総合：</span>
-                    <span class="rating__star" data-rate="{{ number_format($avgStar,1) }}"></span>
+                    <span class="rating__star" data-rate="{{ number_format($avgStar,1) }}">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <span class="star">★</span>
+                        @endfor
+                    </span>
                     <span class="rating__number">{{ number_format($avgStar,1) }}</span>
                     <p class="shop__detail">{{ $shop->outline }}</p>
                 </div>
@@ -26,19 +34,16 @@
 
             @foreach ($shopReviews as $shopReview)
                 <div class="review__container">
-                    <!-- @hasanyrole('admin')
-                        <form action="/review/delete/{{ $shopReview->id }}" method="post" class="delete-form">
-                            @csrf
-                            <button type="submit" class="delete-form__button"
-                                onclick="return confirm('本当に口コミを削除しますか？')">口コミを削除</button>
-                        </form>
-                    @endhasanyrole -->
                     <div class="review__content">
                         <div class="review__title review__title--vertical-center">
                             評価 :
                         </div>
                         <div class="review__area">
-                            <span class="rating__star" data-rate="{{ number_format($shopReview->star,1) }}"></span>
+                            <span class="rating__star" data-rate="{{ number_format($shopReview->star,1) }}">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <span class="{{ $i <= $shopReview->star ? 'star--filled' : 'star--empty' }}">★</span>
+                                @endfor
+                            </span>
                             <span class="rating__number">{{ number_format($shopReview->star,1) }}</span>
                         </div>
                     </div>
@@ -63,5 +68,4 @@
             @endforeach
         </div>
     </div>
-    <script src="{{ asset('js/detail.js') }}"></script>
 @endsection
