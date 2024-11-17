@@ -31,7 +31,6 @@ class RegisteredUserController extends Controller
         ]);
 
         Auth::login($user);
-
         $user->sendEmailVerificationNotification();
 
         return redirect()->route('verification.notice')->with('status', 'verification-link-sent');

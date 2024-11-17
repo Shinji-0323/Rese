@@ -35,7 +35,6 @@ class RegisteredUserController extends Controller
         ]);
 
         Auth::guard('admin')->login($admin);
-
         $admin->sendEmailVerificationNotification();
 
         return redirect()->route('admin.verification.notice')->with('status', 'verification-link-sent');

@@ -29,20 +29,20 @@ Route::controller(ShopController::class)->group(function () {
 Route::get('/thanks', function () {return view('auth.thanks');});
 Route::get('/done', function () {return view('done');});
 
-Route::prefix('reservation')->controller(ReservationController::class)->group(function () {
+Route::middleware('auth:web')->prefix('reservation')->controller(ReservationController::class)->group(function () {
     Route::post('/', 'reservation');
     Route::get('/edit/{id}', 'edit')->name('reservation.edit');
     Route::post('/update/{id}', 'update')->name('reservation.update');
     Route::post('/delete', 'destroy');
 });
 
-Route::middleware('auth')->group(function (){
+Route::middleware('auth:web')->group(function (){
     Route::get('/my_page', [MyPageController::class, 'my_page'])->name('my_page');
     Route::post('/favorite', [FavoriteController::class,'favorite']);
     Route::get('/{id}/qr_code', [ReservationController::class, 'showQrCode'])->name('qr_code');
 });
 
-Route::prefix('review')->controller(ReviewController::class)->group(function () {
+Route::middleware('auth:web')->prefix('review')->controller(ReviewController::class)->group(function () {
     Route::get('/{shop_id}', 'index')->name('review');
     Route::post('/store/{shop_id}', 'store')->name('review.store');
     Route::post('/delete/{review_id}', 'delete');

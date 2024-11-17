@@ -23,10 +23,10 @@ class AuthenticatedSessionController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-    
+
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $request->email)->first();
-    
+
         if ($user && Auth::attempt($credentials)) {
             if (!$user->hasVerifiedEmail()) {
                 // 確認メールの再送信
@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
 
             return redirect()->intended(RouteServiceProvider::HOME);
         }
-    
+
         return back()->withErrors([
             'email' => 'メールアドレスまたはパスワードが正しくありません。',
         ]);
