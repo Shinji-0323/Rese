@@ -9,10 +9,12 @@ use App\Http\Controllers\WriterController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PaymentController;
 
-Route::get('register', [RegisteredUserController::class,'create'])->name('admin.register');
-Route::post('register', [RegisteredUserController::class,'store']);
-Route::get('login', [AuthenticatedSessionController::class,'create'])->name('admin.login');
-Route::post('login', [AuthenticatedSessionController::class,'store']);
+Route::middleware('guest:admin')->group(function () {
+    Route::get('register', [RegisteredUserController::class,'create'])->name('admin.register');
+    Route::post('register', [RegisteredUserController::class,'store']);
+    Route::get('login', [AuthenticatedSessionController::class,'create'])->name('admin.login');
+    Route::post('login', [AuthenticatedSessionController::class,'store']);
+});
 
 Route::middleware('auth:admin')->prefix('email')->controller(MailController::class)->group(function () {
     Route::get('/verify', 'unverified')->name('admin.verification.notice');

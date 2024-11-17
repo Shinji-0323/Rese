@@ -23,9 +23,9 @@ class AuthenticatedSessionController extends Controller
             $user = Auth::guard('admin')->user();
 
             if ($user->role === 'admin') {
-                return redirect()->intended(route('admin.user.index'));
+                return redirect()->route('admin.user.index');
             } elseif ($user->role === 'store_manager') {
-                return redirect()->intended(route('confirm-shop-reservation')); // 店舗代表者用のリダイレクト先
+                return redirect()->route('confirm-shop-reservation'); // 店舗代表者用のリダイレクト先
             }
         }
 
