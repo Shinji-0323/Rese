@@ -9,6 +9,6 @@
         <p class="content__text">
             管理者の登録が完了しました。
         </p>
-        <a class="content__button" href="/admin/login">戻る</a>
+        <a class="content__button" href="{{ route('admin.user.index')}}">ログインする</a>
     </div>
 @endsection
