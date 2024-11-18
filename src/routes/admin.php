@@ -22,7 +22,7 @@ Route::middleware('auth:admin')->prefix('email')->controller(MailController::cla
     Route::post('/verification-notification', 'retransmission')->middleware('throttle:6,1')->name('admin.verification.send');
 });
 
-Route::middleware('auth:admin')->group(function () {
+Route::middleware('auth:admin', 'verified')->group(function () {
     Route::get('/user/index', [AdminController::class, 'userShow'])->name('admin.user.index');
     Route::post('/add', [AdminController::class, 'store'])->name('admin.add');
     Route::post('/delete', [AdminController::class, 'destroy'])->name('admin.delete');
@@ -31,7 +31,7 @@ Route::middleware('auth:admin')->group(function () {
 
 });
 
-Route::middleware('auth:admin')->prefix('writer')->group(function () {
+Route::middleware('auth:admin', 'verified')->prefix('writer')->group(function () {
     Route::get('/shop-add', [WriterController::class, 'addShow'])->name('shop-add');
     Route::post('/shop-add', [WriterController::class, 'create'])->name('shop-add.create');
     Route::get('/shop-edit', [WriterController::class, 'editShow'])->name('shop-edit');
