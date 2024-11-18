@@ -20,31 +20,13 @@ class AuthenticatedSessionController extends Controller
 
     public function store(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
         $credentials = $request->only('email', 'password');
         $admin = Admin::where('email', $request->email)->first();
 
-        if (Auth::guard('admin')->attempt($credentials)) {
-            if (!$admin->hasVerifiedEmail()) {
-                Auth::guard('admin')->logout(); // 未確認管理者はログアウト
-                $admin->sendEmailVerificationNotification(); // 確認メールの再送信
-                return back()->with('message', 'メールアドレスが確認されていません。確認メールを再送信しました。');
-            }
+        Auth::guard('admin')->login($admin);
+        $admin->sendEmailVerificationNotification();
 
-            if ($admin->role === 'admin') {
-                return redirect()->route('admin.user.index');
-            } elseif ($admin->role === 'store_manager') {
-                return redirect()->route('confirm-shop-reservation'); // 店舗代表者用のリダイレクト先
-            }
-        }
-
-        return back()->withErrors([
-            'email' => 'メールアドレスまたはパスワードが正しくありません。',
-        ]);
+        return redirect()->route('admin.verification.notice')->with('status', 'verification-link-sent');
     }
 
     public function destroy(Request $request)

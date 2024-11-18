@@ -28,19 +28,10 @@ class AuthenticatedSessionController extends Controller
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $request->email)->first();
 
-        if ($user && Auth::attempt($credentials)) {
-            if (!$user->hasVerifiedEmail()) {
-                Auth::logout();
-                $user->sendEmailVerificationNotification();
-            return back()->with('message', 'メールアドレスが確認されていません。確認メールを再送信しました。');
-        }
+        Auth::login($user);
+        $user->sendEmailVerificationNotification();
 
-            return redirect()->intended(RouteServiceProvider::HOME);
-        }
-
-        return back()->withErrors([
-            'email' => 'メールアドレスまたはパスワードが正しくありません。',
-        ]);
+        return redirect()->route('verification.notice')->with('status', 'verification-link-sent');
     }
 
     public function destroy(Request $request)
