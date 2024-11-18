@@ -42,7 +42,7 @@ Route::middleware('auth:admin')->prefix('writer')->group(function () {
 
 });
 
-Route::get('/admin/done', function () {return view('admin.done');});
+Route::get('/admin/done', function () {return view('admin.done');})->name('admin.done');
 Route::get('/verify/reservation/{reservation_id}', [ReservationController::class, 'verifyQrCode'])->name('reservation.verify');
 Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
 Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');

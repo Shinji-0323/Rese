@@ -64,5 +64,10 @@ class Admin extends Authenticatable implements MustVerifyEmail
     {
         return $query->where('email', $email);
         }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new \App\Notifications\AdminVerifyEmailNotification()); // Admin専用通知
     }
+}
 

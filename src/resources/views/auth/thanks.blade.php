@@ -9,6 +9,6 @@
         <p class="content__text">
             会員登録ありがとうございます
         </p>
-        <a class="content__button" href="login">ログインする</a>
+        <a class="content__button" href="/">ログインする</a>
     </div>
 @endsection

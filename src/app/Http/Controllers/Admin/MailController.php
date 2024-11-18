@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 
 class MailController extends Controller
 {
@@ -16,7 +19,7 @@ class MailController extends Controller
     public function verify_complete(EmailVerificationRequest $request)
     {
         $request->fulfill();
-        return redirect('/admin/done');
+        return redirect()->route('admin.done');
     }
 
     public function retransmission(Request $request)
