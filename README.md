@@ -97,8 +97,7 @@ php artisan db:seed
 
 このアプリケーションでは、**管理者用メール認証をカスタマイズ**しています。以下の手順に従って環境を構築してください。
 
----
-
+##
 ### **Mailhogの設定**
 
 1. Dockerコンテナをビルドする際、Mailhogが自動的に起動します。
@@ -116,7 +115,7 @@ MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=example@example.com
 MAIL_FROM_NAME="${APP_NAME}"
 ```
----
+##
 ### **カスタムメール認証の概要**
 このアプリケーションでは、Laravelの標準的なメール認証を拡張し、管理者専用のカスタム認証フローを実装しています。
 
@@ -135,7 +134,7 @@ MAIL_FROM_NAME="${APP_NAME}"
 - 未確認メールの再送信画面： `resources/views/admin/verified.blade.php`
 - 確認メール再送信機能が含まれています。
 
----
+##
 ### **メール認証機能の動作確認**
 
 1. #### メール確認
