@@ -109,20 +109,44 @@ main {
 }
 
 @media screen and (max-width: 768px) {
-    .notification__content-textarea {
+    .notification__wrap {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .notification__content {
         display: block;
+        padding: 10px;
+    }
+
+    .notification__title {
+        width: 100%;
+        margin-bottom: 5px;
+        text-align: left;
     }
 
     .notification__area {
-        padding-left: 0;
+        width: 100%;
+        padding: 0;
+    }
+
+    .destination__content-select {
         width: 100%;
     }
 
-    .notification__area-textarea {
-        margin-top: 10px;
+    .notification__textarea {
+        font-size: 1.4rem;
     }
 
+    .form__button {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form__button-btn,
     .back__button {
-        margin-right: 10px;
+        width: 100%;
+        font-size: 1.2rem;
     }
 }
