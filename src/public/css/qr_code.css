@@ -41,3 +41,14 @@ main {
     cursor: pointer;
     text-decoration: none;
 }
+
+@media screen and (max-width: 768px) {
+    .content__wrap {
+        width: 95%;
+        height: auto;
+    }
+
+    .detail__text {
+        font-size: 14px;
+    }
+}

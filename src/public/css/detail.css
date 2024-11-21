@@ -264,28 +264,16 @@ header {
 }
 
 @media screen and (max-width: 768px) {
-    main {
-        display: block;
-    }
-
-    header {
+    .detail__wrap {
         width: 100%;
     }
 
-    .detail__wrap {
-        margin: 0 auto;
-        width: 90%;
+    .detail__image-img {
+        width: 100%;
         height: auto;
     }
 
-    .reservation__wrap {
-        width: 90%;
-        background-color: rgb(63, 90, 242);
-        margin: 0 auto;
-        margin-top: 30px;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-        height: auto;
+    .detail__outline-text {
+        font-size: 14px;
     }
 }

@@ -32,3 +32,17 @@ main {
     cursor: pointer;
     text-decoration: none;
 }
+
+@media screen and (max-width: 768px) {
+    .content__wrap {
+        width: 90%;
+    }
+
+    .content__text {
+        font-size: 1.4rem;
+    }
+
+    .content__button {
+        font-size: 12px;
+    }
+}
