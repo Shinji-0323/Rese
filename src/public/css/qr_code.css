@@ -1,0 +1,43 @@
+main {
+    margin-top: 100px;
+}
+
+.content__wrap {
+    width: 90%;
+    max-width: 400px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    margin: auto;
+    background-color: #fff;
+    height: 500px;
+    box-shadow: 2px 2px 5px gray;
+}
+
+.content__title{
+    margin: 0px auto;
+    padding: 5px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.content__text,
+.detail__title,
+.detail__text {
+    margin: 0px auto;
+    font-size: 16px;
+}
+
+
+
+.content__button{
+    display: inline-block;
+    background-color: rgb(63, 90, 242);
+    border: 1px solid rgb(63, 90, 242);
+    border-radius: 5px;
+    font-size: clamp(1rem,0.8576rem + 0.45vw,1,2rem);
+    padding: 3px 10px;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+}
