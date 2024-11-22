@@ -39,23 +39,6 @@
                 @enderror
             </div>
 
-            <div class="form__item-role">
-                <i class="fa-solid fa-shield-halved fa-2x"> 
-                    <select class="form__item-select" name="role" id="">
-                        <option disabled selected>選択してください</option>
-                        @foreach($roles as $roleKey => $roleValue)
-                            <option value="{{ $roleKey }}" {{ old('role') == $roleKey ? 'selected' : '' }}>
-                                {{ $roleValue }}
-                            </option>
-                        @endforeach
-                    </select>
-                </i>
-            </div>
-            <div class="error__item">
-                @error('role')
-                    <span class="error__message">{{ $message }}</span>
-                @enderror
-            </div>
             <input class="form__item-button" type="submit" value="登録">
         </form>
     </div>

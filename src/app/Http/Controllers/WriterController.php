@@ -51,8 +51,8 @@ class WriterController extends Controller
         $shopData = $request->except(['_token', 'image_url']);
 
         if ($request->hasFile('image_url')) {
-            $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
-            $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
+            $path = $request->file('image_url')->store('public/shop_images');
+            $shopData['image_url'] = Storage::url($path);
         }
 
         $shop = Auth::user()->shops()->first();

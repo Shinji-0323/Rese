@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
             if (!$admin->hasVerifiedEmail()) {
                 // 未認証の場合
                 $admin->sendEmailVerificationNotification();
-                Auth::guard('admin')->logout(); // 一旦ログアウトして認証を求める
+                Auth::guard('admin')->logout();
                 return redirect()->route('admin.verification.notice')
                     ->with('status', 'verification-link-sent');
             }
