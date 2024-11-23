@@ -41,7 +41,7 @@ class AdminController extends Controller
                     'shop_name'=>$shop->name
                 ];
             }
-    
+
             $admin_list[] = [
                 'id'=>$admin->id,
                 'name'=>$admin->name,
