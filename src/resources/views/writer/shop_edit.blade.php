@@ -19,18 +19,33 @@
         <div class="shop__content-wrap">
             <form action="{{ route('shop-edit.create') }}" method="post" enctype="multipart/form-data" class="shop__form">
                 @csrf
+                <input type="hidden" name="shop_id" value="{{ $shop->id }}">
                 <div class="shop__content">
-                    <div class="shop__title vertical-center">
-                        店舗名
-                    </div>
+                    <div class="shop__title vertical-center">店舗を選択</div>
                     <div class="shop__area">
-                        <input type="text" name="name" class="shop__area-name" value="{{ $shop->name ?? '' }}">
+                        <select name="shop_id" class="shop__area-select" required>
+                            <option value="" disabled>-- 選択 --</option>
+                            @foreach ($shops as $userShop)
+                                <option value="{{ $userShop->id }}" 
+                                    {{ $userShop->id == $shop->id ? 'selected' : '' }}>
+                                    {{ $userShop->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="content__error">
-                        @error('name')
+                        @error('shop_id')
                             ※{{ $message }}
                         @enderror
                     </div>
+                </div>
+
+                <div class="shop__content">
+                    <div class="shop__title vertical-center">店舗名</div>
+                    <div class="shop__area">
+                        <input type="text" name="name" class="shop__area-name" value="{{ $shop->name }}">
+                    </div>
+                    <div class="content__error">@error('name') ※{{ $message }} @enderror</div>
                 </div>
 
                 <div class="shop__content">

@@ -26,7 +26,12 @@
                             @endif
                             <li class="nav__item"><a class="nav__item-link" href="{{ route('shop-add')}}">店舗情報登録</a></li>
                             @if(Auth::user()->role === 'store_manager')
-                                <li class="nav__item"><a class="nav__item-link" href="{{ route('shop-edit')}}">店舗情報更新</a></li>
+                                @php
+                                    $defaultShop = Auth::user()->shops()->first();
+                                @endphp
+                                @if($defaultShop)
+                                    <li class="nav__item"><a class="nav__item-link" href="{{ route('shop-edit', ['shopId' => $defaultShop->id]) }}">店舗情報更新</a></li>
+                                @endif
                                 <li class="nav__item"><a class="nav__item-link" href="{{ route('confirm-shop-reservation')}}">予約情報</a></li>
                             @endif
                             <li class="nav__item">
