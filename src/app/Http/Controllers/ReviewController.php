@@ -37,7 +37,7 @@ class ReviewController extends Controller
 
     if ($request->hasFile('image_url')) {
         $file = $request->file('image_url');
-        $path = $file->store('public/shop_images');
+        $path = $file->store('public/review_images');
         $imageUrl = Storage::url($path);
     }
 
