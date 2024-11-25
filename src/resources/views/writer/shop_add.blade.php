@@ -100,7 +100,13 @@
                     </div>
                 </div>
                 <div class="form__button">
-                    <a href="{{ route('admin.user.index') }}" class="back__button">戻る</a>
+                    <a href="
+                        @if(Auth::user()->role === 'admin')
+                            {{ route('admin.user.index') }}
+                        @elseif(Auth::user()->role === 'store_manager')
+                            {{ route('confirm-shop-reservation') }}
+                        @endif
+                    " class="back__button">戻る</a>
                     <button type="submit" class="form__button-btn">登録</button>
                 </div>
             </form>
