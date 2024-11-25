@@ -41,7 +41,7 @@ class AdminController extends Controller
                     'shop_name'=>$shop->name
                 ];
             }
-    
+
             $admin_list[] = [
                 'id'=>$admin->id,
                 'name'=>$admin->name,
@@ -65,7 +65,8 @@ class AdminController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
-            'password' => Hash::make($request['password'])
+            'password' => Hash::make($request['password']),
+            'email_verified_at' => now(),
         ]);
 
         // 店舗責任者の場合は店舗を登録

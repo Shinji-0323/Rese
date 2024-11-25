@@ -26,39 +26,51 @@ class WriterController extends Controller
         $shopData = $request->except(['_token', 'image_url']);
 
         if ($request->hasFile('image_url')) {
-            $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
-            $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
+            $path = $request->file('image_url')->store('public/shop_images');
+            $shopData['image_url'] = Storage::url($path);
         }
 
         $createdShop = Shop::create($shopData);
-        Auth::user()->shops()->attach($createdShop->id);
+
+        if (Auth::guard('admin')->user()->role === 'store_manager') {
+            Auth::guard('admin')->user()->shops()->attach($createdShop->id);
+        }
 
         return back()->with('success', '店舗情報を作成しました。');
     }
 
-    public function editShow()
+    public function editShow($shopId)
     {
-        $shops = Shop::all();
+        $shop = Auth::user()->shops()->where('shops.id', $shopId)->first(); // 編集する店舗を取得
 
-        $shop = Auth::user()->shops()->first();
+        if (!$shop) {
+            return redirect()->route('admin.user.index')->withErrors(['店舗が見つかりません。']);
+        }
 
-        return view('writer.shop_edit', compact('shops', 'shop'));
+        $shops = Auth::user()->shops;
+
+        return view('writer.shop_edit', compact('shop', 'shops'));
     }
 
     public function create_and_edit(UpdateShopRequest $request)
     {
+        $shopId = $request->input('shop_id'); // フォームから店舗IDを取得
+        $shop = Auth::guard('admin')->user()->shops()->where('shops.id', $shopId)->first();
 
-        $shopData = $request->except(['_token', 'image_url']);
-
-        if ($request->hasFile('image_url')) {
-            $path = $request->file('image_url')->store('public/shop_images');/* ('reservationsystem-restaurant', 's3'); */
-            $shopData['image_url'] = Storage::/* disk('s3')-> */url($path);
+        if (!$shop) {
+            return redirect()->route('admin.user.index')->withErrors(['店舗が見つかりません。']);
         }
 
-        $shop = Auth::user()->shops()->first();
-            $shop->update($shopData);
+        $shopData = $request->except(['_token', 'image_url', 'shop_id']);
 
-            return back()->with('success', '店舗情報を更新しました。');
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('public/shop_images');
+            $shopData['image_url'] = Storage::url($path);
+        }
+
+        $shop->update($shopData);
+
+        return back()->with('success', '店舗情報を更新しました。');
     }
 
     public function reservationShow(Request $request)

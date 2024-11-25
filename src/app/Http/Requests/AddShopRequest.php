@@ -28,7 +28,7 @@ class AddShopRequest extends FormRequest
             'region' => 'required',
             'genre' => 'required',
             'description' => 'required|max:1000',
-            'image_url' => 'file'|'mimes:jpeg,jpg,png'|'max:2048',
+            'image_url' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ];
     }
 
@@ -40,7 +40,7 @@ class AddShopRequest extends FormRequest
             'genre.required' => 'ジャンルを選択してください',
             'description.required' => '説明を入力してください',
             'description.max' => '説明は最大1000文字までです。',
-            'image_url.file' => '有効なファイルをアップロードしてください',
+            'image_url.image' => '有効なファイルをアップロードしてください',
             'image_url.mimes' => 'アップロード可能なファイル形式は、jpeg,jpg,png のみです',
             'image_url.max' => 'イメージのサイズは2MB以下にしてください。'
         ];

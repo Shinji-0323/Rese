@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Shop;
 use App\Models\Favorite;
 use App\Models\Review;
@@ -30,16 +31,14 @@ class ReviewController extends Controller
         $userId = Auth::id();
         $review = Review::where('user_id', $userId)->where('shop_id', $shop_id)->first();
 
-        $star = $request->input('star');  // 'star' というフィールドで送信されているか確認
+        $star = $request->input('star');
         $comment = $request->input('comment');
         $imageUrl = null;
 
-    // 画像がある場合、処理する
     if ($request->hasFile('image_url')) {
         $file = $request->file('image_url');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $path = $file->storeAs('reservationsystem-restaurant', $filename, 's3');
-        $imageUrl = Storage::disk('s3')->url($path);
+        $path = $file->store('public/shop_images');
+        $imageUrl = Storage::url($path);
     }
 
     // 口コミが既に存在する場合、更新
@@ -47,7 +46,7 @@ class ReviewController extends Controller
         $review->update([
             'star' => $star,
             'comment' => $comment,
-            'image_url' => $imageUrl,
+            'image_url' => $imageUrl ?? $review->image_url,
         ]);
     } else {
         // 新しい口コミを作成

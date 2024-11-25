@@ -60,7 +60,7 @@
                     @if ($shopReview->image_url)
                         <div class="review__image-area">
                             <a href="{{ $shopReview->image_url }}">
-                                <img src="{{ $shopReview->image_url }}" alt="" class="review__image">
+                                <img src="{{ $shopReview->image_url }}" alt="レビュー画像" class="review__image">
                             </a>
                         </div>
                     @endif

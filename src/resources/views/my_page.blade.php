@@ -2,6 +2,8 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/my_page.css')}}">
+@endsection
+@section('css')
 <script src="https://kit.fontawesome.com/706e1a4697.js" crossorigin="anonymous"></script>
 @endsection
 
@@ -63,6 +65,9 @@
                             <div class="header__form">
                                 <a href="{{ route('review', ['shop_id' => $reservation->shop_id]) }}"><button>{{ request()->is('*edit*') ? 'レビュー変更' : 'レビュー投稿' }}</button></a>
                             </div>
+                            <a class="header__form" href="{{ route('qr_code', ['id' => $reservation->id]) }}">
+                                <button class="">QRコード</button>
+                            </a>
                         </div>
                         <table class="reservation__table">
                             <tr>

@@ -1,0 +1,139 @@
+main {
+    margin-top: 100px;
+}
+
+.header__wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 400px;
+    justify-content: center;
+    margin: auto;
+    padding: 10px 0;
+}
+
+.header__title {
+    margin: 0px auto;
+    padding: 5px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header__text {
+    font-size: 16px;
+    color: green;
+}
+
+.error__message {
+    font-size: 16px;
+    color: red;
+}
+
+.card__wrap {
+    width: 90%;
+    max-width: 900px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.card__content {
+    padding: 5px 5% 20px 5%;
+    width: 100%;
+}
+
+.card__text {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+
+.card__text__label {
+    display: inline-block;
+    width: 100px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.card__text__input {
+    width: calc(100% - 120px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.card__text__label {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.card__element {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.card__button {
+    width: 100%;
+    display: inline-block;
+    background-color: rgb(63, 90, 242);
+    border: 1px solid rgb(63, 90, 242);
+    border-radius: 5px;
+    font-size: clamp(1rem,0.8576rem + 0.45vw,1,2rem);
+    padding: 5px 30px;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 768px) {
+    .header__title {
+        font-size: 18px;
+    }
+
+    .header__text,
+    .error__message {
+        font-size: 14px;
+    }
+
+    .card__wrap {
+        width: 100%;
+        max-width: none;
+    }
+
+    .card__content {
+        padding: 5px 10px;
+    }
+
+    .card__text {
+        flex-direction: column; /* 縦に並べる */
+        align-items: flex-start;
+    }
+
+    .card__text__label {
+        width: 100%;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .card__text__input {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .card__element {
+        font-size: 14px;
+    }
+
+    .card__button {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+    }
+}

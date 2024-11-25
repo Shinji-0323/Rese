@@ -261,38 +261,19 @@ main {
 
 @media screen and (max-width: 768px) {
     .review__wrap {
-        display: block;
+        flex-direction: column;
     }
 
-    .title__wrap {
+    .title__wrap, .review__form {
         width: 100%;
-        margin-top: 40px;
     }
 
-    .title__wrap::after {
-        display: none;
+    .review__content {
+        flex-direction: column;
     }
 
-    .title__text {
-        margin-bottom: 10px;
-    }
-
-    .shop__content {
-        margin-left: 18px;
-    }
-
-    .review__form {
+    .review__image-area {
         width: 100%;
-        padding-right: 5%;
-    }
-
-    .review__form-title {
-        margin-top: 30px;
-        margin-bottom: 0;
-    }
-
-    .button__content {
-        position: static;
-        margin: 40px auto;
+        height: auto;
     }
 }
