@@ -152,20 +152,12 @@ main {
 
 @media screen and (max-width: 768px) {
     .header__wrap {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .header__text,
-    .header__text-week {
-        padding: 0;
-        text-align: center;
-    }
-
-    .date__change-button {
-        width: 40px;
-        font-size: 1.2rem;
+        display: flex;
+        justify-content: center;
+        padding-top: 40px;
+        padding-bottom: 30px;
+        width: 80%;
+        margin: auto;
     }
 
     .table__wrap {
@@ -173,24 +165,4 @@ main {
         padding: 10px;
     }
 
-    .reservation__table {
-        font-size: 1.2rem;
-        overflow-x: auto;
-    }
-
-    .table__header,
-    .table__data {
-        padding: 5px;
-    }
-
-    .table__data-input {
-        width: 100%;
-        font-size: 1.2rem;
-    }
-
-    .update__button,
-    .delete__button {
-        width: 100%;
-        font-size: 1.2rem;
-    }
 }

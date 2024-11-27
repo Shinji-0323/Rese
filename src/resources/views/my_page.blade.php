@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/my_page.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/my_page.css')}}">
 @endsection
-@section('css')
-<script src="https://kit.fontawesome.com/706e1a4697.js" crossorigin="anonymous"></script>
+
+@section('js')
+    <script src="https://kit.fontawesome.com/706e1a4697.js" crossorigin="anonymous"></script>
 @endsection
 
 @section('content')

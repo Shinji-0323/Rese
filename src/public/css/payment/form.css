@@ -107,33 +107,4 @@ main {
         max-width: none;
     }
 
-    .card__content {
-        padding: 5px 10px;
-    }
-
-    .card__text {
-        flex-direction: column; /* 縦に並べる */
-        align-items: flex-start;
-    }
-
-    .card__text__label {
-        width: 100%;
-        margin-bottom: 5px;
-        font-size: 14px;
-    }
-
-    .card__text__input {
-        width: 100%;
-        font-size: 14px;
-    }
-
-    .card__element {
-        font-size: 14px;
-    }
-
-    .card__button {
-        width: 100%;
-        font-size: 14px;
-        padding: 10px;
-    }
 }

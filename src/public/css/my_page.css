@@ -202,7 +202,9 @@
         margin-bottom: 20px;
     }
 
-    .shop__content {
-        width: 100%;
+    .shop__wrap {
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 70px;
     }
 }

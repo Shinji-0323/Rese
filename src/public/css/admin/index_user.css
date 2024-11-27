@@ -45,6 +45,7 @@ main {
 }
 
 .content__header {
+    display: flex;
     width: 90%;
     padding: 3px 0;
 }
@@ -122,38 +123,5 @@ main {
     .user__wrap {
         width: 95%;
         margin: 0 auto;
-    }
-
-    .admin__content__form,
-    .content__header {
-        width: 100%;
-    }
-
-    .content__header__label {
-        width: 100%;
-        text-align: left;
-        margin-bottom: 5px;
-    }
-
-    .content__header__input,
-    .content__header__select {
-        width: 100%;
-        font-size: 1.4rem;
-    }
-
-    .content__button {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .user__table {
-        font-size: 1.2rem;
-        overflow-x: auto;
-    }
-
-    .table__header,
-    .table__data {
-        padding: 5px;
     }
 }

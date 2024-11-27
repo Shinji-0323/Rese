@@ -130,19 +130,25 @@
 
 @media screen and (max-width: 768px) {
     .review__wrap {
-        flex-direction: column;
-    }
-
-    .title__wrap, .review__form {
-        width: 100%;
+        margin: 0 auto;
     }
 
     .review__content {
-        flex-direction: column;
+        display: block;
     }
 
     .review__image-area {
+        margin-left: 10px;
+    }
+
+    .review__image-area {
+        width: 150px;
+        height: 150px;
+    }
+
+    .review__image {
         width: 100%;
-        height: auto;
+        height: 150px;
+        object-fit: cover;
     }
 }

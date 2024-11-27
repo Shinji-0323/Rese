@@ -113,40 +113,4 @@ main {
         width: 95%;
         margin: 0 auto;
     }
-
-    .notification__content {
-        display: block;
-        padding: 10px;
-    }
-
-    .notification__title {
-        width: 100%;
-        margin-bottom: 5px;
-        text-align: left;
-    }
-
-    .notification__area {
-        width: 100%;
-        padding: 0;
-    }
-
-    .destination__content-select {
-        width: 100%;
-    }
-
-    .notification__textarea {
-        font-size: 1.4rem;
-    }
-
-    .form__button {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .form__button-btn,
-    .back__button {
-        width: 100%;
-        font-size: 1.2rem;
-    }
 }
