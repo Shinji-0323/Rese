@@ -11,9 +11,9 @@ Webアプリ開発の勉強のため
 ## アプリケーション URL
 
 ### 開発環境
-- ローカル：http://localhost
-- phpMyAdmin：http://localhost:8080
-- Mailhog：http://localhost:8025
+- ローカル : http://localhost
+- phpMyAdmin : http://localhost:8080
+- Mailhog : http://localhost:8025
 
 ## 機能一覧
 
