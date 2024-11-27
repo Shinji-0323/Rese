@@ -73,7 +73,7 @@ Webアプリ開発の勉強のため
 
 ###  **Laravel 環境構築**
 
-1. `docker-compose exec php bash`
+1. `docker compose exec php bash`
 2. `composer install`
 3. `.env.example`ファイルを `.env`ファイルに命名を変更。または、新しく`.env` ファイルを作成
 4. `.env` に以下の環境変数を追加
