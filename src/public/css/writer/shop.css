@@ -130,37 +130,4 @@ main {
         width: 95%;
         margin: 20px auto;
     }
-
-    .shop__content {
-        display: block;
-        padding: 10px;
-    }
-
-    .shop__title,
-    .vertical-center {
-        width: 100%;
-        margin-bottom: 5px;
-    }
-
-    .shop__area {
-        width: 100%;
-    }
-
-    .shop__area-name,
-    .shop__area-select,
-    .shop__area-textarea,
-    .shop__area-file {
-        width: 100%;
-        font-size: 1.4rem;
-    }
-
-    .form__button {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .form__button-btn,
-    .back__button {
-        width: 100%;
-    }
 }

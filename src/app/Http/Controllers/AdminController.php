@@ -103,7 +103,12 @@ class AdminController extends Controller
         $users = collect();
 
         if ($destination === 'all') {
-            $users = User::all()->merge(Admin::all());
+            $user = User::pluck('email');
+            $admin = Admin::pluck('email');
+            $user_admin = $user->concat($admin)->unique();
+            $users = User::whereIn('email', $user_admin)
+            ->get()
+            ->concat(Admin::whereIn('email', $user_admin)->get());
         } elseif ($destination === 'user') {
             $users = User::all();
         } elseif ($destination === 'writer') {

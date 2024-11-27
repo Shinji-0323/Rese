@@ -228,16 +228,9 @@
 
 @media screen and (max-width: 768px) {
     .search {
-        width: 90%;
-        margin: 0 auto 20px;
-    }
-
-    .search__form {
-        flex-direction: column;
-    }
-
-    .search-label, .search__item {
-        width: 100%;
+        display: flex;
+        justify-content: center;
+        width: 60%;
     }
 
     .list {

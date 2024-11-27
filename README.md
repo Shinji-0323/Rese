@@ -12,8 +12,8 @@ Webアプリ開発の勉強のため
 
 ### 開発環境
 - ローカル：http://localhost
-- phpMyAdmin：http://localhost:8080/
-- Mailhog：http://localhost:8025/
+- phpMyAdmin：http://localhost:8080
+- Mailhog：http://localhost:8025
 
 ## 機能一覧
 
@@ -75,8 +75,8 @@ Webアプリ開発の勉強のため
 
 1. `docker-compose exec php bash`
 2. `composer install`
-3. 「.env.example」ファイルを 「.env」ファイルに命名を変更。または、新しく.env ファイルを作成
-4. .env に以下の環境変数を追加
+3. `.env.example`ファイルを `.env`ファイルに命名を変更。または、新しく`.env` ファイルを作成
+4. `.env` に以下の環境変数を追加
 
 ```text
 DB_CONNECTION=mysql
@@ -112,7 +112,7 @@ php artisan db:seed
 ### **Mailhogの設定**
 
 1. Dockerコンテナをビルドする際、Mailhogが自動的に起動します。
-- Mailhogは `http://localhost:8025/` でアクセス可能です。
+- Mailhogは `http://localhost:8025` でアクセス可能です。
 
 2. Laravelの `.env` ファイルにメール送信の設定を記載します。
 
@@ -147,11 +147,65 @@ MAIL_FROM_NAME="${APP_NAME}"
 ### **メール認証機能の動作確認**
 
 1. #### メール確認
-- 管理者登録またはログイン時に、メール認証が求められます。
--  登録後、 `http://localhost:8025/` にアクセスして確認メールが届いていることを確認します。
+- 管理者登録またはログイン時に、確認メールが送信されます。
+-  登録後、 `http://localhost:8025` にアクセスして確認メールが届いていることを確認します。
 -  メール内のリンクをクリックして、メールアドレスを確認します。
 2. #### 認証成功後
 -  認証が成功すると、管理者用ホーム画面にリダイレクトされます。
 3. #### メール認証が未完了の場合
 - 未確認の状態で特定の機能にアクセスしようとすると、 `/email/verify` ページが表示されます。
 - このページには、確認メールの再送信ボタンがあります。
+
+## 決済機能（Stripe）
+本アプリケーションでは、**Stripeを利用した決済機能**を実装しています。
+
+### **環境設定**
+1. `.env` に以下のStripeキーを設定します
+
+```text
+STRIPE_KEY=your_public_key
+STRIPE_SECRET=your_secret_key
+```
+2. フロントエンドでのStripe設定を `views/payment/form.blade.php` に記載
+
+```text
+<script>
+    const stripe = Stripe('{{ config('services.stripe.key') }}');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card', {
+        hidePostalCode: true // 郵便番号入力欄を非表示に設定
+    });
+    cardElement.mount('#card-element');
+
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const {token, error} = await stripe.createToken(cardElement);
+        if (error) {
+            alert(error.message);
+        } else {
+            const hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+            form.submit();
+        }
+    });
+</script>
+```
+## 画像ストレージ機能
+店舗画像やレビュー画像をストレージに保存する機能を実装。
+
+### **環境設定**
+1. ストレージへのリンクを作成
+
+```bash
+php artisan storage:link
+```
+
+2. 画像は `public/storage` ディレクトリに保存されます。
+
+**※注意事項**  
+このアプリケーションは開発環境用に構築されており、本番運用する際は適切なセキュリティ設定と環境構築が必要です。

@@ -48,9 +48,9 @@ services:
         ports:
             - 8080:80
 
-    mail:
+    mailhog:
         image: mailhog/mailhog
-        container_name: mailhog
+        container_name: rese-mailhog
         ports:
             - "8025:8025"
         volumes:

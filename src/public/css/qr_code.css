@@ -45,7 +45,7 @@ main {
 @media screen and (max-width: 768px) {
     .content__wrap {
         width: 95%;
-        height: auto;
+        height: 500px;
     }
 
     .detail__text {
