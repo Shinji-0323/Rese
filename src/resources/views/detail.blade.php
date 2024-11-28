@@ -53,7 +53,7 @@
                     <p class="error__text">{{$error}}</p>
                     @endforeach
                 @enderror
-                <input class="form__item" type="time" name="time" onchange="updateDetails()" min="09:00" max="22:00" />
+                <input class="form__item" type="time" name="time" onchange="updateDetails()" />
                 @error('number')
                     @foreach ($errors->get('number') as $error)
                     <p class="error__text">{{$error}}</p>
@@ -71,7 +71,7 @@
                 </select>
             </div>
         </div>
-        
+
         <div class="reservation__group">
             <div class="reservation__area">
                 <table class ="reservation__table">

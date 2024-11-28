@@ -18,12 +18,14 @@ class PaymentController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret')); // シークレットキーを設定
 
+        $amount = (int)$request->input('amount');
+
         try {
             // 支払い処理を行う
             $charge = Charge::create([
-                'amount' => $request->amount * 100, // 金額（セント単位）
+                'amount' => $amount,
                 'currency' => 'jpy',
-                'source' => $request->stripeToken, // トークン（後で設定）
+                'source' => $request->input('stripeToken'), // トークン（後で設定）
                 'description' => '注文の支払い',
             ]);
 
