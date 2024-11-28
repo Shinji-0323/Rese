@@ -42,14 +42,8 @@ class ReservationController extends Controller
         return redirect('/my_page');
     }
 
-    public function update(Request $request, $id)
+    public function update(ReservationRequest $request, $id)
     {
-        $request->validate([
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'number' => 'required|integer|min:1',
-        ]);
-
         $reservation = Reservation::find($id);
 
         $reservation->date = $request->input('date');
